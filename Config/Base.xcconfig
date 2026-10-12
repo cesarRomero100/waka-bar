@@ -1,0 +1,11 @@
+// Shared build settings for every target and configuration.
+// Personal signing values live in Local.xcconfig (git-ignored).
+// Copy Local.xcconfig.example to Local.xcconfig and fill it in.
+
+DEVELOPMENT_TEAM =
+APP_BUNDLE_ID = com.example.wakabar
+
+#include? "Local.xcconfig"
+
+// The app and the widget share data through this App Group.
+APP_GROUP_ID = $(DEVELOPMENT_TEAM).$(APP_BUNDLE_ID)

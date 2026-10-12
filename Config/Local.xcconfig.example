@@ -1,0 +1,8 @@
+// Copy this file to Local.xcconfig (git-ignored) and set your own values.
+
+// Apple Developer Team ID: Xcode > Settings > Accounts, or developer.apple.com/account.
+// A free Personal Team works.
+DEVELOPMENT_TEAM = ABCDE12345
+
+// A reverse-DNS ID you own. The widget uses $(APP_BUNDLE_ID).widget.
+APP_BUNDLE_ID = com.yourname.wakabar
