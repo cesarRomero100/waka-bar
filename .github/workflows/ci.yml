@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint-and-build:
+  lint-build-test:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v5

@@ -44,7 +44,7 @@ struct SettingsView: View {
                 }
             }
             Section {
-                SecureField("API key", text: $apiKey, prompt: Text("waka_…"))
+                SecureField("API key", text: $apiKey, prompt: Text(verbatim: "waka_…"))
                 Link("Get your API key", destination: URL(string: "https://wakatime.com/settings/api-key")!)
                     .font(.caption)
             }

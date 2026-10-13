@@ -5,6 +5,7 @@ options:
   deploymentTarget:
     macOS: "14.0"
   createIntermediateGroups: true
+  developmentLanguage: en
 
 # DEVELOPMENT_TEAM, APP_BUNDLE_ID and APP_GROUP_ID come from Config/Base.xcconfig,
 # which includes the git-ignored Config/Local.xcconfig. Don't set them here:
@@ -18,6 +19,9 @@ settings:
     MARKETING_VERSION: 0.1.0
     CURRENT_PROJECT_VERSION: 1
     SWIFT_VERSION: "5.0"
+    # Extract user-facing strings into Shared/Localizable.xcstrings.
+    SWIFT_EMIT_LOC_STRINGS: YES
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
     CODE_SIGN_STYLE: Automatic
     ENABLE_HARDENED_RUNTIME: YES
 

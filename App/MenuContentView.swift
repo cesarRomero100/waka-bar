@@ -61,7 +61,7 @@ struct MenuContentView: View {
     private var footer: some View {
         HStack {
             if let updated = model.snapshot?.updatedAt {
-                Text("Updated \(updated, style: .relative) ago")
+                Text("Updated \(updated.formatted(.relative(presentation: .named)))")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }

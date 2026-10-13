@@ -10,6 +10,7 @@ Open-source macOS menu bar app and desktop widget for your [WakaTime](https://wa
 - **Popover:** today, last 7 days (total, daily average, bar chart) and top languages.
 - **Widget:** small / medium / large, for the desktop or Notification Center. Click it to open your dashboard.
 - **Launch at login**, from Settings.
+- **English and Spanish**, following your macOS language.
 
 Requires macOS 14+.
 
@@ -46,7 +47,7 @@ Widget/     WidgetKit extension: reads the cached snapshot only
 Shared/     models, snapshot store (App Group), formatting, shared chart views
 Config/     xcconfig build settings; Local.xcconfig holds your signing values
 Scripts/    generate-icon.swift regenerates the app icon
-Tests/      unit tests (Swift Testing): API parsing, snapshot logic, formatting
+Tests/      unit tests (Swift Testing): API parsing, snapshot logic, formatting, translations
 ```
 
 The app polls the API every 5 minutes (`status_bar/today` + `summaries?range=last_7_days`),
@@ -68,6 +69,13 @@ xcodebuild test -project WakaBar.xcodeproj -scheme WakaBar -destination 'platfor
 
 Tests run without a network, Keychain or signing team: API responses are fixtures in
 `Tests/Support/Fixtures.swift`. In Xcode, press ⌘U. CI runs lint, build and tests on every PR.
+
+### Translations
+
+User-facing strings live in `Shared/Localizable.xcstrings` (shared by the app and the widget). Write UI
+text in English; Xcode adds new strings to the catalog when you build. Translate them in Xcode's catalog
+editor: `LocalizationTests` fails if any string is missing a translation or loses a placeholder like `%@`.
+To add a language, add it in the catalog editor and to `LocalizationTests.languages`.
 
 ## License
 

@@ -24,7 +24,7 @@ struct WeekChart: View {
             AxisMarks(position: .leading) { value in
                 AxisGridLine()
                 AxisValueLabel {
-                    if let hours = value.as(Double.self) { Text("\(Int(hours))h") }
+                    if let hours = value.as(Double.self) { Text(verbatim: "\(Int(hours))h") }
                 }
             }
         }
@@ -67,7 +67,7 @@ struct LanguageList: View {
 
 /// Small labelled number, e.g. "Today / 3h 12m".
 struct StatBlock: View {
-    let title: String
+    let title: LocalizedStringKey
     let seconds: Double
     var prominent = false
 

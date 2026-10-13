@@ -59,7 +59,7 @@ final class StatsModel {
         }
         hasAPIKey = true
         guard let url = URL(string: baseURL) else {
-            errorMessage = "Invalid server URL."
+            errorMessage = String(localized: "Invalid server URL.")
             return
         }
 

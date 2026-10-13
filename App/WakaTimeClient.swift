@@ -15,8 +15,8 @@ struct WakaTimeClient {
 
         var errorDescription: String? {
             switch self {
-            case .unauthorized: "Invalid API key."
-            case .http(let code): "Server returned HTTP \(code)."
+            case .unauthorized: String(localized: "Invalid API key.")
+            case .http(let code): String(localized: "Server returned HTTP \(code).")
             }
         }
     }

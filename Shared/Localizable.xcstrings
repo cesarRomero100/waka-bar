@@ -1,0 +1,286 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "API key" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API key"
+          }
+        }
+      }
+    },
+    "Add your WakaTime API key to see your stats." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega tu API key de WakaTime para ver tus estadísticas."
+          }
+        }
+      }
+    },
+    "Allow WakaBar in Login Items to launch at login." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Permite WakaBar en Ítems de inicio para que se abra al iniciar sesión."
+          }
+        }
+      }
+    },
+    "Coding Time" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiempo programando"
+          }
+        }
+      }
+    },
+    "Day" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Día"
+          }
+        }
+      }
+    },
+    "Get your API key" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obtén tu API key"
+          }
+        }
+      }
+    },
+    "Hours" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Horas"
+          }
+        }
+      }
+    },
+    "Invalid API key." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API key inválida."
+          }
+        }
+      }
+    },
+    "Invalid server URL." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL del servidor inválida."
+          }
+        }
+      }
+    },
+    "Languages" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lenguajes"
+          }
+        }
+      }
+    },
+    "Last 7 days" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Últimos 7 días"
+          }
+        }
+      }
+    },
+    "Launch at login" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir al iniciar sesión"
+          }
+        }
+      }
+    },
+    "Leave empty for WakaTime. For Wakapi use https://<host>/api/compat/wakatime/v1" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déjalo vacío para WakaTime. Para Wakapi usa https://<host>/api/compat/wakatime/v1"
+          }
+        }
+      }
+    },
+    "No API key" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falta la API key"
+          }
+        }
+      }
+    },
+    "Open Dashboard" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir dashboard"
+          }
+        }
+      }
+    },
+    "Open Login Items" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Ítems de inicio"
+          }
+        }
+      }
+    },
+    "Open Settings…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir ajustes…"
+          }
+        }
+      }
+    },
+    "Open WakaBar and add your API key." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre WakaBar y agrega tu API key."
+          }
+        }
+      }
+    },
+    "Quit WakaBar" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salir de WakaBar"
+          }
+        }
+      }
+    },
+    "Refresh" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizar"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar"
+          }
+        }
+      }
+    },
+    "Server URL" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL del servidor"
+          }
+        }
+      }
+    },
+    "Server returned HTTP %lld." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El servidor respondió HTTP %lld."
+          }
+        }
+      }
+    },
+    "Settings…" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes…"
+          }
+        }
+      }
+    },
+    "Today" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoy"
+          }
+        }
+      }
+    },
+    "Today, last 7 days and top languages from WakaTime." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoy, últimos 7 días y lenguajes principales de WakaTime."
+          }
+        }
+      }
+    },
+    "Updated %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizado %@"
+          }
+        }
+      }
+    },
+    "avg %@/day" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "prom. %@/día"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
