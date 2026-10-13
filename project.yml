@@ -27,7 +27,8 @@ targets:
     platform: macOS
     sources: [App, Shared]
     # Shared scheme, so CI and fresh clones can build without opening Xcode first.
-    scheme: {}
+    scheme:
+      testTargets: [WakaBarTests]
     dependencies:
       - target: WakaBarWidget
     settings:
@@ -41,7 +42,7 @@ targets:
         showEnvVars: false
         script: |
           if xcrun --find swift-format >/dev/null 2>&1; then
-            xcrun swift-format lint --recursive --parallel "$SRCROOT/App" "$SRCROOT/Shared" "$SRCROOT/Widget" "$SRCROOT/Scripts"
+            xcrun swift-format lint --recursive --parallel "$SRCROOT/App" "$SRCROOT/Shared" "$SRCROOT/Widget" "$SRCROOT/Scripts" "$SRCROOT/Tests"
           else
             echo "warning: swift-format not found. Use Xcode 16+ or run: brew install swift-format"
           fi
@@ -82,3 +83,17 @@ targets:
       properties:
         com.apple.security.app-sandbox: true
         com.apple.security.application-groups: [$(APP_GROUP_ID)]
+
+  # Hostless unit tests: compiles the code under test directly instead of launching the
+  # menu bar app, so tests never touch the network, the Keychain or the App Group.
+  WakaBarTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests
+      - Shared
+      - App/WakaTimeClient.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID).tests
+        GENERATE_INFOPLIST_FILE: YES

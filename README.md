@@ -29,6 +29,15 @@ open WakaBar.xcodeproj
    [API key](https://wakatime.com/settings/api-key).
 3. Add the widget: right-click the desktop → Edit Widgets → WakaBar.
 
+**Widget still shows the old version after a rebuild?** macOS keeps the previous widget extension
+running. Stop it, then click ↻ in the menu bar popover so the widget redraws with the new code:
+
+```sh
+pkill -x WakaBarWidget
+```
+
+If it still looks old, remove the widget from the desktop and add it again.
+
 ## How it works
 
 ```
@@ -37,6 +46,7 @@ Widget/     WidgetKit extension: reads the cached snapshot only
 Shared/     models, snapshot store (App Group), formatting, shared chart views
 Config/     xcconfig build settings; Local.xcconfig holds your signing values
 Scripts/    generate-icon.swift regenerates the app icon
+Tests/      unit tests (Swift Testing): API parsing, snapshot logic, formatting
 ```
 
 The app polls the API every 5 minutes (`status_bar/today` + `summaries?range=last_7_days`),
@@ -51,9 +61,13 @@ configured in `.swift-format`. Xcode runs the linter on every build and shows vi
 Before opening a PR:
 
 ```sh
-swift format format --in-place --recursive --parallel App Shared Widget Scripts
-swift format lint --strict --recursive --parallel App Shared Widget Scripts
+swift format format --in-place --recursive --parallel App Shared Widget Scripts Tests
+swift format lint --strict --recursive --parallel App Shared Widget Scripts Tests
+xcodebuild test -project WakaBar.xcodeproj -scheme WakaBar -destination 'platform=macOS'
 ```
+
+Tests run without a network, Keychain or signing team: API responses are fixtures in
+`Tests/Support/Fixtures.swift`. In Xcode, press ⌘U. CI runs lint, build and tests on every PR.
 
 ## License
 
