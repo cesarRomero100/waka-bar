@@ -1,5 +1,8 @@
 # WakaBar
 
+[![CI](https://github.com/cesarRomero100/waka-bar/actions/workflows/ci.yml/badge.svg)](https://github.com/cesarRomero100/waka-bar/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Open-source macOS menu bar app and desktop widget for your [WakaTime](https://wakatime.com) stats
 (also works with self-hosted [Wakapi](https://github.com/muety/wakapi)).
 
