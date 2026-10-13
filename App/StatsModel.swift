@@ -1,4 +1,4 @@
-import Foundation
+import AppKit
 import Observation
 import WidgetKit
 
@@ -14,12 +14,22 @@ final class StatsModel {
     private(set) var hasAPIKey = Keychain.apiKey != nil
 
     @ObservationIgnored private var loop: Task<Void, Never>?
+    @ObservationIgnored private var wakeObserver: Task<Void, Never>?
 
     init() {
         loop = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.refresh()
                 try? await Task.sleep(for: Self.refreshInterval)
+            }
+        }
+        // After sleep the numbers can be hours old; refresh as soon as the Mac wakes.
+        wakeObserver = Task { [weak self] in
+            let wakes = NSWorkspace.shared.notificationCenter.notifications(named: NSWorkspace.didWakeNotification)
+            for await _ in wakes {
+                // Give Wi-Fi a moment to reconnect.
+                try? await Task.sleep(for: .seconds(5))
+                await self?.refresh()
             }
         }
     }

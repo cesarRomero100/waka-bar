@@ -41,7 +41,7 @@ targets:
         showEnvVars: false
         script: |
           if xcrun --find swift-format >/dev/null 2>&1; then
-            xcrun swift-format lint --recursive --parallel "$SRCROOT/App" "$SRCROOT/Shared" "$SRCROOT/Widget"
+            xcrun swift-format lint --recursive --parallel "$SRCROOT/App" "$SRCROOT/Shared" "$SRCROOT/Widget" "$SRCROOT/Scripts"
           else
             echo "warning: swift-format not found. Use Xcode 16+ or run: brew install swift-format"
           fi
@@ -51,6 +51,10 @@ targets:
         CFBundleDisplayName: WakaBar
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.developer-tools
+        # wakabar:// links, opened by a click on the widget.
+        CFBundleURLTypes:
+          - CFBundleURLName: $(APP_BUNDLE_ID)
+            CFBundleURLSchemes: [wakabar]
         AppGroupID: $(APP_GROUP_ID)
     entitlements:
       path: App/WakaBar.entitlements

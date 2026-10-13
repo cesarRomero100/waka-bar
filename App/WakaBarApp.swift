@@ -2,21 +2,21 @@ import SwiftUI
 
 @main
 struct WakaBarApp: App {
-    @State private var model = StatsModel()
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
         MenuBarExtra {
-            MenuContentView(model: model)
+            MenuContentView(model: appDelegate.model)
         } label: {
             Image(systemName: "chart.bar.fill")
-            if let snapshot = model.snapshot {
+            if let snapshot = appDelegate.model.snapshot {
                 Text(Format.duration(snapshot.todaySeconds()))
             }
         }
         .menuBarExtraStyle(.window)
 
         Settings {
-            SettingsView(model: model)
+            SettingsView(model: appDelegate.model)
         }
     }
 }

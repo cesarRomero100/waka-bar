@@ -6,9 +6,10 @@
 Open-source macOS menu bar app and desktop widget for your [WakaTime](https://wakatime.com) stats
 (also works with self-hosted [Wakapi](https://github.com/muety/wakapi)).
 
-- **Menu bar:** today's coding time, always visible.
+- **Menu bar:** today's coding time, always visible. Refreshes every 5 minutes and when the Mac wakes.
 - **Popover:** today, last 7 days (total, daily average, bar chart) and top languages.
-- **Widget:** small / medium / large, for the desktop or Notification Center.
+- **Widget:** small / medium / large, for the desktop or Notification Center. Click it to open your dashboard.
+- **Launch at login**, from Settings.
 
 Requires macOS 14+.
 
@@ -35,6 +36,7 @@ App/        menu bar app: API client, Keychain, refresh loop, UI
 Widget/     WidgetKit extension: reads the cached snapshot only
 Shared/     models, snapshot store (App Group), formatting, shared chart views
 Config/     xcconfig build settings; Local.xcconfig holds your signing values
+Scripts/    generate-icon.swift regenerates the app icon
 ```
 
 The app polls the API every 5 minutes (`status_bar/today` + `summaries?range=last_7_days`),
@@ -49,8 +51,8 @@ configured in `.swift-format`. Xcode runs the linter on every build and shows vi
 Before opening a PR:
 
 ```sh
-swift format format --in-place --recursive --parallel App Shared Widget
-swift format lint --strict --recursive --parallel App Shared Widget
+swift format format --in-place --recursive --parallel App Shared Widget Scripts
+swift format lint --strict --recursive --parallel App Shared Widget Scripts
 ```
 
 ## License

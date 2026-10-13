@@ -23,7 +23,7 @@ jobs:
         run: brew install xcodegen
 
       - name: Lint
-        run: xcrun swift-format lint --strict --recursive --parallel App Shared Widget
+        run: xcrun swift-format lint --strict --recursive --parallel App Shared Widget Scripts
 
       - name: Generate project
         run: xcodegen

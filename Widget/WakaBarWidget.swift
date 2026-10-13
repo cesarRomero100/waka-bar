@@ -32,6 +32,7 @@ struct WakaBarWidget: Widget {
         StaticConfiguration(kind: "WakaBarWidget", provider: StatsProvider()) { entry in
             StatsWidgetView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
+                .widgetURL(DeepLink.dashboard)
         }
         .configurationDisplayName("Coding Time")
         .description("Today, last 7 days and top languages from WakaTime.")
