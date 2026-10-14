@@ -71,8 +71,8 @@ struct MakeSnapshotTests {
 
     @Test func ignoresLanguagesAndProjectsOlderThanAWeek() throws {
         var history = Fixtures.history(hours: Array(repeating: 1, count: 30))
-        history[0].languages = [("COBOL", 10 * 3600)]
-        history[0].projects = [("legacy", 10 * 3600)]
+        history[0].languages = [("COBOL", 10.0 * 3600)]
+        history[0].projects = [("legacy", 10.0 * 3600)]
         let snapshot = try makeSnapshot(today: 0, history: history)
         #expect(snapshot.languages.isEmpty)
         #expect(snapshot.projects.isEmpty)
