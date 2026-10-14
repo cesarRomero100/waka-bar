@@ -41,7 +41,7 @@ struct WakaBarWidget: Widget {
                 .widgetURL(DeepLink.dashboard)
         }
         .configurationDisplayName("Coding Time")
-        .description("Today, last 7 days and top languages from WakaTime.")
+        .description("Today, your goal and streak, and top languages from WakaTime.")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
@@ -68,12 +68,28 @@ struct StatsWidgetView: View {
         }
     }
 
+    /// Today's total, with the goal bar when a goal is set.
+    @ViewBuilder
+    private func today(_ snapshot: Snapshot, showsGoalLabel: Bool = true) -> some View {
+        let seconds = snapshot.todaySeconds(asOf: entry.date)
+        VStack(alignment: .leading, spacing: 4) {
+            StatBlock(title: "Today", seconds: seconds, prominent: true)
+            if let goal = snapshot.dailyGoalSeconds {
+                GoalProgress(seconds: seconds, goal: goal, showsLabel: showsGoalLabel)
+            }
+        }
+    }
+
     private func small(_ snapshot: Snapshot) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            StatBlock(title: "Today", seconds: snapshot.todaySeconds(asOf: entry.date), prominent: true)
+            today(snapshot, showsGoalLabel: false)
             StatBlock(title: "Last 7 days", seconds: snapshot.weekSeconds)
             Spacer(minLength: 0)
-            if let top = snapshot.languages.first {
+            if snapshot.streakDays > 0 {
+                StreakLabel(days: snapshot.streakDays)
+                    .font(.caption)
+                    .lineLimit(1)
+            } else if let top = snapshot.languages.first {
                 Label(top.name, systemImage: "chevron.left.forwardslash.chevron.right")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -86,24 +102,42 @@ struct StatsWidgetView: View {
     private func medium(_ snapshot: Snapshot) -> some View {
         HStack(alignment: .top, spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
-                StatBlock(title: "Today", seconds: snapshot.todaySeconds(asOf: entry.date), prominent: true)
+                today(snapshot)
                 StatBlock(title: "Last 7 days", seconds: snapshot.weekSeconds)
+                if snapshot.streakDays > 0 {
+                    StreakLabel(days: snapshot.streakDays)
+                        .font(.caption)
+                        .lineLimit(1)
+                }
             }
-            LanguageList(languages: snapshot.languages, limit: 3)
+            .frame(width: 130, alignment: .leading)
+            UsageList(items: snapshot.languages, limit: 3)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
     private func large(_ snapshot: Snapshot) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .firstTextBaseline) {
-                StatBlock(title: "Today", seconds: snapshot.todaySeconds(asOf: entry.date), prominent: true)
+            HStack(alignment: .top) {
+                today(snapshot)
+                    .frame(width: 150, alignment: .leading)
                 Spacer()
                 StatBlock(title: "Last 7 days", seconds: snapshot.weekSeconds)
             }
+            HStack {
+                if snapshot.streakDays > 0 {
+                    StreakLabel(days: snapshot.streakDays)
+                }
+                Spacer()
+                if let project = snapshot.topProjectToday {
+                    Label(project.name, systemImage: "folder")
+                        .lineLimit(1)
+                }
+            }
+            .font(.caption)
             WeekChart(days: snapshot.days)
                 .frame(maxHeight: .infinity)
-            LanguageList(languages: snapshot.languages, limit: 4)
+            UsageList(items: snapshot.languages, limit: 4)
         }
     }
 }

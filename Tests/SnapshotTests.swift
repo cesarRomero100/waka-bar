@@ -41,9 +41,60 @@ struct SnapshotTests {
         #expect(!earlier.hasSameStats(as: snapshot(days: [1, 2, 4], today: 5400)))
     }
 
+    @Test func goalStreakAndProjectChangesCount() {
+        let base = snapshot(days: [1, 2, 3], today: 5400)
+        var goal = base
+        goal.dailyGoalSeconds = 4 * 3600
+        var streak = base
+        streak.streakDays = 5
+        var project = base
+        project.topProjectToday = UsageStat(name: "waka-bar", seconds: 3600)
+        for changed in [goal, streak, project] {
+            #expect(!base.hasSameStats(as: changed))
+        }
+    }
+
     @Test func roundTripsThroughJSON() throws {
         let original = Snapshot.sample
         let decoded = try JSONDecoder().decode(Snapshot.self, from: JSONEncoder().encode(original))
         #expect(decoded == original)
+    }
+}
+
+struct StreakTests {
+    /// Days ending today with the given hours each, oldest first.
+    private func streak(_ hours: [Double]) -> Int {
+        let days = hours.enumerated().map { index, h in
+            DayStat(
+                date: Fixtures.calendar.date(byAdding: .day, value: index - (hours.count - 1), to: Fixtures.now)!,
+                seconds: h * 3600
+            )
+        }
+        return Snapshot.streak(in: days, now: Fixtures.now, calendar: Fixtures.calendar)
+    }
+
+    @Test func countsConsecutiveActiveDaysEndingToday() {
+        #expect(streak([0, 1, 2, 3]) == 3)
+    }
+
+    @Test func aQuietTodayDoesNotBreakTheStreakYet() {
+        #expect(streak([1, 1, 1, 0]) == 3)
+    }
+
+    @Test func aDayOffBreaksTheStreak() {
+        #expect(streak([1, 1, 0, 1, 1]) == 2)
+    }
+
+    @Test func lessThanAMinuteDoesNotCount() {
+        #expect(streak([1, 1, 30.0 / 3600, 1]) == 1)
+    }
+
+    @Test func noActivityMeansNoStreak() {
+        #expect(streak([0, 0, 0]) == 0)
+        #expect(streak([]) == 0)
+    }
+
+    @Test func coversTheWholeHistory() {
+        #expect(streak(Array(repeating: 1, count: 30)) == 30)
     }
 }

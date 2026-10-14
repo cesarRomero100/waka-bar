@@ -7,7 +7,9 @@ Open-source macOS menu bar app and desktop widget for your [WakaTime](https://wa
 (also works with self-hosted [Wakapi](https://github.com/muety/wakapi)).
 
 - **Menu bar:** today's coding time, always visible. Refreshes every 5 minutes and when the Mac wakes.
-- **Popover:** today, last 7 days (total, daily average, bar chart) and top languages.
+- **Popover:** today, last 7 days (total, daily average, bar chart), and top languages or projects.
+- **Daily goal** with a progress bar, set in Settings.
+- **Streak:** consecutive days coding (up to 30), and today's top project.
 - **Widget:** small / medium / large, for the desktop or Notification Center. Click it to open your dashboard.
 - **Launch at login**, from Settings.
 - **English and Spanish**, following your macOS language.
@@ -50,7 +52,8 @@ Scripts/    generate-icon.swift regenerates the app icon
 Tests/      unit tests (Swift Testing): API parsing, snapshot logic, formatting, translations
 ```
 
-The app polls the API every 5 minutes (`status_bar/today` + `summaries?range=last_7_days`),
+The app polls the API every 5 minutes (`status_bar/today` + `summaries?range=last_30_days`, falling back
+to `last_7_days` if the server refuses 30 days),
 saves a `Snapshot` as JSON in the App Group container and reloads the widget timelines.
 The widget never sees your API key.
 

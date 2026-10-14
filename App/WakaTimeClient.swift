@@ -53,31 +53,42 @@ struct WakaTimeClient {
 
     func fetchSnapshot() async throws -> Snapshot {
         async let today = get("users/current/status_bar/today")
-        async let week = get(
-            "users/current/summaries",
-            query: [URLQueryItem(name: "range", value: "last_7_days")]
-        )
-        return try await Self.makeSnapshot(today: today, week: week)
+        async let history = fetchHistory()
+        return try await Self.makeSnapshot(today: today, history: history)
+    }
+
+    /// 30 days so the streak can go past a week. Falls back to 7 days if the server refuses the
+    /// longer range (e.g. plan limits); an invalid key still fails right away.
+    private func fetchHistory() async throws -> Data {
+        do {
+            return try await summaries(range: "last_30_days")
+        } catch ClientError.http {
+            return try await summaries(range: "last_7_days")
+        }
+    }
+
+    private func summaries(range: String) async throws -> Data {
+        try await get("users/current/summaries", query: [URLQueryItem(name: "range", value: range)])
     }
 
     /// Builds a snapshot from raw `status_bar/today` and `summaries` responses. No network, so it is unit-testable.
     static func makeSnapshot(
         today todayJSON: Data,
-        week weekJSON: Data,
+        history historyJSON: Data,
         now: Date = .now,
         calendar: Calendar = .current
     ) throws -> Snapshot {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         let todayData = try decoder.decode(StatusBarResponse.self, from: todayJSON).data
-        let weekData = try decoder.decode(SummariesResponse.self, from: weekJSON).data
+        let history = try decoder.decode(SummariesResponse.self, from: historyJSON).data
         let todaySeconds = todayData.grandTotal.totalSeconds
 
         let startOfToday = calendar.startOfDay(for: now)
-        var days = weekData.enumerated().map { index, day in
+        var days = history.enumerated().map { index, day in
             DayStat(
                 date: day.range?.date.flatMap { parseDay($0, calendar: calendar) }
-                    ?? calendar.date(byAdding: .day, value: index - (weekData.count - 1), to: startOfToday)!,
+                    ?? calendar.date(byAdding: .day, value: index - (history.count - 1), to: startOfToday)!,
                 seconds: day.grandTotal.totalSeconds
             )
         }
@@ -86,19 +97,31 @@ struct WakaTimeClient {
             days[last].seconds = todaySeconds
         }
 
-        var languageTotals: [String: Double] = [:]
-        for day in weekData {
-            for language in day.languages ?? [] {
-                languageTotals[language.name, default: 0] += language.totalSeconds
+        let week = history.suffix(7)
+        return Snapshot(
+            updatedAt: now,
+            todaySeconds: todaySeconds,
+            days: Array(days.suffix(7)),
+            languages: totals(week.map(\.languages)),
+            projects: totals(week.map(\.projects)),
+            topProjectToday: totals([todayData.projects]).first,
+            streakDays: Snapshot.streak(in: days, now: now, calendar: calendar)
+        )
+    }
+
+    /// Sums items by name across days, drops anything under a minute, most used first.
+    private static func totals(_ days: [[APIDay.Item]?]) -> [UsageStat] {
+        var seconds: [String: Double] = [:]
+        for items in days {
+            for item in items ?? [] {
+                seconds[item.name, default: 0] += item.totalSeconds
             }
         }
-        let languages =
-            languageTotals
-            .map { LanguageStat(name: $0.key, seconds: $0.value) }
+        return
+            seconds
+            .map { UsageStat(name: $0.key, seconds: $0.value) }
             .filter { $0.seconds >= 60 }
-            .sorted { $0.seconds > $1.seconds }
-
-        return Snapshot(updatedAt: now, todaySeconds: todaySeconds, days: days, languages: languages)
+            .sorted { $0.seconds != $1.seconds ? $0.seconds > $1.seconds : $0.name < $1.name }
     }
 
     private func get(_ path: String, query: [URLQueryItem] = []) async throws -> Data {
@@ -145,5 +168,6 @@ private struct APIDay: Decodable {
 
     let grandTotal: Total
     let languages: [Item]?
+    let projects: [Item]?
     let range: Range?
 }

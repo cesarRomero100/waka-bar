@@ -2,9 +2,14 @@ import SwiftUI
 
 /// Popover shown when clicking the menu bar item.
 struct MenuContentView: View {
+    enum Breakdown: String {
+        case languages, projects
+    }
+
     let model: StatsModel
     @Environment(\.openSettings) private var openSettings
     @Environment(\.openURL) private var openURL
+    @AppStorage("breakdown") private var breakdown = Breakdown.languages
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -37,8 +42,14 @@ struct MenuContentView: View {
 
     @ViewBuilder
     private func stats(_ snapshot: Snapshot) -> some View {
-        HStack(alignment: .firstTextBaseline) {
-            StatBlock(title: "Today", seconds: snapshot.todaySeconds(), prominent: true)
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 6) {
+                StatBlock(title: "Today", seconds: snapshot.todaySeconds(), prominent: true)
+                if let goal = snapshot.dailyGoalSeconds {
+                    GoalProgress(seconds: snapshot.todaySeconds(), goal: goal)
+                        .frame(width: 140)
+                }
+            }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
                 StatBlock(title: "Last 7 days", seconds: snapshot.weekSeconds)
@@ -48,13 +59,32 @@ struct MenuContentView: View {
             }
         }
 
+        if snapshot.streakDays > 0 || snapshot.topProjectToday != nil {
+            HStack {
+                if snapshot.streakDays > 0 {
+                    StreakLabel(days: snapshot.streakDays)
+                }
+                Spacer()
+                if let project = snapshot.topProjectToday {
+                    Label(project.name, systemImage: "folder")
+                        .lineLimit(1)
+                        .help("Top project today")
+                }
+            }
+            .font(.caption)
+        }
+
         WeekChart(days: snapshot.days)
             .frame(height: 110)
 
-        if !snapshot.languages.isEmpty {
-            Text("Languages")
-                .font(.subheadline.bold())
-            LanguageList(languages: snapshot.languages)
+        if !snapshot.languages.isEmpty || !snapshot.projects.isEmpty {
+            Picker("Breakdown", selection: $breakdown) {
+                Text("Languages").tag(Breakdown.languages)
+                Text("Projects").tag(Breakdown.projects)
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            UsageList(items: breakdown == .languages ? snapshot.languages : snapshot.projects)
         }
     }
 

@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct SettingsView: View {
+    /// Daily goal choices, in hours.
+    static let goalHours: [Double] = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 8]
+
     let model: StatsModel
     @State private var apiKey = Keychain.apiKey ?? ""
     @State private var baseURL = UserDefaults.standard.string(forKey: StatsModel.baseURLKey) ?? ""
@@ -41,6 +44,15 @@ struct SettingsView: View {
                     Text(loginItemError)
                         .font(.caption)
                         .foregroundStyle(.orange)
+                }
+                Picker(
+                    "Daily goal",
+                    selection: Binding(get: { model.dailyGoal }, set: { model.setDailyGoal($0) })
+                ) {
+                    Text("Off").tag(0.0)
+                    ForEach(Self.goalHours, id: \.self) { hours in
+                        Text(verbatim: Format.duration(hours * 3600)).tag(hours * 3600)
+                    }
                 }
             }
             Section {

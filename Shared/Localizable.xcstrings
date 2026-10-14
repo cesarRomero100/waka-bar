@@ -1,6 +1,38 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ to go" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faltan %@"
+          }
+        }
+      }
+    },
+    "%lld-day streak" : {
+      "localizations" : {
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Racha de %lld día"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Racha de %lld días"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "API key" : {
       "localizations" : {
         "es" : {
@@ -31,6 +63,16 @@
         }
       }
     },
+    "Breakdown" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desglose"
+          }
+        }
+      }
+    },
     "Coding Time" : {
       "localizations" : {
         "es" : {
@@ -51,6 +93,16 @@
         }
       }
     },
+    "Daily goal" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meta diaria"
+          }
+        }
+      }
+    },
     "Day" : {
       "localizations" : {
         "es" : {
@@ -67,6 +119,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Obtén tu API key"
+          }
+        }
+      }
+    },
+    "Goal reached" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meta cumplida"
           }
         }
       }
@@ -151,6 +213,16 @@
         }
       }
     },
+    "Off" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivada"
+          }
+        }
+      }
+    },
     "Open Dashboard" : {
       "localizations" : {
         "es" : {
@@ -187,6 +259,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abre WakaBar y agrega tu API key."
+          }
+        }
+      }
+    },
+    "Projects" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proyectos"
           }
         }
       }
@@ -261,12 +343,22 @@
         }
       }
     },
-    "Today, last 7 days and top languages from WakaTime." : {
+    "Today, your goal and streak, and top languages from WakaTime." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hoy, últimos 7 días y lenguajes principales de WakaTime."
+            "value" : "Hoy, tu meta y racha, y lenguajes principales de WakaTime."
+          }
+        }
+      }
+    },
+    "Top project today" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proyecto principal de hoy"
           }
         }
       }

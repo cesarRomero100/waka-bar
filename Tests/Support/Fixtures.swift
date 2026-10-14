@@ -17,35 +17,57 @@ enum Fixtures {
         ISO8601DateFormatter().date(from: "\(ymd)T00:00:00Z")!
     }
 
+    /// `count` consecutive `yyyy-MM-dd` dates ending today (2026-10-09).
+    static func dates(count: Int) -> [String] {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.calendar = calendar
+        formatter.timeZone = calendar.timeZone
+        formatter.dateFormat = "yyyy-MM-dd"
+        return (0..<count).map { offset in
+            formatter.string(from: calendar.date(byAdding: .day, value: offset - (count - 1), to: now)!)
+        }
+    }
+
+    /// The seven days ending today (2026-10-03 ... 2026-10-09).
+    static let weekDates = dates(count: 7)
+
     struct Day {
         var date: String?
         var seconds: Double
         var languages: [(name: String, seconds: Double)]? = []
+        var projects: [(name: String, seconds: Double)]? = []
     }
 
     /// `GET users/current/status_bar/today`
-    static func statusBar(seconds: Double, date: String = "2026-10-09") -> Data {
+    static func statusBar(
+        seconds: Double,
+        projects: [(name: String, seconds: Double)] = [],
+        date: String = "2026-10-09"
+    ) -> Data {
         json([
             "cached_at": "\(date)T15:00:00Z",
             "has_team_features": false,
-            "data": payload(Day(date: date, seconds: seconds, languages: [("Swift", seconds)])),
+            "data": payload(Day(date: date, seconds: seconds, languages: [("Swift", seconds)], projects: projects)),
         ])
     }
 
-    /// `GET users/current/summaries?range=last_7_days`
+    /// `GET users/current/summaries?range=...`
     static func summaries(_ days: [Day]) -> Data {
         let total = days.reduce(0) { $0 + $1.seconds }
         return json([
             "data": days.map(payload),
             "cumulative_total": ["seconds": total, "text": "\(Int(total / 3600)) hrs", "decimal": "0.00"],
             "daily_average": ["seconds": total / Double(max(days.count, 1)), "days_including_holidays": days.count],
-            "start": "2026-10-03T00:00:00Z",
+            "start": "\(days.first?.date ?? "2026-10-03")T00:00:00Z",
             "end": "2026-10-09T23:59:59Z",
         ])
     }
 
-    /// The seven days ending today (2026-10-03 ... 2026-10-09).
-    static let weekDates = (3...9).map { String(format: "2026-10-%02d", $0) }
+    /// Days ending today with the given hours of coding each, oldest first.
+    static func history(hours: [Double]) -> [Day] {
+        zip(dates(count: hours.count), hours).map { Day(date: $0, seconds: $1 * 3600) }
+    }
 
     private static func payload(_ day: Day) -> [String: Any] {
         var result: [String: Any] = [
@@ -67,6 +89,9 @@ enum Fixtures {
         result["range"] = range
         if let languages = day.languages {
             result["languages"] = languages.map { ["name": $0.name, "total_seconds": $0.seconds, "percent": 0] }
+        }
+        if let projects = day.projects {
+            result["projects"] = projects.map { ["name": $0.name, "total_seconds": $0.seconds, "percent": 0] }
         }
         return result
     }

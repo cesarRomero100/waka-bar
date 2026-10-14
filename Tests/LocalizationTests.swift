@@ -12,7 +12,17 @@ struct LocalizationTests {
                     let state: String
                     let value: String
                 }
+                struct Variations: Decodable {
+                    let plural: [String: Localization]?
+                }
                 let stringUnit: StringUnit?
+                let variations: Variations?
+
+                /// The plain string, or every plural form ("one", "other"...). Nil entries are untranslated.
+                var units: [StringUnit?] {
+                    guard let plural = variations?.plural else { return [stringUnit] }
+                    return plural.values.flatMap(\.units)
+                }
             }
             let localizations: [String: Localization]?
             let shouldTranslate: Bool?
@@ -40,8 +50,8 @@ struct LocalizationTests {
     @Test(arguments: languages)
     func everyStringIsTranslated(language: String) {
         let missing = Self.translatableKeys.filter { key in
-            let unit = Self.catalog.strings[key]?.localizations?[language]?.stringUnit
-            return unit?.state != "translated" || unit?.value.isEmpty != false
+            let units = Self.catalog.strings[key]?.localizations?[language]?.units ?? []
+            return units.isEmpty || units.contains { $0?.state != "translated" || $0?.value.isEmpty != false }
         }
         #expect(missing.isEmpty, "Missing \(language) translations: \(missing)")
     }
@@ -49,8 +59,9 @@ struct LocalizationTests {
     @Test(arguments: languages)
     func translationsKeepTheirPlaceholders(language: String) {
         for key in Self.translatableKeys {
-            guard let value = Self.catalog.strings[key]?.localizations?[language]?.stringUnit?.value else { continue }
-            #expect(placeholders(in: value) == placeholders(in: key), "\(language): \"\(value)\" for \"\(key)\"")
+            for case let value? in Self.catalog.strings[key]?.localizations?[language]?.units.map({ $0?.value }) ?? [] {
+                #expect(placeholders(in: value) == placeholders(in: key), "\(language): \"\(value)\" for \"\(key)\"")
+            }
         }
     }
 

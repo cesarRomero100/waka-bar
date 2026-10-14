@@ -31,20 +31,20 @@ struct WeekChart: View {
     }
 }
 
-/// Top languages with a proportional bar each.
-struct LanguageList: View {
-    let languages: [LanguageStat]
+/// Top languages or projects, each with a bar proportional to its share.
+struct UsageList: View {
+    let items: [UsageStat]
     var limit = 5
 
     var body: some View {
-        let total = max(languages.reduce(0) { $0 + $1.seconds }, 1)
+        let total = max(items.reduce(0) { $0 + $1.seconds }, 1)
         VStack(alignment: .leading, spacing: 6) {
-            ForEach(languages.prefix(limit)) { language in
+            ForEach(items.prefix(limit)) { item in
                 VStack(alignment: .leading, spacing: 2) {
                     HStack {
-                        Text(language.name).lineLimit(1)
+                        Text(item.name).lineLimit(1)
                         Spacer()
-                        Text(Format.duration(language.seconds))
+                        Text(Format.duration(item.seconds))
                             .foregroundStyle(.secondary)
                             .monospacedDigit()
                     }
@@ -55,12 +55,52 @@ struct LanguageList: View {
                             .overlay(alignment: .leading) {
                                 Capsule()
                                     .fill(Color.accentColor)
-                                    .frame(width: geo.size.width * language.seconds / total)
+                                    .frame(width: geo.size.width * item.seconds / total)
                             }
                     }
                     .frame(height: 4)
                 }
             }
+        }
+    }
+}
+
+/// Progress towards the daily goal; turns green once reached.
+struct GoalProgress: View {
+    let seconds: Double
+    let goal: Double
+    /// The small widget only has room for the bar.
+    var showsLabel = true
+
+    var body: some View {
+        let reached = seconds >= goal
+        VStack(alignment: .leading, spacing: 3) {
+            ProgressView(value: min(seconds / goal, 1))
+                .tint(reached ? .green : .accentColor)
+            if showsLabel {
+                Group {
+                    if reached {
+                        Label("Goal reached", systemImage: "checkmark.circle.fill")
+                    } else {
+                        Text("\(Format.duration(goal - seconds)) to go")
+                    }
+                }
+                .font(.caption2)
+                .foregroundStyle(reached ? .green : .secondary)
+            }
+        }
+    }
+}
+
+/// "🔥 12-day streak"
+struct StreakLabel: View {
+    let days: Int
+
+    var body: some View {
+        Label {
+            Text("\(days)-day streak")
+        } icon: {
+            Image(systemName: "flame.fill").foregroundStyle(.orange)
         }
     }
 }
