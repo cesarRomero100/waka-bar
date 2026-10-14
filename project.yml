@@ -54,6 +54,9 @@ targets:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: WakaBar
+        # XcodeGen would otherwise write 1.0 / 1 and ignore MARKETING_VERSION.
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.developer-tools
         # wakabar:// links, opened by a click on the widget.
@@ -79,6 +82,9 @@ targets:
       path: Widget/Info.plist
       properties:
         CFBundleDisplayName: WakaBar
+        # Must match the app's version.
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         AppGroupID: $(APP_GROUP_ID)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension

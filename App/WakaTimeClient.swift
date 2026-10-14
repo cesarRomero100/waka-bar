@@ -21,6 +21,24 @@ struct WakaTimeClient {
         }
     }
 
+    /// Web dashboard for an API base URL: wakatime.com's, or the root of a self-hosted server.
+    /// For Wakapi that is everything before `/api`, keeping the port and any path prefix:
+    /// `http://localhost:3000/api/compat/wakatime/v1` → `http://localhost:3000/`.
+    static func dashboardURL(forBaseURL baseURL: String) -> URL? {
+        guard var components = URLComponents(string: baseURL), let host = components.host else { return nil }
+        if host == "wakatime.com" || host.hasSuffix(".wakatime.com") {
+            return URL(string: "https://wakatime.com/dashboard")
+        }
+        let segments = components.path.split(separator: "/")
+        let prefix = segments.firstIndex(of: "api").map { segments[..<$0] } ?? []
+        components.path = "/" + prefix.map { "\($0)/" }.joined()
+        components.query = nil
+        components.fragment = nil
+        components.user = nil
+        components.password = nil
+        return components.url
+    }
+
     func fetchSnapshot() async throws -> Snapshot {
         async let today = get("users/current/status_bar/today")
         async let week = get(
