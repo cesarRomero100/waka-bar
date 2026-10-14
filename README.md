@@ -1,6 +1,7 @@
 # WakaBar
 
 [![macOS](https://github.com/cesarRomero100/waka-bar/actions/workflows/macos.yml/badge.svg)](https://github.com/cesarRomero100/waka-bar/actions/workflows/macos.yml)
+[![Windows](https://github.com/cesarRomero100/waka-bar/actions/workflows/windows.yml/badge.svg)](https://github.com/cesarRomero100/waka-bar/actions/workflows/windows.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Open-source desktop apps and widgets for your [WakaTime](https://wakatime.com) stats
@@ -19,7 +20,7 @@ Open-source desktop apps and widgets for your [WakaTime](https://wakatime.com) s
 | Platform | Status | Folder |
 |---|---|---|
 | macOS 14+ | Available: menu bar app and desktop widget | [`macos/`](macos) |
-| Windows 11 | Planned: system tray app and Widgets Board widget | `windows/` |
+| Windows 11 | In progress: logic and tests done; tray app and Widgets Board widget next | [`windows/`](windows) |
 
 Each platform is a native app with its own README, build steps and CI.
 
@@ -27,6 +28,7 @@ Each platform is a native app with its own README, build steps and CI.
 
 ```
 macos/            Swift / SwiftUI app and widget
+windows/          C# / .NET app (in progress)
 shared/fixtures/  WakaTime API responses that every platform's tests parse
 ```
 

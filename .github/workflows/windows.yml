@@ -1,0 +1,45 @@
+name: Windows
+
+# Runs only when the Windows app, the shared fixtures or this workflow change.
+# Also on pushes to windows/** work branches, to validate them before opening a PR.
+on:
+  push:
+    branches: [main, "windows/**"]
+    paths:
+      - windows/**
+      - shared/**
+      - .github/workflows/windows.yml
+  pull_request:
+    paths:
+      - windows/**
+      - shared/**
+      - .github/workflows/windows.yml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  format-build-test:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: windows
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: windows/global.json
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Check formatting
+        run: dotnet format --verify-no-changes --no-restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test --no-build --configuration Release --logger "console;verbosity=normal"

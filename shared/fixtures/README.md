@@ -18,7 +18,8 @@ numbers, they agree on what the API means.
 - Projects: `waka-bar` 45,500 s, `marketplace` 36,400 s, `dotfiles` 9,100 s.
 - Streak: 7 days.
 
-Tests that use these files: `macos/Tests/APIContractTests.swift`.
+Tests that use these files: `macos/Tests/APIContractTests.swift` and
+`windows/tests/WakaBar.Core.Tests/ApiContractTests.cs`.
 
 When the API changes shape, update these files first: every platform's tests should then fail
 until its parser is fixed.
