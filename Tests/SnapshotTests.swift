@@ -34,6 +34,13 @@ struct SnapshotTests {
         #expect(snapshot(days: [], today: 5400, updatedAt: now).todaySeconds(asOf: tomorrow) == 0)
     }
 
+    @Test func sameStatsIgnoresWhenTheyWereFetched() {
+        let earlier = snapshot(days: [1, 2, 3], today: 5400, updatedAt: .now.addingTimeInterval(-300))
+        #expect(earlier.hasSameStats(as: snapshot(days: [1, 2, 3], today: 5400)))
+        #expect(!earlier.hasSameStats(as: snapshot(days: [1, 2, 3], today: 5460)))
+        #expect(!earlier.hasSameStats(as: snapshot(days: [1, 2, 4], today: 5400)))
+    }
+
     @Test func roundTripsThroughJSON() throws {
         let original = Snapshot.sample
         let decoded = try JSONDecoder().decode(Snapshot.self, from: JSONEncoder().encode(original))

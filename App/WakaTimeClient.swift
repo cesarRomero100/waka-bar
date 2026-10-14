@@ -21,6 +21,18 @@ struct WakaTimeClient {
         }
     }
 
+    /// The server URL from Settings, if it is an absolute http(s) URL with a host.
+    /// Rejects `wakapi.example.com` (no scheme), which URLSession would fail on with a vague error.
+    static func baseURL(from string: String) -> URL? {
+        guard let url = URL(string: string),
+            let scheme = url.scheme?.lowercased(),
+            scheme == "https" || scheme == "http",
+            let host = url.host(),
+            !host.isEmpty
+        else { return nil }
+        return url
+    }
+
     /// Web dashboard for an API base URL: wakatime.com's, or the root of a self-hosted server.
     /// For Wakapi that is everything before `/api`, keeping the port and any path prefix:
     /// `http://localhost:3000/api/compat/wakatime/v1` → `http://localhost:3000/`.

@@ -7,6 +7,9 @@ import WidgetKit
 final class StatsModel {
     static let refreshInterval: Duration = .seconds(5 * 60)
     static let baseURLKey = "baseURL"
+    private static var invalidURLMessage: String {
+        String(localized: "Invalid server URL. It must start with https:// or http://.")
+    }
 
     private(set) var snapshot: Snapshot? = SnapshotStore.load()
     private(set) var errorMessage: String?
@@ -47,6 +50,10 @@ final class StatsModel {
         let apiKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
         let trimmedURL = baseURL.trimmingCharacters(in: .whitespacesAndNewlines)
         let newBaseURL = trimmedURL.isEmpty ? nil : trimmedURL
+        if let newBaseURL, WakaTimeClient.baseURL(from: newBaseURL) == nil {
+            errorMessage = Self.invalidURLMessage
+            return
+        }
         let keyChanged = apiKey != (Keychain.apiKey ?? "")
         let serverChanged = newBaseURL != UserDefaults.standard.string(forKey: Self.baseURLKey)
 
@@ -81,18 +88,20 @@ final class StatsModel {
             return
         }
         hasAPIKey = true
-        guard let url = URL(string: baseURL) else {
-            errorMessage = String(localized: "Invalid server URL.")
+        guard let url = WakaTimeClient.baseURL(from: baseURL) else {
+            errorMessage = Self.invalidURLMessage
             return
         }
 
         do {
             let snapshot = try await WakaTimeClient(baseURL: url, apiKey: apiKey).fetchSnapshot()
             try Task.checkCancellation()
+            let changed = self.snapshot.map { !$0.hasSameStats(as: snapshot) } ?? true
             self.snapshot = snapshot
             errorMessage = nil
             SnapshotStore.save(snapshot)
-            WidgetCenter.shared.reloadAllTimelines()
+            // Widget reloads have a daily budget; don't spend it while nothing changes (idle, overnight).
+            if changed { WidgetCenter.shared.reloadAllTimelines() }
         } catch {
             // Replaced by a newer refresh, which reports its own result.
             guard !Task.isCancelled else { return }

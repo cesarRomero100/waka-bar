@@ -91,12 +91,12 @@
         }
       }
     },
-    "Invalid server URL." : {
+    "Invalid server URL. It must start with https:// or http://." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "URL del servidor inválida."
+            "value" : "URL del servidor inválida. Debe empezar con https:// o http://."
           }
         }
       }
