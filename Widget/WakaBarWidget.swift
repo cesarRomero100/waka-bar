@@ -14,15 +14,21 @@ struct StatsProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (StatsEntry) -> Void) {
-        let snapshot = context.isPreview ? .sample : SnapshotStore.load() ?? .sample
+        // Sample data only in the widget gallery; otherwise the same view as the timeline.
+        let snapshot: Snapshot? = context.isPreview ? .sample : SnapshotStore.load()
         completion(StatsEntry(date: .now, snapshot: snapshot))
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<StatsEntry>) -> Void) {
-        let entry = StatsEntry(date: .now, snapshot: SnapshotStore.load())
-        // Fallback in case the app is not running; also resets "today" after midnight.
-        let next = Date.now.addingTimeInterval(15 * 60)
-        completion(Timeline(entries: [entry], policy: .after(next)))
+        let now = Date.now
+        let snapshot = SnapshotStore.load()
+        // Resets "Today" at midnight even if WidgetKit runs the reload below late.
+        let calendar = Calendar.current
+        let midnight = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: now))!
+        let entries = [StatsEntry(date: now, snapshot: snapshot), StatsEntry(date: midnight, snapshot: snapshot)]
+        // Fallback in case the app is not running.
+        let next = now.addingTimeInterval(15 * 60)
+        completion(Timeline(entries: entries, policy: .after(next)))
     }
 }
 

@@ -29,16 +29,8 @@ jobs:
         run: xcodegen
 
       # No Local.xcconfig in CI: builds with the placeholder IDs from Base.xcconfig, unsigned.
-      - name: Build
-        run: |
-          xcodebuild build \
-            -project WakaBar.xcodeproj \
-            -scheme WakaBar \
-            -configuration Debug \
-            -destination 'platform=macOS' \
-            CODE_SIGNING_ALLOWED=NO
-
-      - name: Test
+      # `test` builds the whole scheme (app, widget and tests), so there is no separate build step.
+      - name: Build and test
         run: |
           xcodebuild test \
             -project WakaBar.xcodeproj \

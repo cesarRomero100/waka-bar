@@ -155,3 +155,30 @@ struct DashboardURLTests {
         #expect(WakaTimeClient.dashboardURL(forBaseURL: example.baseURL)?.absoluteString == example.dashboard)
     }
 }
+
+struct BaseURLTests {
+    static let valid = [
+        "https://api.wakatime.com/api/v1",
+        "http://localhost:3000/api/compat/wakatime/v1",
+        "HTTPS://wakapi.dev/api/compat/wakatime/v1",
+    ]
+
+    static let invalid = [
+        "wakapi.example.com/api/compat/wakatime/v1",
+        "localhost:3000/api/compat/wakatime/v1",
+        "ftp://example.com/api/v1",
+        "https://",
+        "not a url",
+        "",
+    ]
+
+    @Test("Accepts absolute http(s) URLs", arguments: valid)
+    func accepts(_ string: String) {
+        #expect(WakaTimeClient.baseURL(from: string)?.absoluteString == string)
+    }
+
+    @Test("Rejects URLs without an http(s) scheme or a host", arguments: invalid)
+    func rejects(_ string: String) {
+        #expect(WakaTimeClient.baseURL(from: string) == nil)
+    }
+}

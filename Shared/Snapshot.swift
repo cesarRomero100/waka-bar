@@ -13,6 +13,11 @@ struct Snapshot: Codable, Equatable {
     var weekSeconds: Double { days.reduce(0) { $0 + $1.seconds } }
     var dailyAverage: Double { days.isEmpty ? 0 : weekSeconds / Double(days.count) }
 
+    /// Same numbers, regardless of when they were fetched.
+    func hasSameStats(as other: Snapshot) -> Bool {
+        todaySeconds == other.todaySeconds && days == other.days && languages == other.languages
+    }
+
     /// Today's total, or 0 if the snapshot was taken on an earlier day.
     func todaySeconds(asOf now: Date = .now) -> Double {
         Calendar.current.isDate(updatedAt, inSameDayAs: now) ? todaySeconds : 0
