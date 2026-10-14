@@ -21,16 +21,34 @@ enum Keychain {
         return String(decoding: data, as: UTF8.self)
     }
 
-    static func setAPIKey(_ key: String?) {
+    /// Saves the key, or deletes it when empty. Updates in place, so a failed save never loses the old key.
+    static func setAPIKey(_ key: String?) throws {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: service,
             kSecAttrAccount: account,
         ]
-        SecItemDelete(query as CFDictionary)
-        guard let key, !key.isEmpty else { return }
-        var item = query
-        item[kSecValueData] = Data(key.utf8)
-        SecItemAdd(item as CFDictionary, nil)
+        guard let key, !key.isEmpty else {
+            let status = SecItemDelete(query as CFDictionary)
+            guard status == errSecSuccess || status == errSecItemNotFound else { throw KeychainError(status: status) }
+            return
+        }
+        let data = Data(key.utf8)
+        var status = SecItemUpdate(query as CFDictionary, [kSecValueData: data] as CFDictionary)
+        if status == errSecItemNotFound {
+            var item = query
+            item[kSecValueData] = data
+            status = SecItemAdd(item as CFDictionary, nil)
+        }
+        guard status == errSecSuccess else { throw KeychainError(status: status) }
+    }
+}
+
+struct KeychainError: LocalizedError {
+    let status: OSStatus
+
+    var errorDescription: String? {
+        let reason = SecCopyErrorMessageString(status, nil) as String? ?? "OSStatus \(status)"
+        return String(localized: "Couldn't save the API key: \(reason)")
     }
 }

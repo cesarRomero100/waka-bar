@@ -18,7 +18,7 @@ struct MenuContentView: View {
                 }
             } else if let snapshot = model.snapshot {
                 stats(snapshot)
-            } else {
+            } else if model.errorMessage == nil {
                 ProgressView().frame(maxWidth: .infinity, minHeight: 120)
             }
 
@@ -61,9 +61,12 @@ struct MenuContentView: View {
     private var footer: some View {
         HStack {
             if let updated = model.snapshot?.updatedAt {
-                Text("Updated \(updated.formatted(.relative(presentation: .named)))")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                // A formatted date is plain text; redraw it so "2 minutes ago" keeps counting.
+                TimelineView(.everyMinute) { _ in
+                    Text("Updated \(updated.formatted(.relative(presentation: .named)))")
+                }
+                .font(.caption2)
+                .foregroundStyle(.secondary)
             }
             Spacer()
             Button {

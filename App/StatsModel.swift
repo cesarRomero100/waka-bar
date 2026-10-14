@@ -15,12 +15,14 @@ final class StatsModel {
 
     @ObservationIgnored private var loop: Task<Void, Never>?
     @ObservationIgnored private var wakeObserver: Task<Void, Never>?
+    @ObservationIgnored private var refreshTask: Task<Void, Never>?
 
     init() {
         loop = Task { [weak self] in
             while !Task.isCancelled {
                 await self?.refresh()
-                try? await Task.sleep(for: Self.refreshInterval)
+                // Suspending clock: time asleep doesn't count, so this doesn't also fire on wake.
+                try? await Task.sleep(for: Self.refreshInterval, clock: .suspending)
             }
         }
         // After sleep the numbers can be hours old; refresh as soon as the Mac wakes.
@@ -39,20 +41,41 @@ final class StatsModel {
     }
 
     /// Web dashboard matching the configured server.
-    var dashboardURL: URL? {
-        guard let components = URLComponents(string: baseURL), let host = components.host else { return nil }
-        if host.hasSuffix("wakatime.com") { return URL(string: "https://wakatime.com/dashboard") }
-        return URL(string: "\(components.scheme ?? "https")://\(host)")
-    }
+    var dashboardURL: URL? { WakaTimeClient.dashboardURL(forBaseURL: baseURL) }
 
     func save(apiKey: String, baseURL: String) async {
-        Keychain.setAPIKey(apiKey.trimmingCharacters(in: .whitespacesAndNewlines))
-        let trimmed = baseURL.trimmingCharacters(in: .whitespacesAndNewlines)
-        UserDefaults.standard.set(trimmed.isEmpty ? nil : trimmed, forKey: Self.baseURLKey)
+        let apiKey = apiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedURL = baseURL.trimmingCharacters(in: .whitespacesAndNewlines)
+        let newBaseURL = trimmedURL.isEmpty ? nil : trimmedURL
+        let keyChanged = apiKey != (Keychain.apiKey ?? "")
+        let serverChanged = newBaseURL != UserDefaults.standard.string(forKey: Self.baseURLKey)
+
+        do {
+            try Keychain.setAPIKey(apiKey)
+        } catch {
+            errorMessage = error.localizedDescription
+            return
+        }
+        UserDefaults.standard.set(newBaseURL, forKey: Self.baseURLKey)
+        // The previous account's numbers must not stay on screen, even if the new ones fail to load.
+        if keyChanged || serverChanged { clearSnapshot() }
         await refresh()
     }
 
+    /// Fetches fresh stats. A new call cancels the one in flight, so an older response
+    /// (e.g. for the previous API key) never overwrites a newer one.
     func refresh() async {
+        refreshTask?.cancel()
+        let task = Task { await load() }
+        refreshTask = task
+        isLoading = true
+        await task.value
+        guard refreshTask == task else { return }
+        refreshTask = nil
+        isLoading = false
+    }
+
+    private func load() async {
         guard let apiKey = Keychain.apiKey, !apiKey.isEmpty else {
             hasAPIKey = false
             return
@@ -63,16 +86,25 @@ final class StatsModel {
             return
         }
 
-        isLoading = true
-        defer { isLoading = false }
         do {
             let snapshot = try await WakaTimeClient(baseURL: url, apiKey: apiKey).fetchSnapshot()
+            try Task.checkCancellation()
             self.snapshot = snapshot
             errorMessage = nil
             SnapshotStore.save(snapshot)
             WidgetCenter.shared.reloadAllTimelines()
         } catch {
+            // Replaced by a newer refresh, which reports its own result.
+            guard !Task.isCancelled else { return }
             errorMessage = error.localizedDescription
         }
+    }
+
+    private func clearSnapshot() {
+        refreshTask?.cancel()
+        snapshot = nil
+        errorMessage = nil
+        SnapshotStore.clear()
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }

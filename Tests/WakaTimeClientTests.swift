@@ -135,3 +135,23 @@ struct WakaTimeClientHTTPTests {
         }
     }
 }
+
+struct DashboardURLTests {
+    // Typed constant: an inline tuple literal is too slow for the type checker inside @Test.
+    static let examples: [(baseURL: String, dashboard: String?)] = [
+        ("https://api.wakatime.com/api/v1", "https://wakatime.com/dashboard"),
+        ("https://wakatime.com/api/v1", "https://wakatime.com/dashboard"),
+        ("https://wakapi.dev/api/compat/wakatime/v1", "https://wakapi.dev/"),
+        ("http://localhost:3000/api/compat/wakatime/v1", "http://localhost:3000/"),
+        ("https://example.com/wakapi/api/compat/wakatime/v1", "https://example.com/wakapi/"),
+        ("https://notwakatime.com/api/compat/wakatime/v1", "https://notwakatime.com/"),
+        ("https://user:pass@example.com:8443/api/v1?x=1#top", "https://example.com:8443/"),
+        ("not a url", nil),
+        ("", nil),
+    ]
+
+    @Test("Opens the dashboard of the configured server", arguments: examples)
+    func dashboard(_ example: (baseURL: String, dashboard: String?)) {
+        #expect(WakaTimeClient.dashboardURL(forBaseURL: example.baseURL)?.absoluteString == example.dashboard)
+    }
+}
