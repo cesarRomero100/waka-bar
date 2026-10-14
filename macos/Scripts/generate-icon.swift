@@ -1,5 +1,5 @@
 // Generates the macOS app icon set.
-// Usage: swift Scripts/generate-icon.swift App/Assets.xcassets/AppIcon.appiconset
+// Usage, from macos/: swift Scripts/generate-icon.swift App/Assets.xcassets/AppIcon.appiconset
 
 import AppKit
 
