@@ -6,6 +6,9 @@
   </Configurations>
   <Folder Name="/src/">
     <Project Path="src/WakaBar.App/WakaBar.App.csproj">
+      <!-- C# projects default to Any CPU, which WinUI doesn't support: map each platform explicitly. -->
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|ARM64" Project="ARM64" />
       <!-- Deploy registers the MSIX package, so F5 in Visual Studio installs and runs it. -->
       <Deploy />
     </Project>
