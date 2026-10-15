@@ -31,6 +31,13 @@ System tray app and Widgets Board widget, in C# and WinUI 3. **In progress.**
   today and the goal; medium adds the last 7 days; large adds languages and projects. Click it to open
   your dashboard. It's served by the tray app (started automatically if needed) and updates with it.
 
+**Widget missing from the picker after a deploy?** The Widgets Board caches its list of widgets.
+Restart it, then open it again with Win+W:
+
+```powershell
+Stop-Process -Name Widgets, WidgetService -Force -ErrorAction SilentlyContinue
+```
+
 ## Layout
 
 ```
