@@ -23,7 +23,8 @@ internal sealed partial class StatsWidgetProvider : IWidgetProvider
         this.dispatcher = dispatcher;
 
         // Widgets pinned before this launch (restart, crash) keep getting updates.
-        foreach (var info in WidgetManager.GetDefault().GetWidgetInfos())
+        // GetWidgetInfos returns null, not an empty array, while no widget is pinned.
+        foreach (var info in WidgetManager.GetDefault().GetWidgetInfos() ?? [])
         {
             widgetIds.Add(info.WidgetContext.Id);
         }
