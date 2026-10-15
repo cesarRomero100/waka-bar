@@ -5,7 +5,6 @@ using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Windows.System;
 using WakaBar.App.Services;
 using WakaBar.Core;
 
@@ -76,7 +75,7 @@ public partial class App : Application
     {
         if (stats?.DashboardUrl is { } url)
         {
-            _ = Launcher.LaunchUriAsync(url);
+            _ = Windows.System.Launcher.LaunchUriAsync(url);
         }
     }
 
