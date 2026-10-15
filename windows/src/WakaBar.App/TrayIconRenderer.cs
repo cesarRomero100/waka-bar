@@ -16,7 +16,8 @@ internal static class TrayIconRenderer
 
     /// <summary>Same indigo as the app icon.</summary>
     private static readonly Color Brand = Color.FromArgb(91, 76, 224);
-    private static readonly Color Progress = Color.FromArgb(167, 155, 255);
+    /// <summary>Amber: stands out from the gray track on light and dark taskbars, unlike a light violet.</summary>
+    private static readonly Color Progress = Color.FromArgb(245, 158, 11);
     private static readonly Color Reached = Color.FromArgb(34, 197, 94);
 
     /// <summary>Gray at half opacity: visible on both light and dark taskbars.</summary>
