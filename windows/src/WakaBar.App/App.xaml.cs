@@ -124,6 +124,10 @@ public partial class App : Application
         return minutes >= 60 ? $"{minutes / 60}h" : $"{minutes}m";
     }
 
+    /// <summary>
+    /// The icon is drawn on a 128 px canvas, and H.NotifyIcon reads FontSize as points (1 pt = 4/3 px):
+    /// text wider than the canvas wraps and the rest is cut off ("0m" showed as "0").
+    /// </summary>
     private static GeneratedIconSource MakeIcon(string text) => new()
     {
         Text = text,
@@ -132,6 +136,11 @@ public partial class App : Application
         BackgroundType = BackgroundType.RoundedRectangle,
         CornerRadius = new CornerRadius(28),
         FontWeight = FontWeights.Bold,
-        FontSize = text.Length > 2 ? 54 : 70,
+        FontSize = text.Length switch
+        {
+            1 => 60,
+            2 => 46,
+            _ => 36,
+        },
     };
 }

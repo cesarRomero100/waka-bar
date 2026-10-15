@@ -134,6 +134,12 @@
                 <Button.Flyout>
                     <!-- Kept inside the window: a separate popup window would deactivate (and hide) this one. -->
                     <MenuFlyout Placement="TopEdgeAlignedRight" ShouldConstrainToRootBounds="True">
+                        <!-- In-window menus use translucent in-app acrylic, which mixes with the stats behind. -->
+                        <MenuFlyout.MenuFlyoutPresenterStyle>
+                            <Style TargetType="MenuFlyoutPresenter">
+                                <Setter Property="Background" Value="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
+                            </Style>
+                        </MenuFlyout.MenuFlyoutPresenterStyle>
                         <MenuFlyoutItem Text="Open dashboard" Click="OnOpenDashboard" />
                         <MenuFlyoutItem Text="Settings…" Click="OnOpenSettings" />
                         <MenuFlyoutSeparator />
