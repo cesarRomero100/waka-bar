@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "WakaBar.App (Package)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

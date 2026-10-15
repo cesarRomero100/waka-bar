@@ -1,0 +1,41 @@
+<Application
+    x:Class="WakaBar.App.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:tb="using:H.NotifyIcon">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Tray menu commands; App.xaml.cs handles ExecuteRequested. -->
+            <XamlUICommand x:Key="ShowStatsCommand" Label="Show stats" />
+            <XamlUICommand x:Key="RefreshCommand" Label="Refresh" />
+            <XamlUICommand x:Key="OpenDashboardCommand" Label="Open dashboard" />
+            <XamlUICommand x:Key="SettingsCommand" Label="Settings…" />
+            <XamlUICommand x:Key="QuitCommand" Label="Quit WakaBar" />
+
+            <!-- The icon is drawn in code (TrayIconRenderer): the app icon plus a daily goal ring. -->
+            <tb:TaskbarIcon
+                x:Key="TrayIcon"
+                Visibility="Visible"
+                ToolTipText="WakaBar"
+                ContextMenuMode="SecondWindow"
+                LeftClickCommand="{StaticResource ShowStatsCommand}"
+                NoLeftClickDelay="True">
+                <tb:TaskbarIcon.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{StaticResource ShowStatsCommand}" />
+                        <MenuFlyoutItem Command="{StaticResource RefreshCommand}" />
+                        <MenuFlyoutItem Command="{StaticResource OpenDashboardCommand}" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Command="{StaticResource SettingsCommand}" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Command="{StaticResource QuitCommand}" />
+                    </MenuFlyout>
+                </tb:TaskbarIcon.ContextFlyout>
+            </tb:TaskbarIcon>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

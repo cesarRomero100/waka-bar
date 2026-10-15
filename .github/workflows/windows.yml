@@ -32,14 +32,17 @@ jobs:
         with:
           global-json-file: windows/global.json
 
-      - name: Restore
-        run: dotnet restore
-
+      # Core and tests get the full check (whitespace, style, analyzers). The WinUI app gets whitespace
+      # only: the full check would compile it without its XAML-generated code.
       - name: Check formatting
-        run: dotnet format --verify-no-changes --no-restore
-
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: |
+          dotnet format src/WakaBar.Core/WakaBar.Core.csproj --verify-no-changes
+          dotnet format tests/WakaBar.Core.Tests/WakaBar.Core.Tests.csproj --verify-no-changes
+          dotnet format whitespace src/WakaBar.App --folder --verify-no-changes
 
       - name: Test
-        run: dotnet test --no-build --configuration Release --logger "console;verbosity=normal"
+        run: dotnet test tests/WakaBar.Core.Tests/WakaBar.Core.Tests.csproj --configuration Release --logger "console;verbosity=normal"
+
+      # WinUI needs a real platform; x64 is enough to catch build errors.
+      - name: Build app
+        run: dotnet build src/WakaBar.App/WakaBar.App.csproj --configuration Release -p:Platform=x64
