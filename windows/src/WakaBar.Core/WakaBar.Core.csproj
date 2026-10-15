@@ -1,6 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <!-- Platform-independent logic: API client, snapshot, streak. No Windows APIs, so it also builds on macOS and Linux. -->
+  <!-- Platform-independent logic: API client, snapshot, streak, widget data. No Windows APIs, so it also builds on macOS and Linux. -->
   <ItemGroup>
     <InternalsVisibleTo Include="WakaBar.Core.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="WidgetTemplate.json" />
   </ItemGroup>
 </Project>

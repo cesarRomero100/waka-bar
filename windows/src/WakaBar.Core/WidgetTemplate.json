@@ -1,0 +1,162 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.6",
+  "body": [
+    {
+      "type": "TextBlock",
+      "$when": "${needsKey}",
+      "text": "Open WakaBar and add your API key.",
+      "wrap": true,
+      "isSubtle": true
+    },
+    {
+      "type": "TextBlock",
+      "$when": "${!needsKey && !hasData}",
+      "text": "${status}",
+      "wrap": true,
+      "isSubtle": true
+    },
+    {
+      "type": "Container",
+      "$when": "${hasData}",
+      "selectAction": {
+        "type": "Action.Execute",
+        "verb": "dashboard"
+      },
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Today",
+                  "size": "small",
+                  "isSubtle": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${today}",
+                  "size": "extraLarge",
+                  "weight": "bolder",
+                  "spacing": "none"
+                },
+                {
+                  "type": "Image",
+                  "$when": "${hasGoal}",
+                  "url": "${goalImage}",
+                  "size": "stretch",
+                  "spacing": "small",
+                  "altText": "${goalText}"
+                },
+                {
+                  "type": "TextBlock",
+                  "$when": "${hasGoal}",
+                  "text": "${goalText}",
+                  "size": "small",
+                  "color": "${if(goalReached, 'good', 'default')}",
+                  "isSubtle": "${!goalReached}",
+                  "spacing": "small"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Last 7 days",
+                  "size": "small",
+                  "isSubtle": true,
+                  "horizontalAlignment": "right"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${week}",
+                  "weight": "bolder",
+                  "horizontalAlignment": "right",
+                  "spacing": "none"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${average}",
+                  "size": "small",
+                  "isSubtle": true,
+                  "horizontalAlignment": "right",
+                  "spacing": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${hasStreak}",
+          "text": "${streak}",
+          "size": "small",
+          "spacing": "small"
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${hasProject && $host.widgetSize != 'small'}",
+          "text": "${project}",
+          "size": "small",
+          "spacing": "none"
+        },
+        {
+          "type": "Image",
+          "$when": "${$host.widgetSize != 'small'}",
+          "url": "${if($host.hostTheme == 'dark', chartDark, chartLight)}",
+          "size": "stretch",
+          "spacing": "medium",
+          "altText": "Coding time over the last 7 days"
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${$host.widgetSize == 'large' && count(languages) > 0}",
+          "text": "Languages",
+          "size": "small",
+          "weight": "bolder",
+          "spacing": "medium"
+        },
+        {
+          "type": "FactSet",
+          "$when": "${$host.widgetSize == 'large' && count(languages) > 0}",
+          "spacing": "small",
+          "facts": [
+            {
+              "$data": "${languages}",
+              "title": "${name}",
+              "value": "${time}"
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${$host.widgetSize == 'large' && count(projects) > 0}",
+          "text": "Projects",
+          "size": "small",
+          "weight": "bolder",
+          "spacing": "medium"
+        },
+        {
+          "type": "FactSet",
+          "$when": "${$host.widgetSize == 'large' && count(projects) > 0}",
+          "spacing": "small",
+          "facts": [
+            {
+              "$data": "${projects}",
+              "title": "${name}",
+              "value": "${time}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
