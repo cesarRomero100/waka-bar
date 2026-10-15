@@ -1,10 +1,7 @@
 using H.NotifyIcon;
-using Microsoft.UI;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using WakaBar.App.Services;
 using WakaBar.Core;
 
@@ -16,9 +13,6 @@ namespace WakaBar.App;
 /// </summary>
 public partial class App : Application
 {
-    /// <summary>Same indigo as the app icon.</summary>
-    private static readonly Windows.UI.Color Brand = Windows.UI.Color.FromArgb(255, 91, 76, 224);
-
     private DispatcherQueue? dispatcher;
     private StatsService? stats;
     private TaskbarIcon? trayIcon;
@@ -87,7 +81,7 @@ public partial class App : Application
         Environment.Exit(0);
     }
 
-    /// <summary>Draws today's time on the icon ("3h", "45m") and puts the details in the tooltip.</summary>
+    /// <summary>Icon with the goal ring; today's time and the goal go in the tooltip.</summary>
     private void UpdateTrayIcon()
     {
         if (trayIcon is null || stats is null)
@@ -97,9 +91,22 @@ public partial class App : Application
 
         var snapshot = stats.Snapshot;
         var today = snapshot?.TodaySecondsAsOf(DateTimeOffset.Now, TimeZoneInfo.Local);
-        trayIcon.IconSource = MakeIcon(today is { } seconds ? ShortDuration(seconds) : "W");
+        var goal = snapshot?.DailyGoalSeconds;
+        // Setting Icon disposes the previous one.
+        trayIcon.Icon = TrayIconRenderer.Render(goal is > 0 ? (today ?? 0) / goal : null);
 
-        var tooltip = today is { } todaySeconds ? $"WakaBar\nToday: {DurationText.Format(todaySeconds)}" : "WakaBar";
+        var tooltip = "WakaBar";
+        if (today is { } todaySeconds)
+        {
+            tooltip += $"\nToday: {DurationText.Format(todaySeconds)}";
+            if (goal is > 0 and { } goalSeconds)
+            {
+                tooltip += todaySeconds >= goalSeconds
+                    ? "\nGoal reached ✓"
+                    : $"\nGoal: {DurationText.Format(goalSeconds - todaySeconds)} to go";
+            }
+        }
+
         if (snapshot is { StreakDays: > 0 })
         {
             tooltip += $"\nStreak: {snapshot.StreakDays} days";
@@ -116,31 +123,4 @@ public partial class App : Application
 
         trayIcon.ToolTipText = tooltip;
     }
-
-    /// <summary>Fits in a small icon: whole hours, or minutes under an hour.</summary>
-    private static string ShortDuration(double seconds)
-    {
-        var minutes = (int)(seconds / 60);
-        return minutes >= 60 ? $"{minutes / 60}h" : $"{minutes}m";
-    }
-
-    /// <summary>
-    /// The icon is drawn on a 128 px canvas, and H.NotifyIcon reads FontSize as points (1 pt = 4/3 px):
-    /// text wider than the canvas wraps and the rest is cut off ("0m" showed as "0").
-    /// </summary>
-    private static GeneratedIconSource MakeIcon(string text) => new()
-    {
-        Text = text,
-        Foreground = new SolidColorBrush(Colors.White),
-        Background = new SolidColorBrush(Brand),
-        BackgroundType = BackgroundType.RoundedRectangle,
-        CornerRadius = new CornerRadius(28),
-        FontWeight = FontWeights.Bold,
-        FontSize = text.Length switch
-        {
-            1 => 60,
-            2 => 46,
-            _ => 36,
-        },
-    };
 }

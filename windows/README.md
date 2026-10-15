@@ -25,7 +25,8 @@ System tray app and Widgets Board widget, in C# and WinUI 3. **In progress.**
 
 - **Left click** the icon: stats window. It hides when you click elsewhere.
 - **Right click**: Refresh, Open dashboard, Settings, Quit.
-- The icon shows today's time ("3h", "45m"); hover it for details.
+- With a daily goal, a ring around the icon fills up as you code and turns green when you reach it.
+  Hover the icon for today's time, the goal and the streak.
 
 ## Layout
 

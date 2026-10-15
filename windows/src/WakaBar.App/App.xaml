@@ -16,7 +16,7 @@
             <XamlUICommand x:Key="SettingsCommand" Label="Settings…" />
             <XamlUICommand x:Key="QuitCommand" Label="Quit WakaBar" />
 
-            <!-- The icon itself is generated in App.xaml.cs, with today's hours drawn on it. -->
+            <!-- The icon is drawn in code (TrayIconRenderer): the app icon plus a daily goal ring. -->
             <tb:TaskbarIcon
                 x:Key="TrayIcon"
                 Visibility="Visible"
