@@ -2,7 +2,6 @@
   "type": "AdaptiveCard",
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.6",
-  "minHeight": "${if($host.widgetSize == 'large', '396px', if($host.widgetSize == 'medium', '236px', '0px'))}",
   "selectAction": {
     "type": "Action.Execute",
     "verb": "open"
@@ -43,7 +42,7 @@
     {
       "type": "Container",
       "$when": "${hasData}",
-      "height": "stretch",
+      "minHeight": "${if($host.widgetSize == 'large', '370px', if($host.widgetSize == 'medium', '210px', '0px'))}",
       "items": [
         {
           "type": "ColumnSet",
