@@ -2,6 +2,7 @@
   "type": "AdaptiveCard",
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.6",
+  "minHeight": "${if($host.widgetSize == 'large', '396px', if($host.widgetSize == 'medium', '236px', '0px'))}",
   "selectAction": {
     "type": "Action.Execute",
     "verb": "open"
@@ -244,6 +245,7 @@
       "text": "See full stats on your dashboard ›",
       "size": "small",
       "isSubtle": true,
+      "horizontalAlignment": "center",
       "spacing": "small"
     }
   ]
