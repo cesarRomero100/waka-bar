@@ -14,15 +14,6 @@ internal static class TrayIconRenderer
     /// <summary>Drawn large; Windows scales it down to the tray size (16-32 px).</summary>
     private const int Size = 64;
 
-    /// <summary>Same indigo as the app icon.</summary>
-    private static readonly Color Brand = Color.FromArgb(91, 76, 224);
-    /// <summary>Amber: stands out from the gray track on light and dark taskbars, unlike a light violet.</summary>
-    private static readonly Color Progress = Color.FromArgb(245, 158, 11);
-    private static readonly Color Reached = Color.FromArgb(34, 197, 94);
-
-    /// <summary>Gray at half opacity: visible on both light and dark taskbars.</summary>
-    private static readonly Color Track = Color.FromArgb(120, 128, 128, 128);
-
     /// <param name="goalProgress">Today's time over the daily goal (1 = reached), or null without a goal.</param>
     public static Icon Render(double? goalProgress)
     {
@@ -54,29 +45,29 @@ internal static class TrayIconRenderer
         }
     }
 
-    /// <summary>The app icon: rounded square with the bars.</summary>
-    private static void DrawPlain(Graphics graphics)
+    /// <summary>The app icon on a 64 px canvas: rounded square with the bars. Also used by the widget.</summary>
+    internal static void DrawPlain(Graphics graphics)
     {
         var body = new RectangleF(2, 2, Size - 4, Size - 4);
-        using var path = RoundedRectangle(body, 14);
-        using var brush = new SolidBrush(Brand);
+        using var path = Shapes.RoundedRectangle(body, 14);
+        using var brush = new SolidBrush(Shapes.Brand);
         graphics.FillPath(brush, path);
-        DrawBars(graphics, Inset(body, body.Width * 0.22f));
+        DrawBars(graphics, Shapes.Inset(body, body.Width * 0.22f));
     }
 
     /// <summary>Circle with the bars inside a progress ring that starts at 12 o'clock.</summary>
     private static void DrawWithRing(Graphics graphics, double progress)
     {
         const float ringWidth = 8;
-        var ring = Inset(new RectangleF(0, 0, Size, Size), ringWidth / 2);
-        using (var track = new Pen(Track, ringWidth))
+        var ring = Shapes.Inset(new RectangleF(0, 0, Size, Size), ringWidth / 2);
+        using (var track = new Pen(Shapes.Track, ringWidth))
         {
             graphics.DrawEllipse(track, ring);
         }
 
         if (progress > 0)
         {
-            using var fill = new Pen(progress >= 1 ? Reached : Progress, ringWidth)
+            using var fill = new Pen(progress >= 1 ? Shapes.Reached : Shapes.Progress, ringWidth)
             {
                 StartCap = LineCap.Round,
                 EndCap = LineCap.Round,
@@ -84,14 +75,14 @@ internal static class TrayIconRenderer
             graphics.DrawArc(fill, ring, -90, (float)(progress * 360));
         }
 
-        var body = Inset(new RectangleF(0, 0, Size, Size), ringWidth + 3);
-        using (var brush = new SolidBrush(Brand))
+        var body = Shapes.Inset(new RectangleF(0, 0, Size, Size), ringWidth + 3);
+        using (var brush = new SolidBrush(Shapes.Brand))
         {
             graphics.FillEllipse(brush, body);
         }
 
         // Bars inside the square that fits in the circle.
-        DrawBars(graphics, Inset(body, body.Width * 0.24f));
+        DrawBars(graphics, Shapes.Inset(body, body.Width * 0.24f));
     }
 
     /// <summary>Three rising bars; the tallest is solid, like today's bar in the charts.</summary>
@@ -107,21 +98,6 @@ internal static class TrayIconRenderer
             using var brush = new SolidBrush(Color.FromArgb(alpha, Color.White));
             graphics.FillRectangle(brush, area.X + (i * (width + gap)), area.Bottom - height, width, height);
         }
-    }
-
-    private static RectangleF Inset(RectangleF rectangle, float amount) =>
-        new(rectangle.X + amount, rectangle.Y + amount, rectangle.Width - (2 * amount), rectangle.Height - (2 * amount));
-
-    private static GraphicsPath RoundedRectangle(RectangleF rectangle, float radius)
-    {
-        var diameter = radius * 2;
-        var path = new GraphicsPath();
-        path.AddArc(rectangle.X, rectangle.Y, diameter, diameter, 180, 90);
-        path.AddArc(rectangle.Right - diameter, rectangle.Y, diameter, diameter, 270, 90);
-        path.AddArc(rectangle.Right - diameter, rectangle.Bottom - diameter, diameter, diameter, 0, 90);
-        path.AddArc(rectangle.X, rectangle.Bottom - diameter, diameter, diameter, 90, 90);
-        path.CloseFigure();
-        return path;
     }
 
     [DllImport("user32.dll")]

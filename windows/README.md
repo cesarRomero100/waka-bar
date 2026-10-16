@@ -8,7 +8,7 @@ System tray app and Widgets Board widget, in C# and WinUI 3. **In progress.**
 |---|---|---|
 | 1 | `WakaBar.Core`: API client, snapshot, streak, goal, projects; tests | Done |
 | 2 | Tray icon and stats window, Settings (API key in Credential Manager, server, goal, launch at startup) | Done |
-| 3 | Widgets Board widget (Adaptive Cards) | Planned |
+| 3 | Widgets Board widget (Adaptive Cards), small / medium / large | Done |
 | 4 | Spanish, store-ready MSIX, publishing | Planned |
 
 ## Run it
@@ -27,6 +27,16 @@ System tray app and Widgets Board widget, in C# and WinUI 3. **In progress.**
 - **Right click**: Refresh, Open dashboard, Settings, Quit.
 - With a daily goal, a ring around the icon fills up as you code and turns green when you reach it.
   Hover the icon for today's time, the goal and the streak.
+- **Widget**: open the Widgets Board (**Win+W**) › **+ Add widgets** › **WakaBar · Coding Time**. Small shows
+  today and the goal; medium adds the last 7 days; large adds languages and projects. Click it to open
+  your dashboard. It's served by the tray app (started automatically if needed) and updates with it.
+
+**Widget missing from the picker after a deploy?** The Widgets Board caches its list of widgets.
+Restart it, then open it again with Win+W:
+
+```powershell
+Stop-Process -Name Widgets, WidgetService -Force -ErrorAction SilentlyContinue
+```
 
 ## Layout
 
@@ -34,6 +44,8 @@ System tray app and Widgets Board widget, in C# and WinUI 3. **In progress.**
 src/WakaBar.Core/           platform-independent logic (net10.0): no Windows APIs
 src/WakaBar.App/            WinUI 3 tray app, packaged as MSIX
   Services/                 settings, refresh loop, snapshot cache, launch at startup
+  Widgets/                  Widgets Board provider (COM), chart and goal bar images
+  Public/                   widget icon and widget picker screenshots
   Assets/                   package images (Scripts/generate-assets.swift, needs a Mac)
 tests/WakaBar.Core.Tests/   xUnit tests, including shared/fixtures from the repo root
 ```
@@ -43,6 +55,8 @@ Both apps parse the same responses in [`../shared/fixtures`](../shared/fixtures)
 numbers listed there; when one side changes behavior, change the other too.
 
 The app is tray-only: its windows are hidden, never closed, and **Quit** ends the process.
+The widget's Adaptive Card template and data live in `WakaBar.Core` (`WidgetTemplate.json`, `WidgetData`),
+so they're unit-tested; a test checks that every `${field}` the template binds exists in the data.
 Launching it again while it runs shows the stats of the running instance (`Program.cs`).
 
 ## Build and test

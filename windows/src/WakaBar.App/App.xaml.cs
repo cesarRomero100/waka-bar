@@ -3,6 +3,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using WakaBar.App.Services;
+using WakaBar.App.Widgets;
 using WakaBar.Core;
 
 namespace WakaBar.App;
@@ -18,6 +19,7 @@ public partial class App : Application
     private TaskbarIcon? trayIcon;
     private FlyoutWindow? flyout;
     private SettingsWindow? settingsWindow;
+    private StatsWidgetProvider? widgetProvider;
 
     public App()
     {
@@ -44,10 +46,26 @@ public partial class App : Application
         // Efficiency mode would also slow down the stats window; refreshes are light anyway.
         trayIcon.ForceCreate(enablesEfficiencyMode: false);
 
+        RegisterWidget();
         _ = stats.RefreshAsync();
         if (!stats.HasApiKey)
         {
             ShowSettings();
+        }
+    }
+
+    /// <summary>Makes the "Coding Time" widget available on the Widgets Board, served by this process.</summary>
+    private void RegisterWidget()
+    {
+        try
+        {
+            widgetProvider = new StatsWidgetProvider(stats!, dispatcher!, ShowSettings);
+            WidgetRegistration.Register(widgetProvider);
+        }
+        catch (Exception)
+        {
+            // Widgets unavailable (e.g. turned off on this PC): the tray app works the same.
+            widgetProvider = null;
         }
     }
 
@@ -75,6 +93,7 @@ public partial class App : Application
 
     private void Quit()
     {
+        WidgetRegistration.Revoke();
         trayIcon?.Dispose();
         stats?.Dispose();
         // Windows are only ever hidden, so nothing would end the app on its own.

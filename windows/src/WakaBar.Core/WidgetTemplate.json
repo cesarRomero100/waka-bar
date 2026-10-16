@@ -1,0 +1,251 @@
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.6",
+  "selectAction": {
+    "type": "Action.Execute",
+    "verb": "open"
+  },
+  "body": [
+    {
+      "type": "Container",
+      "$when": "${!hasData}",
+      "height": "stretch",
+      "verticalContentAlignment": "center",
+      "items": [
+        {
+          "type": "Image",
+          "url": "${appIcon}",
+          "size": "small",
+          "horizontalAlignment": "center",
+          "altText": "WakaBar"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${if(needsKey, 'Add your WakaTime API key in WakaBar to see your stats.', status)}",
+          "size": "small",
+          "wrap": true,
+          "horizontalAlignment": "center",
+          "spacing": "small"
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${needsKey && $host.widgetSize != 'small'}",
+          "text": "Click to open Settings",
+          "size": "small",
+          "isSubtle": true,
+          "horizontalAlignment": "center",
+          "spacing": "small"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$when": "${hasData}",
+      "minHeight": "${if($host.widgetSize == 'large', '370px', if($host.widgetSize == 'medium', '210px', '0px'))}",
+      "items": [
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Today",
+                  "size": "small",
+                  "isSubtle": true
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${today}",
+                  "size": "extraLarge",
+                  "weight": "bolder",
+                  "spacing": "none"
+                },
+                {
+                  "type": "Image",
+                  "$when": "${hasGoal}",
+                  "url": "${goalImage}",
+                  "size": "stretch",
+                  "spacing": "small",
+                  "altText": "${goalText}"
+                },
+                {
+                  "type": "TextBlock",
+                  "$when": "${hasGoal}",
+                  "text": "${goalText}",
+                  "size": "small",
+                  "color": "${if(goalReached, 'good', 'default')}",
+                  "isSubtle": "${!goalReached}",
+                  "spacing": "small"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Last 7 days",
+                  "size": "small",
+                  "isSubtle": true,
+                  "horizontalAlignment": "right"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${week}",
+                  "weight": "bolder",
+                  "horizontalAlignment": "right",
+                  "spacing": "none"
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "${average}",
+                  "size": "small",
+                  "isSubtle": true,
+                  "horizontalAlignment": "right",
+                  "spacing": "none"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${hasStreak && $host.widgetSize != 'small'}",
+          "text": "${streak}",
+          "size": "small",
+          "spacing": "small"
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${hasProject && $host.widgetSize != 'small'}",
+          "text": "${project}",
+          "size": "small",
+          "spacing": "none"
+        },
+        {
+          "type": "Image",
+          "$when": "${$host.widgetSize != 'small'}",
+          "url": "${if($host.hostTheme == 'dark', chartDark, chartLight)}",
+          "size": "stretch",
+          "spacing": "small",
+          "altText": "Coding time over the last 7 days"
+        },
+        {
+          "type": "ColumnSet",
+          "$when": "${$host.widgetSize == 'large' && hasUsage}",
+          "spacing": "medium",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Languages",
+                  "size": "small",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "ColumnSet",
+                  "$data": "${languages}",
+                  "spacing": "none",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${name}",
+                          "size": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${time}",
+                          "size": "small",
+                          "isSubtle": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Projects",
+                  "size": "small",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "ColumnSet",
+                  "$data": "${projects}",
+                  "spacing": "none",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${name}",
+                          "size": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${time}",
+                          "size": "small",
+                          "isSubtle": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${$host.widgetSize == 'large' && !hasUsage}",
+          "text": "${emptyMessage}",
+          "size": "small",
+          "isSubtle": true,
+          "wrap": true,
+          "horizontalAlignment": "center",
+          "spacing": "large"
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "$when": "${hasData && $host.widgetSize != 'small'}",
+      "text": "See full stats on your dashboard ›",
+      "size": "small",
+      "isSubtle": true,
+      "horizontalAlignment": "center",
+      "spacing": "small"
+    }
+  ]
+}

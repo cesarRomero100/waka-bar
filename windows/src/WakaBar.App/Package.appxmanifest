@@ -2,9 +2,11 @@
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap uap5 rescap">
+  IgnorableNamespaces="uap uap3 uap5 com rescap">
 
   <Identity
     Name="WakaBar"
@@ -47,6 +49,69 @@
           EntryPoint="$targetentrypoint$">
           <uap5:StartupTask TaskId="WakaBarStartup" Enabled="false" DisplayName="WakaBar" />
         </uap5:Extension>
+
+        <!-- COM server for the widget provider. If WakaBar isn't running, the Widgets Board starts it;
+             the class is registered in Widgets/WidgetRegistration.cs (same CLSID). -->
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="WakaBar.App.exe" Arguments="-RegisterProcessAsComServer" DisplayName="WakaBar">
+              <com:Class Id="754aec8c-7102-43be-abf4-c1a581be67c7" DisplayName="WakaBar widget provider" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+
+        <!-- The "Coding Time" widget on the Widgets Board (Win+W). -->
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="com.microsoft.windows.widgets" DisplayName="WakaBar" Id="WakaBarWidgets" PublicFolder="Public">
+            <uap3:Properties>
+              <WidgetProvider>
+                <ProviderIcons>
+                  <Icon Path="Public\WidgetIcon.png" />
+                </ProviderIcons>
+                <Activation>
+                  <CreateInstance ClassId="754aec8c-7102-43be-abf4-c1a581be67c7" />
+                </Activation>
+                <Definitions>
+                  <Definition
+                    Id="WakaBar_CodingTime"
+                    DisplayName="Coding Time"
+                    Description="Today, your goal and streak, and the last 7 days from WakaTime."
+                    AdditionalInfoUri="https://github.com/cesarRomero100/waka-bar">
+                    <Capabilities>
+                      <Capability>
+                        <Size Name="small" />
+                      </Capability>
+                      <Capability>
+                        <Size Name="medium" />
+                      </Capability>
+                      <Capability>
+                        <Size Name="large" />
+                      </Capability>
+                    </Capabilities>
+                    <ThemeResources>
+                      <Icons>
+                        <Icon Path="Public\WidgetIcon.png" />
+                      </Icons>
+                      <Screenshots>
+                        <Screenshot Path="Public\WidgetScreenshotLight.png" DisplayAltText="WakaBar widget showing today's coding time, a goal bar and the last 7 days" />
+                      </Screenshots>
+                      <DarkMode>
+                        <Screenshots>
+                          <Screenshot Path="Public\WidgetScreenshotDark.png" DisplayAltText="WakaBar widget showing today's coding time, a goal bar and the last 7 days" />
+                        </Screenshots>
+                      </DarkMode>
+                      <LightMode>
+                        <Screenshots>
+                          <Screenshot Path="Public\WidgetScreenshotLight.png" DisplayAltText="WakaBar widget showing today's coding time, a goal bar and the last 7 days" />
+                        </Screenshots>
+                      </LightMode>
+                    </ThemeResources>
+                  </Definition>
+                </Definitions>
+              </WidgetProvider>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
       </Extensions>
     </Application>
   </Applications>
