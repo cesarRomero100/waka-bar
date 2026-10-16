@@ -2,28 +2,47 @@
   "type": "AdaptiveCard",
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.6",
+  "selectAction": {
+    "type": "Action.Execute",
+    "verb": "open"
+  },
   "body": [
     {
-      "type": "TextBlock",
-      "$when": "${needsKey}",
-      "text": "Open WakaBar and add your API key.",
-      "wrap": true,
-      "isSubtle": true
-    },
-    {
-      "type": "TextBlock",
-      "$when": "${!needsKey && !hasData}",
-      "text": "${status}",
-      "wrap": true,
-      "isSubtle": true
+      "type": "Container",
+      "$when": "${!hasData}",
+      "height": "stretch",
+      "verticalContentAlignment": "center",
+      "items": [
+        {
+          "type": "Image",
+          "url": "${appIcon}",
+          "size": "small",
+          "horizontalAlignment": "center",
+          "altText": "WakaBar"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${if(needsKey, 'Add your WakaTime API key in WakaBar to see your stats.', status)}",
+          "size": "small",
+          "wrap": true,
+          "horizontalAlignment": "center",
+          "spacing": "small"
+        },
+        {
+          "type": "TextBlock",
+          "$when": "${needsKey && $host.widgetSize != 'small'}",
+          "text": "Click to open Settings",
+          "size": "small",
+          "isSubtle": true,
+          "horizontalAlignment": "center",
+          "spacing": "small"
+        }
+      ]
     },
     {
       "type": "Container",
       "$when": "${hasData}",
-      "selectAction": {
-        "type": "Action.Execute",
-        "verb": "dashboard"
-      },
+      "height": "stretch",
       "items": [
         {
           "type": "ColumnSet",
@@ -96,7 +115,7 @@
         },
         {
           "type": "TextBlock",
-          "$when": "${hasStreak}",
+          "$when": "${hasStreak && $host.widgetSize != 'small'}",
           "text": "${streak}",
           "size": "small",
           "spacing": "small"
@@ -113,50 +132,119 @@
           "$when": "${$host.widgetSize != 'small'}",
           "url": "${if($host.hostTheme == 'dark', chartDark, chartLight)}",
           "size": "stretch",
-          "spacing": "medium",
+          "spacing": "small",
           "altText": "Coding time over the last 7 days"
         },
         {
-          "type": "TextBlock",
-          "$when": "${$host.widgetSize == 'large' && count(languages) > 0}",
-          "text": "Languages",
-          "size": "small",
-          "weight": "bolder",
-          "spacing": "medium"
-        },
-        {
-          "type": "FactSet",
-          "$when": "${$host.widgetSize == 'large' && count(languages) > 0}",
-          "spacing": "small",
-          "facts": [
+          "type": "ColumnSet",
+          "$when": "${$host.widgetSize == 'large' && hasUsage}",
+          "spacing": "medium",
+          "columns": [
             {
-              "$data": "${languages}",
-              "title": "${name}",
-              "value": "${time}"
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Languages",
+                  "size": "small",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "ColumnSet",
+                  "$data": "${languages}",
+                  "spacing": "none",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${name}",
+                          "size": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${time}",
+                          "size": "small",
+                          "isSubtle": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Projects",
+                  "size": "small",
+                  "weight": "bolder"
+                },
+                {
+                  "type": "ColumnSet",
+                  "$data": "${projects}",
+                  "spacing": "none",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "stretch",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${name}",
+                          "size": "small"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "auto",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "${time}",
+                          "size": "small",
+                          "isSubtle": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
         {
           "type": "TextBlock",
-          "$when": "${$host.widgetSize == 'large' && count(projects) > 0}",
-          "text": "Projects",
+          "$when": "${$host.widgetSize == 'large' && !hasUsage}",
+          "text": "${emptyMessage}",
           "size": "small",
-          "weight": "bolder",
-          "spacing": "medium"
-        },
-        {
-          "type": "FactSet",
-          "$when": "${$host.widgetSize == 'large' && count(projects) > 0}",
-          "spacing": "small",
-          "facts": [
-            {
-              "$data": "${projects}",
-              "title": "${name}",
-              "value": "${time}"
-            }
-          ]
+          "isSubtle": true,
+          "wrap": true,
+          "horizontalAlignment": "center",
+          "spacing": "large"
         }
       ]
+    },
+    {
+      "type": "TextBlock",
+      "$when": "${hasData && $host.widgetSize != 'small'}",
+      "text": "See full stats on your dashboard ›",
+      "size": "small",
+      "isSubtle": true,
+      "spacing": "small"
     }
   ]
 }

@@ -45,8 +45,8 @@ internal static class TrayIconRenderer
         }
     }
 
-    /// <summary>The app icon: rounded square with the bars.</summary>
-    private static void DrawPlain(Graphics graphics)
+    /// <summary>The app icon on a 64 px canvas: rounded square with the bars. Also used by the widget.</summary>
+    internal static void DrawPlain(Graphics graphics)
     {
         var body = new RectangleF(2, 2, Size - 4, Size - 4);
         using var path = Shapes.RoundedRectangle(body, 14);

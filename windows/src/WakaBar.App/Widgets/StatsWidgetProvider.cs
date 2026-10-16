@@ -12,15 +12,20 @@ namespace WakaBar.App.Widgets;
 /// </summary>
 internal sealed partial class StatsWidgetProvider : IWidgetProvider
 {
+    /// <summary>The same on every update: rendered once.</summary>
+    private static readonly Lazy<string> AppIcon = new(WidgetImages.AppIcon);
+
     private readonly StatsService stats;
     private readonly DispatcherQueue dispatcher;
+    private readonly Action showSettings;
     private readonly HashSet<string> widgetIds = [];
     private readonly Lock gate = new();
 
-    public StatsWidgetProvider(StatsService stats, DispatcherQueue dispatcher)
+    public StatsWidgetProvider(StatsService stats, DispatcherQueue dispatcher, Action showSettings)
     {
         this.stats = stats;
         this.dispatcher = dispatcher;
+        this.showSettings = showSettings;
 
         // Widgets pinned before this launch (restart, crash) keep getting updates.
         // GetWidgetInfos returns null, not an empty array, while no widget is pinned.
@@ -51,18 +56,25 @@ internal sealed partial class StatsWidgetProvider : IWidgetProvider
         }
     }
 
+    /// <summary>A click anywhere on the widget: the dashboard, or Settings while there's no API key.</summary>
     public void OnActionInvoked(WidgetActionInvokedArgs actionInvokedArgs)
     {
-        if (actionInvokedArgs.Verb == "dashboard")
+        if (actionInvokedArgs.Verb != "open")
         {
-            dispatcher.TryEnqueue(() =>
-            {
-                if (stats.DashboardUrl is { } url)
-                {
-                    _ = Windows.System.Launcher.LaunchUriAsync(url);
-                }
-            });
+            return;
         }
+
+        dispatcher.TryEnqueue(() =>
+        {
+            if (!stats.HasApiKey)
+            {
+                showSettings();
+            }
+            else if (stats.DashboardUrl is { } url)
+            {
+                _ = Windows.System.Launcher.LaunchUriAsync(url);
+            }
+        });
     }
 
     /// <summary>The user resized the widget. One template serves every size, but resend so it redraws.</summary>
@@ -110,6 +122,7 @@ internal sealed partial class StatsWidgetProvider : IWidgetProvider
     {
         var snapshot = stats.Snapshot;
         var data = WidgetData.Build(snapshot, stats.HasApiKey, stats.ErrorMessage, DateTimeOffset.Now, TimeZoneInfo.Local);
+        data["appIcon"] = AppIcon.Value;
         if (snapshot is null || data["hasData"]?.GetValue<bool>() != true)
         {
             return data.ToJsonString();

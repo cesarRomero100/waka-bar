@@ -123,7 +123,7 @@ func screenshot(dark: Bool) -> Data {
 
     let hours: [CGFloat] = [2.5, 4.1, 3.2, 1.0, 5.0, 2.2, 3.2]
     let letters = ["M", "T", "W", "T", "F", "S", "S"]
-    let chartTop: CGFloat = 156, chartHeight: CGFloat = 108, slot: CGFloat = 268 / 7
+    let chartTop: CGFloat = 152, chartHeight: CGFloat = 90, slot: CGFloat = 268 / 7
     for (index, value) in hours.enumerated() {
         let barHeight = value / 5 * chartHeight
         let x = 16 + CGFloat(index) * slot + slot * 0.2
@@ -134,6 +134,7 @@ func screenshot(dark: Bool) -> Data {
         ).fill()
         draw(letters[index], x + slot * 0.3 - 4, chartTop + chartHeight + 6, size: 12, color: subtle)
     }
+    draw("See full stats on your dashboard ›", 16, 274, size: 12, color: subtle)
 
     NSGraphicsContext.restoreGraphicsState()
     return rep.representation(using: .png, properties: [:])!

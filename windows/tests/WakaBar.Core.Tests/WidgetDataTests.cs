@@ -93,6 +93,41 @@ public partial class WidgetDataTests
     }
 
     [Fact]
+    public void HasUsageWhenThereIsActivity()
+    {
+        var data = Build(Sample());
+        Assert.True(data["hasUsage"]!.GetValue<bool>());
+        Assert.Equal("", data["emptyMessage"]!.GetValue<string>());
+    }
+
+    [Fact]
+    public void EncouragesCodingWhenTheWeekIsEmpty()
+    {
+        var empty = new Snapshot
+        {
+            UpdatedAt = ApiJson.Now,
+            TodaySeconds = 0,
+            Days = new EquatableArray<DayStat>(ApiJson.Dates(7).Select(date => new DayStat(date, 0))),
+        };
+
+        var data = Build(empty);
+        Assert.False(data["hasUsage"]!.GetValue<bool>());
+        Assert.Contains(data["emptyMessage"]!.GetValue<string>(), WidgetData.EmptyWeekMessages);
+    }
+
+    [Fact]
+    public void ListsAtMostFourLanguages()
+    {
+        var snapshot = Sample() with
+        {
+            Languages = new EquatableArray<UsageStat>(
+                Enumerable.Range(1, 6).Select(i => new UsageStat($"Language {i}", 3600 * (7 - i)))),
+        };
+
+        Assert.Equal(4, Build(snapshot)["languages"]!.AsArray().Count);
+    }
+
+    [Fact]
     public void TemplateIsAnAdaptiveCard()
     {
         var template = JsonNode.Parse(WidgetTemplate.Json)!;

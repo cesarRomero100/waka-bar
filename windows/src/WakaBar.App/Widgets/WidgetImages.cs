@@ -16,9 +16,10 @@ internal static class WidgetImages
     /// <summary>The last 7 days as bars with day letters below; today is highlighted.</summary>
     public static string Chart(IReadOnlyList<DayStat> days, bool dark)
     {
+        // 268 x 80 on the widget: medium and large are 268 px wide inside their margins.
         const int width = 600;
-        const int height = 220;
-        const int labelHeight = 40;
+        const int height = 180;
+        const int labelHeight = 36;
 
         using var bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
         using (var graphics = Graphics.FromImage(bitmap))
@@ -36,7 +37,7 @@ internal static class WidgetImages
                 var barWidth = slot * 0.6f;
                 var chartHeight = height - labelHeight - 8;
 
-                using var font = new Font("Segoe UI", 22, FontStyle.Regular, GraphicsUnit.Pixel);
+                using var font = new Font("Segoe UI", 20, FontStyle.Regular, GraphicsUnit.Pixel);
                 using var labelBrush = new SolidBrush(label);
                 using var centered = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
                 for (var i = 0; i < days.Count; i++)
@@ -54,6 +55,22 @@ internal static class WidgetImages
                     graphics.DrawString(dayName, font, labelBrush, new RectangleF(i * slot, height - labelHeight, slot, labelHeight), centered);
                 }
             }
+        }
+
+        return DataUri(bitmap);
+    }
+
+    /// <summary>The app icon, for the widget's empty states (no API key, loading).</summary>
+    public static string AppIcon()
+    {
+        const int size = 96;
+        using var bitmap = new Bitmap(size, size, PixelFormat.Format32bppArgb);
+        using (var graphics = Graphics.FromImage(bitmap))
+        {
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            graphics.Clear(Color.Transparent);
+            graphics.ScaleTransform(size / 64f, size / 64f);
+            TrayIconRenderer.DrawPlain(graphics);
         }
 
         return DataUri(bitmap);

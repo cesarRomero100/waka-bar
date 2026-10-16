@@ -59,7 +59,7 @@ public partial class App : Application
     {
         try
         {
-            widgetProvider = new StatsWidgetProvider(stats!, dispatcher!);
+            widgetProvider = new StatsWidgetProvider(stats!, dispatcher!, ShowSettings);
             WidgetRegistration.Register(widgetProvider);
         }
         catch (Exception)

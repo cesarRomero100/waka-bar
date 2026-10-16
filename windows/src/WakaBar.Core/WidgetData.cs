@@ -9,7 +9,18 @@ namespace WakaBar.Core;
 public static class WidgetData
 {
     /// <summary>Keys the app sets with rendered images (PNG data URIs).</summary>
-    public static readonly IReadOnlyList<string> AppImageKeys = ["chartLight", "chartDark", "goalImage"];
+    public static readonly IReadOnlyList<string> AppImageKeys = ["appIcon", "chartLight", "chartDark", "goalImage"];
+
+    /// <summary>
+    /// Shown on the large widget when there's no activity this week, instead of empty lists.
+    /// One per day, so it changes now and then without flickering between updates.
+    /// </summary>
+    public static readonly IReadOnlyList<string> EmptyWeekMessages =
+    [
+        "Nothing tracked this week yet. Open your editor and ship a commit: some open-source project is waiting for you. 🚀",
+        "Your keyboard misses you. Pick an issue, write some code, and watch these bars grow. ⌨️",
+        "Zero lines so far. The best time to start coding was yesterday; the second best is now. 💡",
+    ];
 
     public static JsonObject Build(Snapshot? snapshot, bool hasApiKey, string? error, DateTimeOffset now, TimeZoneInfo zone)
     {
@@ -45,13 +56,18 @@ public static class WidgetData
 
         data["languages"] = Usage(snapshot.Languages);
         data["projects"] = Usage(snapshot.Projects);
+        var hasUsage = snapshot.Languages.Count > 0 || snapshot.Projects.Count > 0;
+        data["hasUsage"] = hasUsage;
+        data["emptyMessage"] = hasUsage
+            ? ""
+            : EmptyWeekMessages[Snapshot.LocalDate(now, zone).DayOfYear % EmptyWeekMessages.Count];
         return data;
     }
 
-    /// <summary>Top 5 as { name, time } items for a FactSet.</summary>
+    /// <summary>Top 4 as { name, time } rows: what fits side by side on the large widget.</summary>
     private static JsonArray Usage(IEnumerable<UsageStat> items) =>
         new(items
-            .Take(5)
+            .Take(4)
             .Select(item => (JsonNode?)new JsonObject
             {
                 ["name"] = item.Name,
