@@ -49,10 +49,36 @@
             <!-- Support WakaBar: free, open source, no tracking; ways to give back. Links in SupportLinks.cs. -->
             <StackPanel Spacing="8" Margin="0,8,0,0">
                 <TextBlock x:Uid="SupportTitle" Text="Support WakaBar" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <StackPanel Spacing="6">
+                    <Grid ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="🎁" />
+                        <TextBlock Grid.Column="1" x:Uid="SupportFree" Text="Free and open source" TextWrapping="Wrap" />
+                    </Grid>
+                    <Grid ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="🙈" />
+                        <TextBlock Grid.Column="1" x:Uid="SupportPrivacy" Text="No ads, no tracking: it only talks to your WakaTime server" TextWrapping="Wrap" />
+                    </Grid>
+                    <Grid ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="🔒" />
+                        <TextBlock Grid.Column="1" x:Uid="SupportKey" Text="Your API key stays in Windows Credential Manager" TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
                 <TextBlock
-                    x:Uid="SupportMessage"
-                    Text="WakaBar is free and open source. No ads and no tracking: it only talks to your WakaTime server, and your API key stays in Windows Credential Manager."
-                    TextWrapping="Wrap"
+                    x:Uid="SupportAsk"
+                    Text="If WakaBar helps you, here's how to help it:"
+                    Margin="0,4,0,0"
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <Button x:Name="CoffeeButton" Click="OnBuyMeACoffee">

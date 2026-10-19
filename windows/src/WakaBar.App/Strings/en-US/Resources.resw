@@ -205,9 +205,6 @@
   <data name="SupportTitle.Text" xml:space="preserve">
     <value>Support WakaBar</value>
   </data>
-  <data name="SupportMessage.Text" xml:space="preserve">
-    <value>WakaBar is free and open source. No ads and no tracking: it only talks to your WakaTime server, and your API key stays in Windows Credential Manager.</value>
-  </data>
   <data name="CoffeeButtonText.Text" xml:space="preserve">
     <value>Buy me a coffee</value>
   </data>
@@ -216,5 +213,17 @@
   </data>
   <data name="VersionFormat" xml:space="preserve">
     <value>Version {0}</value>
+  </data>
+  <data name="SupportFree.Text" xml:space="preserve">
+    <value>Free and open source</value>
+  </data>
+  <data name="SupportPrivacy.Text" xml:space="preserve">
+    <value>No ads, no tracking: it only talks to your WakaTime server</value>
+  </data>
+  <data name="SupportKey.Text" xml:space="preserve">
+    <value>Your API key stays in Windows Credential Manager</value>
+  </data>
+  <data name="SupportAsk.Text" xml:space="preserve">
+    <value>If WakaBar helps you, here's how to help it:</value>
   </data>
 </root>

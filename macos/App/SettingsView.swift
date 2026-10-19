@@ -95,26 +95,58 @@ struct SettingsView: View {
     /// Free, open source, no tracking; ways to give back.
     private var supportSection: some View {
         Section("Support WakaBar") {
-            Text(
-                "WakaBar is free and open source. No ads and no tracking: it only talks to your WakaTime server, and your API key stays in your Keychain."
-            )
-            .font(.callout)
-            .foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
-            HStack {
-                if let coffee = SupportLinks.buyMeACoffee {
-                    Link(destination: coffee) {
-                        Label("Buy me a coffee", systemImage: "cup.and.saucer.fill")
-                    }
-                }
-                Link(destination: SupportLinks.gitHub) {
-                    Label("Star it on GitHub", systemImage: "star.fill")
-                }
-                Spacer()
-                Text("Version \(SupportLinks.version)")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
+            VStack(alignment: .leading, spacing: 8) {
+                SupportPoint("Free and open source", systemImage: "gift.fill", color: .pink)
+                SupportPoint(
+                    "No ads, no tracking: it only talks to your WakaTime server",
+                    systemImage: "eye.slash.fill", color: .blue)
+                SupportPoint("Your API key stays in your Keychain", systemImage: "lock.fill", color: .green)
             }
+            .padding(.vertical, 2)
+
+            VStack(alignment: .leading, spacing: 8) {
+                Text("If WakaBar helps you, here's how to help it:")
+                    .font(.callout)
+                    .foregroundStyle(.secondary)
+                HStack {
+                    if let coffee = SupportLinks.buyMeACoffee {
+                        Link(destination: coffee) {
+                            Label("Buy me a coffee", systemImage: "cup.and.saucer.fill")
+                        }
+                    }
+                    Link(destination: SupportLinks.gitHub) {
+                        Label("Star it on GitHub", systemImage: "star.fill")
+                    }
+                    Spacer()
+                    Text("Version \(SupportLinks.version)")
+                        .font(.caption)
+                        .foregroundStyle(.tertiary)
+                }
+            }
+        }
+    }
+}
+
+/// One line of the support section: a colored icon and a short claim.
+private struct SupportPoint: View {
+    let text: LocalizedStringKey
+    let systemImage: String
+    let color: Color
+
+    init(_ text: LocalizedStringKey, systemImage: String, color: Color) {
+        self.text = text
+        self.systemImage = systemImage
+        self.color = color
+    }
+
+    var body: some View {
+        Label {
+            Text(text)
+                .fixedSize(horizontal: false, vertical: true)
+        } icon: {
+            Image(systemName: systemImage)
+                .foregroundStyle(color)
+                .frame(width: 20)
         }
     }
 }
