@@ -73,6 +73,16 @@
         }
       }
     },
+    "Buy me a coffee" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invítame un café"
+          }
+        }
+      }
+    },
     "Coding Time" : {
       "localizations" : {
         "es" : {
@@ -333,6 +343,26 @@
         }
       }
     },
+    "Star it on GitHub" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale una estrella en GitHub"
+          }
+        }
+      }
+    },
+    "Support WakaBar" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apoya a WakaBar"
+          }
+        }
+      }
+    },
     "Today" : {
       "localizations" : {
         "es" : {
@@ -369,6 +399,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Actualizado %@"
+          }
+        }
+      }
+    },
+    "Version %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
+          }
+        }
+      }
+    },
+    "WakaBar is free and open source. No ads and no tracking: it only talks to your WakaTime server, and your API key stays in your Keychain." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WakaBar es gratis y de código abierto. Sin anuncios ni rastreo: solo se comunica con tu servidor de WakaTime, y tu API key se queda en tu Llavero."
           }
         }
       }

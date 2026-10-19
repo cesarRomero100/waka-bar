@@ -202,4 +202,19 @@
   <data name="ErrorOffline" xml:space="preserve">
     <value>Can't reach the server. Check your connection.</value>
   </data>
+  <data name="SupportTitle.Text" xml:space="preserve">
+    <value>Support WakaBar</value>
+  </data>
+  <data name="SupportMessage.Text" xml:space="preserve">
+    <value>WakaBar is free and open source. No ads and no tracking: it only talks to your WakaTime server, and your API key stays in Windows Credential Manager.</value>
+  </data>
+  <data name="CoffeeButtonText.Text" xml:space="preserve">
+    <value>Buy me a coffee</value>
+  </data>
+  <data name="StarButtonText.Text" xml:space="preserve">
+    <value>Star it on GitHub</value>
+  </data>
+  <data name="VersionFormat" xml:space="preserve">
+    <value>Version {0}</value>
+  </data>
 </root>

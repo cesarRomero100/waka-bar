@@ -45,6 +45,34 @@
                 <ProgressRing x:Name="SavingRing" Width="20" Height="20" IsActive="False" />
                 <Button x:Name="SaveButton" x:Uid="SaveButton" Content="Save" Style="{StaticResource AccentButtonStyle}" Click="OnSave" />
             </StackPanel>
+
+            <!-- Support WakaBar: free, open source, no tracking; ways to give back. Links in SupportLinks.cs. -->
+            <StackPanel Spacing="8" Margin="0,8,0,0">
+                <TextBlock x:Uid="SupportTitle" Text="Support WakaBar" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock
+                    x:Uid="SupportMessage"
+                    Text="WakaBar is free and open source. No ads and no tracking: it only talks to your WakaTime server, and your API key stays in Windows Credential Manager."
+                    TextWrapping="Wrap"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button x:Name="CoffeeButton" Click="OnBuyMeACoffee">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="☕" />
+                            <TextBlock x:Uid="CoffeeButtonText" Text="Buy me a coffee" />
+                        </StackPanel>
+                    </Button>
+                    <Button Click="OnStarOnGitHub">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="⭐" />
+                            <TextBlock x:Uid="StarButtonText" Text="Star it on GitHub" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <TextBlock
+                    x:Name="VersionText"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </Window>

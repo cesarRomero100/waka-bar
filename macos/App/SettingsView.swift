@@ -83,11 +83,38 @@ struct SettingsView: View {
                 .keyboardShortcut(.defaultAction)
                 .disabled(saving)
             }
+            supportSection
         }
         .formStyle(.grouped)
         .frame(width: 420)
         .fixedSize(horizontal: false, vertical: true)
         // The user may have changed it in System Settings while this window was closed.
         .onAppear { launchAtLogin = LoginItem.isEnabled }
+    }
+
+    /// Free, open source, no tracking; ways to give back.
+    private var supportSection: some View {
+        Section("Support WakaBar") {
+            Text(
+                "WakaBar is free and open source. No ads and no tracking: it only talks to your WakaTime server, and your API key stays in your Keychain."
+            )
+            .font(.callout)
+            .foregroundStyle(.secondary)
+            .fixedSize(horizontal: false, vertical: true)
+            HStack {
+                if let coffee = SupportLinks.buyMeACoffee {
+                    Link(destination: coffee) {
+                        Label("Buy me a coffee", systemImage: "cup.and.saucer.fill")
+                    }
+                }
+                Link(destination: SupportLinks.gitHub) {
+                    Label("Star it on GitHub", systemImage: "star.fill")
+                }
+                Spacer()
+                Text("Version \(SupportLinks.version)")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+            }
+        }
     }
 }
