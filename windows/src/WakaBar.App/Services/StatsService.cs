@@ -13,7 +13,7 @@ public sealed class StatsService : IDisposable
 {
     public static readonly TimeSpan RefreshInterval = TimeSpan.FromMinutes(5);
 
-    private const string InvalidUrlMessage = "Invalid server URL. It must start with https:// or http://.";
+    private static string InvalidUrlMessage => Strings.Get("ErrorInvalidUrl");
 
     private readonly SettingsStore settings;
     private readonly DispatcherQueue dispatcher;
@@ -93,7 +93,7 @@ public sealed class StatsService : IDisposable
         }
         catch (Exception error)
         {
-            return $"Couldn't save the API key: {error.Message}";
+            return Strings.Format("ErrorSaveKeyFormat", error.Message);
         }
 
         settings.CustomBaseUrl = customUrl;
@@ -171,11 +171,11 @@ public sealed class StatsService : IDisposable
 
     private static string Describe(Exception error) => error switch
     {
-        WakaTimeApiException { IsUnauthorized: true } => "Invalid API key.",
-        WakaTimeApiException api => $"Server returned HTTP {api.StatusCode}.",
-        TaskCanceledException => "The server took too long to answer.",
-        JsonException => "Unexpected response from the server.",
-        _ => "Can't reach the server. Check your connection.",
+        WakaTimeApiException { IsUnauthorized: true } => Strings.Get("ErrorInvalidKey"),
+        WakaTimeApiException api => Strings.Format("ErrorHttpFormat", api.StatusCode),
+        TaskCanceledException => Strings.Get("ErrorTimeout"),
+        JsonException => Strings.Get("ErrorUnexpected"),
+        _ => Strings.Get("ErrorOffline"),
     };
 
     private void OnPowerModeChanged(object? sender, PowerModeChangedEventArgs e)

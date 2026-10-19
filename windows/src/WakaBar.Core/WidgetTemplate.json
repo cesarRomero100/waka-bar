@@ -22,7 +22,7 @@
         },
         {
           "type": "TextBlock",
-          "text": "${if(needsKey, 'Add your WakaTime API key in WakaBar to see your stats.', status)}",
+          "text": "${if(needsKey, text.needsKey, status)}",
           "size": "small",
           "wrap": true,
           "horizontalAlignment": "center",
@@ -31,7 +31,7 @@
         {
           "type": "TextBlock",
           "$when": "${needsKey && $host.widgetSize != 'small'}",
-          "text": "Click to open Settings",
+          "text": "${text.openSettings}",
           "size": "small",
           "isSubtle": true,
           "horizontalAlignment": "center",
@@ -53,7 +53,7 @@
               "items": [
                 {
                   "type": "TextBlock",
-                  "text": "Today",
+                  "text": "${text.today}",
                   "size": "small",
                   "isSubtle": true
                 },
@@ -89,7 +89,7 @@
               "items": [
                 {
                   "type": "TextBlock",
-                  "text": "Last 7 days",
+                  "text": "${text.lastSevenDays}",
                   "size": "small",
                   "isSubtle": true,
                   "horizontalAlignment": "right"
@@ -133,7 +133,7 @@
           "url": "${if($host.hostTheme == 'dark', chartDark, chartLight)}",
           "size": "stretch",
           "spacing": "small",
-          "altText": "Coding time over the last 7 days"
+          "altText": "${text.chartAltText}"
         },
         {
           "type": "ColumnSet",
@@ -146,7 +146,7 @@
               "items": [
                 {
                   "type": "TextBlock",
-                  "text": "Languages",
+                  "text": "${text.languages}",
                   "size": "small",
                   "weight": "bolder"
                 },
@@ -188,7 +188,7 @@
               "items": [
                 {
                   "type": "TextBlock",
-                  "text": "Projects",
+                  "text": "${text.projects}",
                   "size": "small",
                   "weight": "bolder"
                 },
@@ -241,7 +241,7 @@
     {
       "type": "TextBlock",
       "$when": "${hasData && $host.widgetSize != 'small'}",
-      "text": "See full stats on your dashboard ›",
+      "text": "${text.dashboardHint}",
       "size": "small",
       "isSubtle": true,
       "horizontalAlignment": "center",

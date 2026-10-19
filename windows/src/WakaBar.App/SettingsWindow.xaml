@@ -6,10 +6,10 @@
 
     <ScrollViewer>
         <StackPanel Padding="24" Spacing="16">
-            <TextBlock Text="Settings" Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock x:Uid="SettingsTitle" Text="Settings" Style="{StaticResource TitleTextBlockStyle}" />
 
             <StackPanel Spacing="4">
-                <ToggleSwitch x:Name="LaunchAtStartupSwitch" Header="Launch at startup" Toggled="OnLaunchAtStartupToggled" />
+                <ToggleSwitch x:Name="LaunchAtStartupSwitch" x:Uid="LaunchAtStartupSwitch" Header="Launch at startup" Toggled="OnLaunchAtStartupToggled" />
                 <TextBlock
                     x:Name="LaunchAtStartupNote"
                     TextWrapping="Wrap"
@@ -18,16 +18,17 @@
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
             </StackPanel>
 
-            <ComboBox x:Name="GoalBox" Header="Daily goal" MinWidth="180" SelectionChanged="OnGoalChanged" />
+            <ComboBox x:Name="GoalBox" x:Uid="GoalBox" Header="Daily goal" MinWidth="180" SelectionChanged="OnGoalChanged" />
 
             <StackPanel Spacing="4">
-                <PasswordBox x:Name="ApiKeyBox" Header="API key" PlaceholderText="waka_…" />
-                <HyperlinkButton Content="Get your API key" Padding="0" NavigateUri="https://wakatime.com/settings/api-key" />
+                <PasswordBox x:Name="ApiKeyBox" x:Uid="ApiKeyBox" Header="API key" PlaceholderText="waka_…" />
+                <HyperlinkButton x:Uid="GetApiKeyLink" Content="Get your API key" Padding="0" NavigateUri="https://wakatime.com/settings/api-key" />
             </StackPanel>
 
             <StackPanel Spacing="4">
-                <TextBox x:Name="ServerBox" Header="Server URL" PlaceholderText="https://api.wakatime.com/api/v1" />
+                <TextBox x:Name="ServerBox" x:Uid="ServerBox" Header="Server URL" PlaceholderText="https://api.wakatime.com/api/v1" />
                 <TextBlock
+                    x:Uid="ServerHint"
                     Text="Leave empty for WakaTime. For Wakapi use https://&lt;host&gt;/api/compat/wakatime/v1"
                     TextWrapping="Wrap"
                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -42,7 +43,7 @@
 
             <StackPanel Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
                 <ProgressRing x:Name="SavingRing" Width="20" Height="20" IsActive="False" />
-                <Button x:Name="SaveButton" Content="Save" Style="{StaticResource AccentButtonStyle}" Click="OnSave" />
+                <Button x:Name="SaveButton" x:Uid="SaveButton" Content="Save" Style="{StaticResource AccentButtonStyle}" Click="OnSave" />
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

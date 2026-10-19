@@ -71,8 +71,20 @@ let publicDir = outputDir.deletingLastPathComponent().appendingPathComponent("Pu
 try FileManager.default.createDirectory(at: publicDir, withIntermediateDirectories: true)
 try render(width: 64, height: 64, iconFraction: 0.94).write(to: publicDir.appendingPathComponent("WidgetIcon.png"))
 
+/// The mock's texts, per language (Windows picks Public/<language>/ screenshots by the user's language).
+struct Labels {
+    var today = "Today", left = "1h 48m to go", lastSevenDays = "Last 7 days", average = "avg 2h 10m/day"
+    var streak = "🔥 7-day streak", hint = "See full stats on your dashboard ›"
+    var days = ["M", "T", "W", "T", "F", "S", "S"]
+}
+
+let spanish = Labels(
+    today: "Hoy", left: "Faltan 1h 48m", lastSevenDays: "Últimos 7 días", average: "prom. 2h 10m/día",
+    streak: "🔥 Racha de 7 días", hint: "Ver estadísticas completas en tu dashboard ›",
+    days: ["L", "M", "X", "J", "V", "S", "D"])
+
 /// A mock of the medium widget, 300x304 with transparent rounded corners, as the picker requires.
-func screenshot(dark: Bool) -> Data {
+func screenshot(dark: Bool, labels: Labels = Labels()) -> Data {
     let width = 300, height = 304
     let rep = NSBitmapImageRep(
         bitmapDataPlanes: nil, pixelsWide: width, pixelsHigh: height,
@@ -106,23 +118,23 @@ func screenshot(dark: Bool) -> Data {
         attributed.draw(at: NSPoint(x: origin, y: y))
     }
 
-    draw("Today", 16, 14, size: 12, color: subtle)
+    draw(labels.today, 16, 14, size: 12, color: subtle)
     draw("3h 12m", 16, 30, size: 28, color: text, bold: true)
     track.setFill()
     NSBezierPath(roundedRect: NSRect(x: 16, y: 70, width: 140, height: 6), xRadius: 3, yRadius: 3).fill()
     amber.setFill()
     NSBezierPath(roundedRect: NSRect(x: 16, y: 70, width: 90, height: 6), xRadius: 3, yRadius: 3).fill()
-    draw("1h 48m to go", 16, 82, size: 12, color: subtle)
+    draw(labels.left, 16, 82, size: 12, color: subtle)
 
-    draw("Last 7 days", 284, 14, size: 12, color: subtle, right: true)
+    draw(labels.lastSevenDays, 284, 14, size: 12, color: subtle, right: true)
     draw("15h 12m", 284, 30, size: 15, color: text, bold: true, right: true)
-    draw("avg 2h 10m/day", 284, 50, size: 12, color: subtle, right: true)
+    draw(labels.average, 284, 50, size: 12, color: subtle, right: true)
 
-    draw("🔥 7-day streak", 16, 108, size: 12, color: text)
+    draw(labels.streak, 16, 108, size: 12, color: text)
     draw("📁 waka-bar · 2h", 16, 126, size: 12, color: text)
 
     let hours: [CGFloat] = [2.5, 4.1, 3.2, 1.0, 5.0, 2.2, 3.2]
-    let letters = ["M", "T", "W", "T", "F", "S", "S"]
+    let letters = labels.days
     let chartTop: CGFloat = 152, chartHeight: CGFloat = 90, slot: CGFloat = 268 / 7
     for (index, value) in hours.enumerated() {
         let barHeight = value / 5 * chartHeight
@@ -134,7 +146,7 @@ func screenshot(dark: Bool) -> Data {
         ).fill()
         draw(letters[index], x + slot * 0.3 - 4, chartTop + chartHeight + 6, size: 12, color: subtle)
     }
-    draw("See full stats on your dashboard ›", 16, 274, size: 12, color: subtle)
+    draw(labels.hint, 16, 274, size: 12, color: subtle)
 
     NSGraphicsContext.restoreGraphicsState()
     return rep.representation(using: .png, properties: [:])!
@@ -142,4 +154,8 @@ func screenshot(dark: Bool) -> Data {
 
 try screenshot(dark: false).write(to: publicDir.appendingPathComponent("WidgetScreenshotLight.png"))
 try screenshot(dark: true).write(to: publicDir.appendingPathComponent("WidgetScreenshotDark.png"))
+let spanishDir = publicDir.appendingPathComponent("es")
+try FileManager.default.createDirectory(at: spanishDir, withIntermediateDirectories: true)
+try screenshot(dark: false, labels: spanish).write(to: spanishDir.appendingPathComponent("WidgetScreenshotLight.png"))
+try screenshot(dark: true, labels: spanish).write(to: spanishDir.appendingPathComponent("WidgetScreenshotDark.png"))
 print("Wrote the widget icon and screenshots to \(publicDir.path)")

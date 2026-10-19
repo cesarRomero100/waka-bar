@@ -28,6 +28,7 @@ public sealed partial class SettingsWindow : Window
     {
         this.stats = stats;
         InitializeComponent();
+        Title = Strings.Get("SettingsWindowTitle");
         SystemBackdrop = new MicaBackdrop();
         Closed += (_, e) =>
         {
@@ -36,7 +37,7 @@ public sealed partial class SettingsWindow : Window
             AppWindow.Hide();
         };
 
-        GoalBox.Items.Add("Off");
+        GoalBox.Items.Add(Strings.Get("GoalOff"));
         foreach (var hours in GoalHours)
         {
             GoalBox.Items.Add(DurationText.Format(hours * 3600));
@@ -112,8 +113,8 @@ public sealed partial class SettingsWindow : Window
 
         var note = state switch
         {
-            StartupTaskState.DisabledByUser => "Turned off in Task Manager › Startup apps. Turn it back on there.",
-            StartupTaskState.DisabledByPolicy or StartupTaskState.EnabledByPolicy => "Managed by your organization.",
+            StartupTaskState.DisabledByUser => Strings.Get("StartupDisabledByUser"),
+            StartupTaskState.DisabledByPolicy or StartupTaskState.EnabledByPolicy => Strings.Get("StartupManaged"),
             _ => null,
         };
         LaunchAtStartupNote.Text = note ?? "";
@@ -123,7 +124,7 @@ public sealed partial class SettingsWindow : Window
 
     private void ShowStartupError(Exception error)
     {
-        LaunchAtStartupNote.Text = $"Launch at startup isn't available: {error.Message}";
+        LaunchAtStartupNote.Text = Strings.Format("StartupUnavailableFormat", error.Message);
         LaunchAtStartupNote.Visibility = Visibility.Visible;
         LaunchAtStartupSwitch.IsEnabled = false;
     }

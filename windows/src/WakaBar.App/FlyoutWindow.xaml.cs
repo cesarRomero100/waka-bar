@@ -36,6 +36,7 @@ public sealed partial class FlyoutWindow : Window
         this.openDashboard = openDashboard;
         this.quit = quit;
         InitializeComponent();
+        Title = "WakaBar";
 
         SystemBackdrop = new DesktopAcrylicBackdrop();
         var presenter = OverlappedPresenter.Create();
@@ -143,14 +144,16 @@ public sealed partial class FlyoutWindow : Window
         var today = snapshot.TodaySecondsAsOf(DateTimeOffset.Now, TimeZoneInfo.Local);
         TodayText.Text = DurationText.Format(today);
         WeekText.Text = DurationText.Format(snapshot.WeekSeconds);
-        AverageText.Text = $"avg {DurationText.Format(snapshot.DailyAverage)}/day";
+        AverageText.Text = Strings.Format("FlyoutAverageFormat", DurationText.Format(snapshot.DailyAverage));
 
         if (snapshot.DailyGoalSeconds is { } goal)
         {
             var reached = today >= goal;
             GoalPanel.Visibility = Visibility.Visible;
             GoalBar.Value = Math.Min(today / goal, 1);
-            GoalText.Text = reached ? "✓ Goal reached" : $"{DurationText.Format(goal - today)} to go";
+            GoalText.Text = reached
+                ? Strings.Get("FlyoutGoalReached")
+                : Strings.Format("FlyoutGoalLeftFormat", DurationText.Format(goal - today));
             if (reached)
             {
                 var success = Resource<Brush>("SystemFillColorSuccessBrush");
@@ -168,7 +171,7 @@ public sealed partial class FlyoutWindow : Window
             GoalPanel.Visibility = Visibility.Collapsed;
         }
 
-        StreakText.Text = snapshot.StreakDays > 0 ? $"🔥 {snapshot.StreakDays}-day streak" : "";
+        StreakText.Text = snapshot.StreakDays > 0 ? Strings.Plural("FlyoutStreak", snapshot.StreakDays) : "";
         TopProjectText.Text = snapshot.TopProjectToday is { } project ? $"📁 {project.Name}" : "";
         HighlightsRow.Visibility = ShowIf(snapshot.StreakDays > 0 || snapshot.TopProjectToday is not null);
 
@@ -237,7 +240,7 @@ public sealed partial class FlyoutWindow : Window
 
         if (items.Count == 0)
         {
-            UsageList.Children.Add(new TextBlock { Text = "No activity yet.", Style = caption, Foreground = secondary });
+            UsageList.Children.Add(new TextBlock { Text = Strings.Get("FlyoutNoActivity"), Style = caption, Foreground = secondary });
             return;
         }
 
@@ -269,9 +272,9 @@ public sealed partial class FlyoutWindow : Window
         }
 
         var age = DateTimeOffset.Now - snapshot.UpdatedAt;
-        UpdatedText.Text = age < TimeSpan.FromMinutes(1) ? "Updated just now"
-            : age < TimeSpan.FromHours(1) ? $"Updated {(int)age.TotalMinutes} min ago"
-            : $"Updated at {snapshot.UpdatedAt.ToLocalTime():t}";
+        UpdatedText.Text = age < TimeSpan.FromMinutes(1) ? Strings.Get("FlyoutUpdatedNow")
+            : age < TimeSpan.FromHours(1) ? Strings.Format("FlyoutUpdatedMinutesFormat", (int)age.TotalMinutes)
+            : Strings.Format("FlyoutUpdatedAtFormat", snapshot.UpdatedAt.ToLocalTime().ToString("t", CultureInfo.CurrentCulture));
     }
 
     private void OnBreakdownChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args)

@@ -34,7 +34,7 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="WakaBar"
-        Description="Your WakaTime coding stats in the system tray."
+        Description="ms-resource:AppDescription"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
@@ -74,8 +74,8 @@
                 <Definitions>
                   <Definition
                     Id="WakaBar_CodingTime"
-                    DisplayName="Coding Time"
-                    Description="Today, your goal and streak, and the last 7 days from WakaTime."
+                    DisplayName="ms-resource:WidgetDisplayName"
+                    Description="ms-resource:WidgetDescription"
                     AdditionalInfoUri="https://github.com/cesarRomero100/waka-bar">
                     <Capabilities>
                       <Capability>
@@ -93,16 +93,16 @@
                         <Icon Path="Public\WidgetIcon.png" />
                       </Icons>
                       <Screenshots>
-                        <Screenshot Path="Public\WidgetScreenshotLight.png" DisplayAltText="WakaBar widget showing today's coding time, a goal bar and the last 7 days" />
+                        <Screenshot Path="Public\WidgetScreenshotLight.png" DisplayAltText="ms-resource:WidgetScreenshotAltText" />
                       </Screenshots>
                       <DarkMode>
                         <Screenshots>
-                          <Screenshot Path="Public\WidgetScreenshotDark.png" DisplayAltText="WakaBar widget showing today's coding time, a goal bar and the last 7 days" />
+                          <Screenshot Path="Public\WidgetScreenshotDark.png" DisplayAltText="ms-resource:WidgetScreenshotAltText" />
                         </Screenshots>
                       </DarkMode>
                       <LightMode>
                         <Screenshots>
-                          <Screenshot Path="Public\WidgetScreenshotLight.png" DisplayAltText="WakaBar widget showing today's coding time, a goal bar and the last 7 days" />
+                          <Screenshot Path="Public\WidgetScreenshotLight.png" DisplayAltText="ms-resource:WidgetScreenshotAltText" />
                         </Screenshots>
                       </LightMode>
                     </ThemeResources>
