@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Your WakaTime coding stats in the system tray.</value>
+    <comment>Package.appxmanifest</comment>
+  </data>
+  <data name="WidgetDisplayName" xml:space="preserve">
+    <value>Coding Time</value>
+    <comment>Widget name in the widget picker</comment>
+  </data>
+  <data name="WidgetDescription" xml:space="preserve">
+    <value>Today, your goal and streak, and the last 7 days from WakaTime.</value>
+    <comment>Widget picker</comment>
+  </data>
+  <data name="WidgetScreenshotAltText" xml:space="preserve">
+    <value>WakaBar widget showing today's coding time, a goal bar and the last 7 days</value>
+    <comment>Widget picker screenshot</comment>
+  </data>
+  <data name="CommandShowStats" xml:space="preserve">
+    <value>Show stats</value>
+  </data>
+  <data name="CommandRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="CommandOpenDashboard" xml:space="preserve">
+    <value>Open dashboard</value>
+  </data>
+  <data name="CommandSettings" xml:space="preserve">
+    <value>Settings…</value>
+  </data>
+  <data name="CommandQuit" xml:space="preserve">
+    <value>Quit WakaBar</value>
+  </data>
+  <data name="TooltipTodayFormat" xml:space="preserve">
+    <value>Today: {0}</value>
+    <comment>{0}: duration</comment>
+  </data>
+  <data name="TooltipGoalReached" xml:space="preserve">
+    <value>Goal reached ✓</value>
+  </data>
+  <data name="TooltipGoalLeftFormat" xml:space="preserve">
+    <value>Goal: {0} to go</value>
+    <comment>{0}: time left</comment>
+  </data>
+  <data name="TooltipStreakOneFormat" xml:space="preserve">
+    <value>Streak: {0} day</value>
+    <comment>{0}: 1</comment>
+  </data>
+  <data name="TooltipStreakOtherFormat" xml:space="preserve">
+    <value>Streak: {0} days</value>
+    <comment>{0}: number of days</comment>
+  </data>
+  <data name="TooltipAddKey" xml:space="preserve">
+    <value>Add your API key in Settings.</value>
+  </data>
+  <data name="NoKeyTitle.Text" xml:space="preserve">
+    <value>No API key</value>
+  </data>
+  <data name="NoKeyMessage.Text" xml:space="preserve">
+    <value>Add your WakaTime API key to see your stats.</value>
+  </data>
+  <data name="OpenSettingsButton.Content" xml:space="preserve">
+    <value>Open Settings…</value>
+  </data>
+  <data name="TodayLabel.Text" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="LastSevenDaysLabel.Text" xml:space="preserve">
+    <value>Last 7 days</value>
+  </data>
+  <data name="TopProjectText.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Top project today</value>
+  </data>
+  <data name="LanguagesItem.Text" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="ProjectsItem.Text" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="RefreshButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="MoreButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="MenuOpenDashboard.Text" xml:space="preserve">
+    <value>Open dashboard</value>
+  </data>
+  <data name="MenuSettings.Text" xml:space="preserve">
+    <value>Settings…</value>
+  </data>
+  <data name="MenuQuit.Text" xml:space="preserve">
+    <value>Quit WakaBar</value>
+  </data>
+  <data name="FlyoutAverageFormat" xml:space="preserve">
+    <value>avg {0}/day</value>
+    <comment>{0}: duration</comment>
+  </data>
+  <data name="FlyoutGoalReached" xml:space="preserve">
+    <value>✓ Goal reached</value>
+  </data>
+  <data name="FlyoutGoalLeftFormat" xml:space="preserve">
+    <value>{0} to go</value>
+    <comment>{0}: time left</comment>
+  </data>
+  <data name="FlyoutStreakOneFormat" xml:space="preserve">
+    <value>🔥 {0}-day streak</value>
+    <comment>{0}: 1</comment>
+  </data>
+  <data name="FlyoutStreakOtherFormat" xml:space="preserve">
+    <value>🔥 {0}-day streak</value>
+    <comment>{0}: number of days</comment>
+  </data>
+  <data name="FlyoutNoActivity" xml:space="preserve">
+    <value>No activity yet.</value>
+  </data>
+  <data name="FlyoutUpdatedNow" xml:space="preserve">
+    <value>Updated just now</value>
+  </data>
+  <data name="FlyoutUpdatedMinutesFormat" xml:space="preserve">
+    <value>Updated {0} min ago</value>
+    <comment>{0}: minutes</comment>
+  </data>
+  <data name="FlyoutUpdatedAtFormat" xml:space="preserve">
+    <value>Updated at {0}</value>
+    <comment>{0}: time of day</comment>
+  </data>
+  <data name="SettingsTitle.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="LaunchAtStartupSwitch.Header" xml:space="preserve">
+    <value>Launch at startup</value>
+  </data>
+  <data name="GoalBox.Header" xml:space="preserve">
+    <value>Daily goal</value>
+  </data>
+  <data name="ApiKeyBox.Header" xml:space="preserve">
+    <value>API key</value>
+  </data>
+  <data name="GetApiKeyLink.Content" xml:space="preserve">
+    <value>Get your API key</value>
+  </data>
+  <data name="ServerBox.Header" xml:space="preserve">
+    <value>Server URL</value>
+  </data>
+  <data name="ServerHint.Text" xml:space="preserve">
+    <value>Leave empty for WakaTime. For Wakapi use https://&lt;host&gt;/api/compat/wakatime/v1</value>
+  </data>
+  <data name="SaveButton.Content" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>WakaBar Settings</value>
+    <comment>Window title</comment>
+  </data>
+  <data name="GoalOff" xml:space="preserve">
+    <value>Off</value>
+    <comment>Daily goal turned off</comment>
+  </data>
+  <data name="StartupDisabledByUser" xml:space="preserve">
+    <value>Turned off in Task Manager › Startup apps. Turn it back on there.</value>
+  </data>
+  <data name="StartupManaged" xml:space="preserve">
+    <value>Managed by your organization.</value>
+  </data>
+  <data name="StartupUnavailableFormat" xml:space="preserve">
+    <value>Launch at startup isn't available: {0}</value>
+    <comment>{0}: system error</comment>
+  </data>
+  <data name="ErrorInvalidUrl" xml:space="preserve">
+    <value>Invalid server URL. It must start with https:// or http://.</value>
+  </data>
+  <data name="ErrorSaveKeyFormat" xml:space="preserve">
+    <value>Couldn't save the API key: {0}</value>
+    <comment>{0}: system error</comment>
+  </data>
+  <data name="ErrorInvalidKey" xml:space="preserve">
+    <value>Invalid API key.</value>
+  </data>
+  <data name="ErrorHttpFormat" xml:space="preserve">
+    <value>Server returned HTTP {0}.</value>
+    <comment>{0}: status code</comment>
+  </data>
+  <data name="ErrorTimeout" xml:space="preserve">
+    <value>The server took too long to answer.</value>
+  </data>
+  <data name="ErrorUnexpected" xml:space="preserve">
+    <value>Unexpected response from the server.</value>
+  </data>
+  <data name="ErrorOffline" xml:space="preserve">
+    <value>Can't reach the server. Check your connection.</value>
+  </data>
+</root>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Loading" xml:space="preserve">
+    <value>Loading…</value>
+  </data>
+  <data name="AverageFormat" xml:space="preserve">
+    <value>avg {0}/day</value>
+    <comment>{0}: duration, e.g. 2h 10m</comment>
+  </data>
+  <data name="GoalReached" xml:space="preserve">
+    <value>Goal reached ✓</value>
+  </data>
+  <data name="GoalLeftFormat" xml:space="preserve">
+    <value>{0} to go</value>
+    <comment>{0}: time left to reach the daily goal</comment>
+  </data>
+  <data name="StreakOneFormat" xml:space="preserve">
+    <value>🔥 {0}-day streak</value>
+    <comment>{0}: 1</comment>
+  </data>
+  <data name="StreakOtherFormat" xml:space="preserve">
+    <value>🔥 {0}-day streak</value>
+    <comment>{0}: number of days, other than 1</comment>
+  </data>
+  <data name="ProjectFormat" xml:space="preserve">
+    <value>📁 {0} · {1}</value>
+    <comment>{0}: project name, {1}: time today</comment>
+  </data>
+  <data name="EmptyWeek1" xml:space="preserve">
+    <value>Nothing tracked this week yet. Open your editor and ship a commit: some open-source project is waiting for you. 🚀</value>
+    <comment>Large widget, no activity this week</comment>
+  </data>
+  <data name="EmptyWeek2" xml:space="preserve">
+    <value>Your keyboard misses you. Pick an issue, write some code, and watch these bars grow. ⌨️</value>
+    <comment>Large widget, no activity this week</comment>
+  </data>
+  <data name="EmptyWeek3" xml:space="preserve">
+    <value>Zero lines so far. The best time to start coding was yesterday; the second best is now. 💡</value>
+    <comment>Large widget, no activity this week</comment>
+  </data>
+  <data name="WidgetNeedsKey" xml:space="preserve">
+    <value>Add your WakaTime API key in WakaBar to see your stats.</value>
+  </data>
+  <data name="WidgetOpenSettings" xml:space="preserve">
+    <value>Click to open Settings</value>
+  </data>
+  <data name="WidgetToday" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="WidgetLastSevenDays" xml:space="preserve">
+    <value>Last 7 days</value>
+  </data>
+  <data name="WidgetLanguages" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="WidgetProjects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="WidgetDashboardHint" xml:space="preserve">
+    <value>See full stats on your dashboard ›</value>
+  </data>
+  <data name="WidgetChartAltText" xml:space="preserve">
+    <value>Coding time over the last 7 days</value>
+    <comment>Accessibility text for the chart image</comment>
+  </data>
+</root>

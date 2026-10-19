@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Loading" xml:space="preserve">
+    <value>Cargando…</value>
+  </data>
+  <data name="AverageFormat" xml:space="preserve">
+    <value>prom. {0}/día</value>
+  </data>
+  <data name="GoalReached" xml:space="preserve">
+    <value>Meta cumplida ✓</value>
+  </data>
+  <data name="GoalLeftFormat" xml:space="preserve">
+    <value>Faltan {0}</value>
+  </data>
+  <data name="StreakOneFormat" xml:space="preserve">
+    <value>🔥 Racha de {0} día</value>
+  </data>
+  <data name="StreakOtherFormat" xml:space="preserve">
+    <value>🔥 Racha de {0} días</value>
+  </data>
+  <data name="ProjectFormat" xml:space="preserve">
+    <value>📁 {0} · {1}</value>
+  </data>
+  <data name="EmptyWeek1" xml:space="preserve">
+    <value>Aún no hay nada registrado esta semana. Abre tu editor y haz un commit: algún proyecto open source te está esperando. 🚀</value>
+  </data>
+  <data name="EmptyWeek2" xml:space="preserve">
+    <value>Tu teclado te extraña. Elige un issue, escribe algo de código y mira cómo crecen estas barras. ⌨️</value>
+  </data>
+  <data name="EmptyWeek3" xml:space="preserve">
+    <value>Cero líneas hasta ahora. El mejor momento para empezar a programar fue ayer; el segundo mejor es ahora. 💡</value>
+  </data>
+  <data name="WidgetNeedsKey" xml:space="preserve">
+    <value>Agrega tu API key de WakaTime en WakaBar para ver tus estadísticas.</value>
+  </data>
+  <data name="WidgetOpenSettings" xml:space="preserve">
+    <value>Haz clic para abrir Ajustes</value>
+  </data>
+  <data name="WidgetToday" xml:space="preserve">
+    <value>Hoy</value>
+  </data>
+  <data name="WidgetLastSevenDays" xml:space="preserve">
+    <value>Últimos 7 días</value>
+  </data>
+  <data name="WidgetLanguages" xml:space="preserve">
+    <value>Lenguajes</value>
+  </data>
+  <data name="WidgetProjects" xml:space="preserve">
+    <value>Proyectos</value>
+  </data>
+  <data name="WidgetDashboardHint" xml:space="preserve">
+    <value>Ver estadísticas completas en tu dashboard ›</value>
+  </data>
+  <data name="WidgetChartAltText" xml:space="preserve">
+    <value>Tiempo programando en los últimos 7 días</value>
+  </data>
+</root>

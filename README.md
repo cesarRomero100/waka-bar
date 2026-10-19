@@ -20,7 +20,7 @@ Open-source desktop apps and widgets for your [WakaTime](https://wakatime.com) s
 | Platform | Status | Folder |
 |---|---|---|
 | macOS 14+ | Available: menu bar app and desktop widget | [`macos/`](macos) |
-| Windows 11 | In progress: system tray app and Widgets Board widget done; Spanish and packaging next | [`windows/`](windows) |
+| Windows 11 | In progress: system tray app, Widgets Board widget, English and Spanish; Store release next | [`windows/`](windows) |
 
 Each platform is a native app with its own README, build steps and CI.
 

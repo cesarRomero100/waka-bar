@@ -31,15 +31,16 @@ public partial class App : Application
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
+        Strings.UseAppLanguage();
         dispatcher = DispatcherQueue.GetForCurrentThread();
         stats = new StatsService(new SettingsStore(), dispatcher);
         stats.Changed += (_, _) => UpdateTrayIcon();
 
-        Command("ShowStatsCommand").ExecuteRequested += (_, _) => ToggleStats();
-        Command("RefreshCommand").ExecuteRequested += (_, _) => _ = stats.RefreshAsync();
-        Command("OpenDashboardCommand").ExecuteRequested += (_, _) => OpenDashboard();
-        Command("SettingsCommand").ExecuteRequested += (_, _) => ShowSettings();
-        Command("QuitCommand").ExecuteRequested += (_, _) => Quit();
+        Command("ShowStatsCommand", "CommandShowStats").ExecuteRequested += (_, _) => ToggleStats();
+        Command("RefreshCommand", "CommandRefresh").ExecuteRequested += (_, _) => _ = stats.RefreshAsync();
+        Command("OpenDashboardCommand", "CommandOpenDashboard").ExecuteRequested += (_, _) => OpenDashboard();
+        Command("SettingsCommand", "CommandSettings").ExecuteRequested += (_, _) => ShowSettings();
+        Command("QuitCommand", "CommandQuit").ExecuteRequested += (_, _) => Quit();
 
         trayIcon = (TaskbarIcon)Resources["TrayIcon"];
         UpdateTrayIcon();
@@ -69,7 +70,13 @@ public partial class App : Application
         }
     }
 
-    private XamlUICommand Command(string key) => (XamlUICommand)Resources[key];
+    /// <summary>A tray menu command from App.xaml, with its label in the app's language.</summary>
+    private XamlUICommand Command(string key, string label)
+    {
+        var command = (XamlUICommand)Resources[key];
+        command.Label = Strings.Get(label);
+        return command;
+    }
 
     private FlyoutWindow Flyout => flyout ??= new FlyoutWindow(stats!, ShowSettings, OpenDashboard, Quit);
 
@@ -117,18 +124,18 @@ public partial class App : Application
         var tooltip = "WakaBar";
         if (today is { } todaySeconds)
         {
-            tooltip += $"\nToday: {DurationText.Format(todaySeconds)}";
+            tooltip += "\n" + Strings.Format("TooltipTodayFormat", DurationText.Format(todaySeconds));
             if (goal is > 0 and { } goalSeconds)
             {
-                tooltip += todaySeconds >= goalSeconds
-                    ? "\nGoal reached ✓"
-                    : $"\nGoal: {DurationText.Format(goalSeconds - todaySeconds)} to go";
+                tooltip += "\n" + (todaySeconds >= goalSeconds
+                    ? Strings.Get("TooltipGoalReached")
+                    : Strings.Format("TooltipGoalLeftFormat", DurationText.Format(goalSeconds - todaySeconds)));
             }
         }
 
         if (snapshot is { StreakDays: > 0 })
         {
-            tooltip += $"\nStreak: {snapshot.StreakDays} days";
+            tooltip += "\n" + Strings.Plural("TooltipStreak", snapshot.StreakDays);
         }
 
         if (stats.ErrorMessage is { } error)
@@ -137,7 +144,7 @@ public partial class App : Application
         }
         else if (!stats.HasApiKey)
         {
-            tooltip += "\nAdd your API key in Settings.";
+            tooltip += "\n" + Strings.Get("TooltipAddKey");
         }
 
         trayIcon.ToolTipText = tooltip;

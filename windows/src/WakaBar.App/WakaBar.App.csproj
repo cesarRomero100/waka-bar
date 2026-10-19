@@ -17,7 +17,7 @@
   <ItemGroup>
     <Content Include="Assets\*.png" />
     <!-- Widget icon and widget picker screenshots (Package.appxmanifest, PublicFolder). -->
-    <Content Include="Public\*.png" />
+    <Content Include="Public\**\*.png" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 

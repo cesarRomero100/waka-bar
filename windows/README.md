@@ -9,7 +9,8 @@ System tray app and Widgets Board widget, in C# and WinUI 3. **In progress.**
 | 1 | `WakaBar.Core`: API client, snapshot, streak, goal, projects; tests | Done |
 | 2 | Tray icon and stats window, Settings (API key in Credential Manager, server, goal, launch at startup) | Done |
 | 3 | Widgets Board widget (Adaptive Cards), small / medium / large | Done |
-| 4 | Spanish, store-ready MSIX, publishing | Planned |
+| 4a | English and Spanish, following the Windows language | Done |
+| 4b | Distribution (Microsoft Store) | Planned |
 
 ## Run it
 
@@ -81,3 +82,18 @@ dotnet format src/WakaBar.Core/WakaBar.Core.csproj --verify-no-changes
 dotnet format tests/WakaBar.Core.Tests/WakaBar.Core.Tests.csproj --verify-no-changes
 dotnet format whitespace src/WakaBar.App --folder --verify-no-changes
 ```
+
+## Translations
+
+The app follows the Windows display language (English or Spanish; anything else falls back to English).
+
+- **Windows and code** (`src/WakaBar.App/Strings/<language>/Resources.resw`): XAML elements get their text
+  through `x:Uid` (keys like `TodayLabel.Text`); code uses `Strings.Get` / `Strings.Format`. The package
+  manifest uses `ms-resource:` keys from the same files.
+- **Core** (`src/WakaBar.Core/Resources/Strings.resx` and `Strings.es.resx`): the widget's texts, via
+  `CoreStrings`. The app passes its language to Core at startup, so both always match.
+- Shared wording comes from the macOS catalog (`macos/Shared/Localizable.xcstrings`).
+- `TranslationTests` fails if a string is missing in one language or a translation loses a placeholder
+  like `{0}`. To add a language, add a `Strings/<language>` folder and a `Strings.<language>.resx`,
+  then list them in `TranslationTests.Files`.
+- Widget picker screenshots per language live in `Public/<language>/` (`Scripts/generate-assets.swift`).

@@ -16,16 +16,19 @@
                 <!-- First run: no API key yet. -->
                 <StackPanel x:Name="NoKeyPanel" Spacing="10" Padding="0,32,0,0" Visibility="Collapsed">
                     <TextBlock
+                        x:Uid="NoKeyTitle"
                         Text="No API key"
                         HorizontalAlignment="Center"
                         Style="{StaticResource SubtitleTextBlockStyle}" />
                     <TextBlock
+                        x:Uid="NoKeyMessage"
                         Text="Add your WakaTime API key to see your stats."
                         HorizontalAlignment="Center"
                         TextAlignment="Center"
                         TextWrapping="Wrap"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                     <Button
+                        x:Uid="OpenSettingsButton"
                         Content="Open Settings…"
                         HorizontalAlignment="Center"
                         Style="{StaticResource AccentButtonStyle}"
@@ -43,6 +46,7 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Spacing="2">
                             <TextBlock
+                                x:Uid="TodayLabel"
                                 Text="Today"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
@@ -54,6 +58,7 @@
                         </StackPanel>
                         <StackPanel Grid.Column="1" Spacing="2">
                             <TextBlock
+                                x:Uid="LastSevenDaysLabel"
                                 Text="Last 7 days"
                                 HorizontalAlignment="Right"
                                 Style="{StaticResource CaptionTextBlockStyle}"
@@ -76,6 +81,7 @@
                         <TextBlock x:Name="StreakText" Style="{StaticResource CaptionTextBlockStyle}" />
                         <TextBlock
                             x:Name="TopProjectText"
+                            x:Uid="TopProjectText"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
                             TextTrimming="CharacterEllipsis"
@@ -87,8 +93,8 @@
                     <Grid x:Name="ChartGrid" Height="120" ColumnSpacing="6" />
 
                     <SelectorBar x:Name="BreakdownBar" SelectionChanged="OnBreakdownChanged">
-                        <SelectorBarItem x:Name="LanguagesItem" Text="Languages" IsSelected="True" />
-                        <SelectorBarItem x:Name="ProjectsItem" Text="Projects" />
+                        <SelectorBarItem x:Name="LanguagesItem" x:Uid="LanguagesItem" Text="Languages" IsSelected="True" />
+                        <SelectorBarItem x:Name="ProjectsItem" x:Uid="ProjectsItem" Text="Projects" />
                     </SelectorBar>
                     <StackPanel x:Name="UsageList" Spacing="8" />
                 </StackPanel>
@@ -116,6 +122,7 @@
                 Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
             <Button
                 x:Name="RefreshButton"
+                x:Uid="RefreshButton"
                 Grid.Column="1"
                 Padding="8"
                 Background="Transparent"
@@ -125,6 +132,7 @@
                 <FontIcon Glyph="&#xE72C;" FontSize="14" />
             </Button>
             <Button
+                x:Uid="MoreButton"
                 Grid.Column="2"
                 Padding="8"
                 Background="Transparent"
@@ -140,10 +148,10 @@
                                 <Setter Property="Background" Value="{ThemeResource SolidBackgroundFillColorBaseBrush}" />
                             </Style>
                         </MenuFlyout.MenuFlyoutPresenterStyle>
-                        <MenuFlyoutItem Text="Open dashboard" Click="OnOpenDashboard" />
-                        <MenuFlyoutItem Text="Settings…" Click="OnOpenSettings" />
+                        <MenuFlyoutItem x:Uid="MenuOpenDashboard" Text="Open dashboard" Click="OnOpenDashboard" />
+                        <MenuFlyoutItem x:Uid="MenuSettings" Text="Settings…" Click="OnOpenSettings" />
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem Text="Quit WakaBar" Click="OnQuit" />
+                        <MenuFlyoutItem x:Uid="MenuQuit" Text="Quit WakaBar" Click="OnQuit" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
