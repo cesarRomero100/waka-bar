@@ -73,6 +73,16 @@
         }
       }
     },
+    "Buy me a coffee" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invítame un café"
+          }
+        }
+      }
+    },
     "Coding Time" : {
       "localizations" : {
         "es" : {
@@ -113,6 +123,16 @@
         }
       }
     },
+    "Free and open source" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gratis y de código abierto"
+          }
+        }
+      }
+    },
     "Get your API key" : {
       "localizations" : {
         "es" : {
@@ -139,6 +159,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Horas"
+          }
+        }
+      }
+    },
+    "If WakaBar helps you, here's how to help it:" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si WakaBar te sirve, así puedes ayudar:"
           }
         }
       }
@@ -209,6 +239,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falta la API key"
+          }
+        }
+      }
+    },
+    "No ads, no tracking: it only talks to your WakaTime server" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin anuncios ni rastreo: solo se comunica con tu servidor de WakaTime"
           }
         }
       }
@@ -333,6 +373,26 @@
         }
       }
     },
+    "Star it on GitHub" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dale una estrella en GitHub"
+          }
+        }
+      }
+    },
+    "Support WakaBar" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apoya a WakaBar"
+          }
+        }
+      }
+    },
     "Today" : {
       "localizations" : {
         "es" : {
@@ -369,6 +429,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Actualizado %@"
+          }
+        }
+      }
+    },
+    "Version %@" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@"
+          }
+        }
+      }
+    },
+    "Your API key stays in your Keychain" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu API key se queda en tu Llavero"
           }
         }
       }

@@ -14,7 +14,7 @@ namespace WakaBar.App;
 public sealed partial class SettingsWindow : Window
 {
     private const int WidthDip = 520;
-    private const int HeightDip = 640;
+    private const int HeightDip = 760;
 
     /// <summary>Daily goal choices, in hours. Index 0 of the combo box is "Off".</summary>
     private static readonly double[] GoalHours = [0.5, 1, 1.5, 2, 3, 4, 5, 6, 8];
@@ -42,6 +42,9 @@ public sealed partial class SettingsWindow : Window
         {
             GoalBox.Items.Add(DurationText.Format(hours * 3600));
         }
+
+        CoffeeButton.Visibility = SupportLinks.BuyMeACoffee is null ? Visibility.Collapsed : Visibility.Visible;
+        VersionText.Text = Strings.Format("VersionFormat", SupportLinks.Version);
 
         updating = false;
     }
@@ -138,6 +141,17 @@ public sealed partial class SettingsWindow : Window
 
         stats.SetDailyGoal(GoalBox.SelectedIndex == 0 ? 0 : GoalHours[GoalBox.SelectedIndex - 1] * 3600);
     }
+
+    private void OnBuyMeACoffee(object sender, RoutedEventArgs e)
+    {
+        if (SupportLinks.BuyMeACoffee is { } url)
+        {
+            _ = Windows.System.Launcher.LaunchUriAsync(url);
+        }
+    }
+
+    private void OnStarOnGitHub(object sender, RoutedEventArgs e) =>
+        _ = Windows.System.Launcher.LaunchUriAsync(SupportLinks.GitHub);
 
     private async void OnSave(object sender, RoutedEventArgs e)
     {

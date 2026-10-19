@@ -2,13 +2,17 @@ import Charts
 import SwiftUI
 
 /// Bar chart of the last 7 days. Today is highlighted.
+///
+/// Days are categories (one key per date), so each day letter sits centered under its bar:
+/// a date axis needs `AxisValueLabel(centered:)` for that, which Swift Charts now rejects.
 struct WeekChart: View {
     let days: [DayStat]
 
     var body: some View {
+        let dates = Dictionary(days.map { (Self.key($0.date), $0.date) }, uniquingKeysWith: { first, _ in first })
         Chart(days) { day in
             BarMark(
-                x: .value("Day", day.date, unit: .day),
+                x: .value("Day", Self.key(day.date)),
                 y: .value("Hours", day.seconds / 3600)
             )
             .cornerRadius(3)
@@ -16,8 +20,12 @@ struct WeekChart: View {
                 Calendar.current.isDateInToday(day.date) ? Color.accentColor : Color.accentColor.opacity(0.45))
         }
         .chartXAxis {
-            AxisMarks(values: .stride(by: .day)) {
-                AxisValueLabel(format: .dateTime.weekday(.narrow), centered: true)
+            AxisMarks { value in
+                AxisValueLabel {
+                    if let key = value.as(String.self), let date = dates[key] {
+                        Text(date, format: .dateTime.weekday(.narrow))
+                    }
+                }
             }
         }
         .chartYAxis {
@@ -28,6 +36,11 @@ struct WeekChart: View {
                 }
             }
         }
+    }
+
+    /// Unique per day, unlike the narrow weekday names (two "T", two "S").
+    private static func key(_ date: Date) -> String {
+        String(Int(date.timeIntervalSince1970))
     }
 }
 

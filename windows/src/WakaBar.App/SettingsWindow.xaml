@@ -45,6 +45,60 @@
                 <ProgressRing x:Name="SavingRing" Width="20" Height="20" IsActive="False" />
                 <Button x:Name="SaveButton" x:Uid="SaveButton" Content="Save" Style="{StaticResource AccentButtonStyle}" Click="OnSave" />
             </StackPanel>
+
+            <!-- Support WakaBar: free, open source, no tracking; ways to give back. Links in SupportLinks.cs. -->
+            <StackPanel Spacing="8" Margin="0,8,0,0">
+                <TextBlock x:Uid="SupportTitle" Text="Support WakaBar" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <StackPanel Spacing="6">
+                    <Grid ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="🎁" />
+                        <TextBlock Grid.Column="1" x:Uid="SupportFree" Text="Free and open source" TextWrapping="Wrap" />
+                    </Grid>
+                    <Grid ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="🙈" />
+                        <TextBlock Grid.Column="1" x:Uid="SupportPrivacy" Text="No ads, no tracking: it only talks to your WakaTime server" TextWrapping="Wrap" />
+                    </Grid>
+                    <Grid ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="🔒" />
+                        <TextBlock Grid.Column="1" x:Uid="SupportKey" Text="Your API key stays in Windows Credential Manager" TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+                <TextBlock
+                    x:Uid="SupportAsk"
+                    Text="If WakaBar helps you, here's how to help it:"
+                    Margin="0,4,0,0"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button x:Name="CoffeeButton" Click="OnBuyMeACoffee">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="☕" />
+                            <TextBlock x:Uid="CoffeeButtonText" Text="Buy me a coffee" />
+                        </StackPanel>
+                    </Button>
+                    <Button Click="OnStarOnGitHub">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="⭐" />
+                            <TextBlock x:Uid="StarButtonText" Text="Star it on GitHub" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <TextBlock
+                    x:Name="VersionText"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </Window>
