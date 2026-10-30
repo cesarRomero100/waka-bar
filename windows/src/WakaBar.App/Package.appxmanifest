@@ -43,10 +43,11 @@
       </uap:VisualElements>
       <Extensions>
         <!-- "Launch at startup" in Settings. Off until the user turns it on. -->
+        <!-- Extensions get the real exe name: $targetnametoken$ is only replaced on <Application>. -->
         <uap5:Extension
           Category="windows.startupTask"
-          Executable="$targetnametoken$.exe"
-          EntryPoint="$targetentrypoint$">
+          Executable="WakaBar.App.exe"
+          EntryPoint="Windows.FullTrustApplication">
           <uap5:StartupTask TaskId="WakaBarStartup" Enabled="false" DisplayName="WakaBar" />
         </uap5:Extension>
 
