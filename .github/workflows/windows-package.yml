@@ -1,7 +1,8 @@
 name: Windows package
 
-# Builds the Microsoft Store upload (.msixupload) for x64 and ARM64. Upload both files to Partner Center;
-# the Store signs the packages, so this needs no certificate.
+# Builds the MSIX packages for the Microsoft Store, x64 and ARM64. Upload both .msix files to Partner
+# Center; the Store signs them, so this needs no certificate. (Not .msixupload: creating it needs Visual
+# Studio's MSBuild, and the Store takes plain .msix files.)
 #
 # - Tag windows-v1.2.3: packages version 1.2.3.0 (the Store needs the last number to be 0).
 # - Pushes to windows/** branches that touch packaging: checks that the packages still build.
@@ -25,6 +26,7 @@ jobs:
   package:
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         platform: [x64, ARM64]
     defaults:
@@ -56,7 +58,7 @@ jobs:
           -p:Platform=${{ matrix.platform }}
           -p:RuntimeIdentifier=win-${{ matrix.platform == 'x64' && 'x64' || 'arm64' }}
           -p:GenerateAppxPackageOnBuild=true
-          -p:UapAppxPackageBuildMode=StoreUpload
+          -p:UapAppxPackageBuildMode=SideloadOnly
           -p:AppxBundle=Never
           -p:AppxPackageSigningEnabled=false
           -p:AppxPackageDir=${{ github.workspace }}/packages/
@@ -64,5 +66,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: WakaBar-${{ matrix.platform }}
-          path: packages/**/*.msixupload
+          path: packages/**/*.msix
           if-no-files-found: error

@@ -100,8 +100,8 @@ The app follows the Windows display language (English or Spanish; anything else 
 
 ## Publish to the Microsoft Store
 
-The [Windows package](../.github/workflows/windows-package.yml) workflow builds the Store uploads:
-one `.msixupload` for x64 and one for ARM64, unsigned (the Store signs them).
+The [Windows package](../.github/workflows/windows-package.yml) workflow builds the Store packages:
+one `.msix` for x64 and one for ARM64, unsigned (the Store signs them).
 
 **Once**, in [Partner Center](https://partner.microsoft.com/dashboard/apps-and-games/overview):
 
@@ -114,7 +114,7 @@ one `.msixupload` for x64 and one for ARM64, unsigned (the Store signs them).
 
 1. Push a tag `windows-v1.2.3`: the workflow packages version `1.2.3.0`, no manifest edit needed.
    The version must go up with every submission.
-2. Download both `.msixupload` files from the workflow run's artifacts.
+2. Download both `.msix` files from the workflow run's artifacts.
 3. On a Windows PC, run the [Windows App Certification Kit](https://learn.microsoft.com/windows/uwp/debug-test-perf/windows-app-certification-kit)
    on the x64 package. Fix anything it reports.
 4. In Partner Center, create a submission, upload both files and fill in the listing from
