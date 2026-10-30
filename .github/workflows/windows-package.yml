@@ -51,12 +51,14 @@ jobs:
           $manifest.Save((Resolve-Path $path))
           Write-Host "Packaging version $version.0"
 
+      # Self-contained: the Store installs the Windows App Runtime the package depends on, but not .NET.
       - name: Package
         run: >
           dotnet build src/WakaBar.App/WakaBar.App.csproj
           --configuration Release
           -p:Platform=${{ matrix.platform }}
           -p:RuntimeIdentifier=win-${{ matrix.platform == 'x64' && 'x64' || 'arm64' }}
+          -p:SelfContained=true
           -p:GenerateAppxPackageOnBuild=true
           -p:UapAppxPackageBuildMode=SideloadOnly
           -p:AppxBundle=Never
@@ -66,5 +68,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: WakaBar-${{ matrix.platform }}
-          path: packages/**/*.msix
+          # Only WakaBar's package: the Store installs the Windows App Runtime packages in Dependencies/.
+          path: packages/*/WakaBar.App_*.msix
           if-no-files-found: error
