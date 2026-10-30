@@ -1,0 +1,68 @@
+name: Windows package
+
+# Builds the Microsoft Store upload (.msixupload) for x64 and ARM64. Upload both files to Partner Center;
+# the Store signs the packages, so this needs no certificate.
+#
+# - Tag windows-v1.2.3: packages version 1.2.3.0 (the Store needs the last number to be 0).
+# - Pushes to windows/** branches that touch packaging: checks that the packages still build.
+# - Run workflow (Actions tab): packages the version in Package.appxmanifest.
+on:
+  push:
+    tags: ["windows-v*"]
+    branches: ["windows/**"]
+    paths:
+      - windows/src/WakaBar.App/Package.appxmanifest
+      - windows/src/WakaBar.App/WakaBar.App.csproj
+      - windows/src/WakaBar.App/Assets/**
+      - .github/workflows/windows-package.yml
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        platform: [x64, ARM64]
+    defaults:
+      run:
+        working-directory: windows
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: windows/global.json
+
+      - name: Set the version from the tag
+        if: startsWith(github.ref, 'refs/tags/windows-v')
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".Substring("windows-v".Length)
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw "Tag must look like windows-v1.2.3, got ${{ github.ref_name }}" }
+          $path = "src/WakaBar.App/Package.appxmanifest"
+          [xml]$manifest = Get-Content $path
+          $manifest.Package.Identity.Version = "$version.0"
+          $manifest.Save((Resolve-Path $path))
+          Write-Host "Packaging version $version.0"
+
+      - name: Package
+        run: >
+          dotnet build src/WakaBar.App/WakaBar.App.csproj
+          --configuration Release
+          -p:Platform=${{ matrix.platform }}
+          -p:RuntimeIdentifier=win-${{ matrix.platform == 'x64' && 'x64' || 'arm64' }}
+          -p:GenerateAppxPackageOnBuild=true
+          -p:UapAppxPackageBuildMode=StoreUpload
+          -p:AppxBundle=Never
+          -p:AppxPackageSigningEnabled=false
+          -p:AppxPackageDir=${{ github.workspace }}/packages/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WakaBar-${{ matrix.platform }}
+          path: packages/**/*.msixupload
+          if-no-files-found: error
