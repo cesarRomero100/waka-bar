@@ -38,6 +38,8 @@ WakaBar is free and open source, with no ads and no tracking: it only talks to y
 server. If it's useful to you, **star the repo** ⭐, it helps others find it. Both apps link here from
 Settings › Support WakaBar.
 
+Details in the [privacy policy](PRIVACY.md).
+
 ## License
 
 MIT
