@@ -4,8 +4,8 @@ import Foundation
 enum SupportLinks {
     static let gitHub = URL(string: "https://github.com/cesarRomero100/waka-bar")!
 
-    /// Buy Me a Coffee page, e.g. "https://buymeacoffee.com/<username>". The button stays hidden while nil.
-    static let buyMeACoffee: URL? = nil
+    /// Buy Me a Coffee page. The button stays hidden while nil.
+    static let buyMeACoffee: URL? = URL(string: "https://buymeacoffee.com/finsther")
 
     /// "0.1.0", from MARKETING_VERSION.
     static var version: String {
