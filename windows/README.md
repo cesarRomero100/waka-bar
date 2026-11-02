@@ -103,12 +103,9 @@ The app follows the Windows display language (English or Spanish; anything else 
 The [Windows package](../.github/workflows/windows-package.yml) workflow builds the Store packages:
 one `.msix` for x64 and one for ARM64, unsigned (the Store signs them).
 
-**Once**, in [Partner Center](https://partner.microsoft.com/dashboard/apps-and-games/overview):
-
-1. Reserve the name **WakaBar**.
-2. Under **Product identity**, copy `Package/Identity/Name`, `Package/Identity/Publisher` and
-   `Package/Properties/PublisherDisplayName` into `src/WakaBar.App/Package.appxmanifest`. The Store
-   rejects packages whose identity doesn't match.
+The name **WakaBar** is reserved in [Partner Center](https://partner.microsoft.com/dashboard/apps-and-games/overview),
+and its product identity (Product management › Product identity) is in `src/WakaBar.App/Package.appxmanifest`.
+Don't change `Identity` `Name` or `Publisher`: the Store rejects packages that don't match.
 
 **Each release:**
 
