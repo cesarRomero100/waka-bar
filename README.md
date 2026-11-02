@@ -35,8 +35,8 @@ shared/fixtures/  WakaTime API responses that every platform's tests parse
 ## Support
 
 WakaBar is free and open source, with no ads and no tracking: it only talks to your WakaTime (or Wakapi)
-server. If it's useful to you, **star the repo** ⭐, it helps others find it. Both apps link here from
-Settings › Support WakaBar.
+server. If it's useful to you, **star the repo** ⭐, it helps others find it, or
+[buy me a coffee](https://buymeacoffee.com/finsther) ☕. Both apps link to both from Settings › Support WakaBar.
 
 Details in the [privacy policy](PRIVACY.md).
 
