@@ -8,14 +8,16 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap uap3 uap5 com rescap">
 
+  <!-- Product identity reserved in Partner Center (Product management › Product identity).
+       The Store rejects packages whose Name or Publisher don't match it. -->
   <Identity
-    Name="WakaBar"
-    Publisher="CN=WakaBar"
+    Name="14555finsther.WakaBar"
+    Publisher="CN=CE5EE07B-3AB4-43EC-A679-67377B56C8BE"
     Version="0.1.0.0" />
 
   <Properties>
     <DisplayName>WakaBar</DisplayName>
-    <PublisherDisplayName>WakaBar contributors</PublisherDisplayName>
+    <PublisherDisplayName>finsther</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -43,10 +45,11 @@
       </uap:VisualElements>
       <Extensions>
         <!-- "Launch at startup" in Settings. Off until the user turns it on. -->
+        <!-- Extensions get the real exe name: $targetnametoken$ is only replaced on <Application>. -->
         <uap5:Extension
           Category="windows.startupTask"
-          Executable="$targetnametoken$.exe"
-          EntryPoint="$targetentrypoint$">
+          Executable="WakaBar.App.exe"
+          EntryPoint="Windows.FullTrustApplication">
           <uap5:StartupTask TaskId="WakaBarStartup" Enabled="false" DisplayName="WakaBar" />
         </uap5:Extension>
 

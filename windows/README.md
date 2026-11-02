@@ -10,7 +10,7 @@ System tray app and Widgets Board widget, in C# and WinUI 3. **In progress.**
 | 2 | Tray icon and stats window, Settings (API key in Credential Manager, server, goal, launch at startup) | Done |
 | 3 | Widgets Board widget (Adaptive Cards), small / medium / large | Done |
 | 4a | English and Spanish, following the Windows language | Done |
-| 4b | Distribution (Microsoft Store) | Planned |
+| 4b | Distribution (Microsoft Store) | In progress: packaging and listing ready, submission next |
 
 ## Run it
 
@@ -97,3 +97,25 @@ The app follows the Windows display language (English or Spanish; anything else 
   like `{0}`. To add a language, add a `Strings/<language>` folder and a `Strings.<language>.resx`,
   then list them in `TranslationTests.Files`.
 - Widget picker screenshots per language live in `Public/<language>/` (`Scripts/generate-assets.swift`).
+
+## Publish to the Microsoft Store
+
+The [Windows package](../.github/workflows/windows-package.yml) workflow builds the Store packages:
+one `.msix` for x64 and one for ARM64, unsigned (the Store signs them).
+
+The name **WakaBar** is reserved in [Partner Center](https://partner.microsoft.com/dashboard/apps-and-games/overview),
+and its product identity (Product management › Product identity) is in `src/WakaBar.App/Package.appxmanifest`.
+Don't change `Identity` `Name` or `Publisher`: the Store rejects packages that don't match.
+
+**Each release:**
+
+1. Push a tag `windows-v1.2.3`: the workflow packages version `1.2.3.0`, no manifest edit needed.
+   The version must go up with every submission.
+2. Download both `.msix` files from the workflow run's artifacts.
+3. On a Windows PC, run the [Windows App Certification Kit](https://learn.microsoft.com/windows/uwp/debug-test-perf/windows-app-certification-kit)
+   on the x64 package. Fix anything it reports.
+4. In Partner Center, create a submission, upload both files and fill in the listing from
+   [`Store/listing.md`](Store/listing.md) (English and Spanish, screenshots, the `runFullTrust`
+   justification and the notes for certification).
+
+The privacy policy is [`PRIVACY.md`](../PRIVACY.md) at the repo root.

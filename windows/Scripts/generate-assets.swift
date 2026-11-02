@@ -49,15 +49,33 @@ func render(width: Int, height: Int, iconFraction: CGFloat) -> Data {
     return rep.representation(using: .png, properties: [:])!
 }
 
-// File names referenced by Package.appxmanifest; Windows picks the scale-200 variants.
-let assets: [(name: String, width: Int, height: Int, iconFraction: CGFloat)] = [
-    ("Square44x44Logo.scale-200.png", 88, 88, 0.92),
-    ("Square150x150Logo.scale-200.png", 300, 300, 0.6),
-    ("Wide310x150Logo.scale-200.png", 620, 300, 0.6),
-    ("SplashScreen.scale-200.png", 1240, 600, 0.5),
-    ("LockScreenLogo.scale-200.png", 48, 48, 0.92),
-    ("StoreLogo.png", 50, 50, 0.92),
+// Images referenced by Package.appxmanifest, at every scale the Store asks for: Windows picks the one
+// that matches the display's scaling, so the icon stays sharp at 100% to 400%.
+let images: [(name: String, width: Int, height: Int, iconFraction: CGFloat)] = [
+    ("Square44x44Logo", 44, 44, 0.92),
+    ("Square150x150Logo", 150, 150, 0.6),
+    ("Wide310x150Logo", 310, 150, 0.6),
+    ("SplashScreen", 620, 300, 0.5),
+    ("LockScreenLogo", 24, 24, 0.92),
+    ("StoreLogo", 50, 50, 0.92),
 ]
+let scales = [100, 125, 150, 200, 400]
+
+var assets: [(name: String, width: Int, height: Int, iconFraction: CGFloat)] = []
+for image in images {
+    for scale in scales {
+        let width = Int((Double(image.width * scale) / 100).rounded())
+        let height = Int((Double(image.height * scale) / 100).rounded())
+        assets.append(("\(image.name).scale-\(scale).png", width, height, image.iconFraction))
+    }
+}
+
+// The app's icon on the taskbar, Start, Task Manager and Settings. "altform-unplated" draws the icon
+// without a tile behind it, as Windows does for desktop apps.
+for size in [16, 24, 32, 48, 256] {
+    assets.append(("Square44x44Logo.targetsize-\(size).png", size, size, 0.92))
+    assets.append(("Square44x44Logo.targetsize-\(size)_altform-unplated.png", size, size, 0.92))
+}
 
 for asset in assets {
     let data = render(width: asset.width, height: asset.height, iconFraction: asset.iconFraction)
