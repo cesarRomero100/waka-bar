@@ -60,7 +60,7 @@ struct StatsWidgetView: View {
         } else {
             VStack(spacing: 6) {
                 Image(systemName: "chart.bar.fill").font(.title2)
-                Text("Open WakaBar and add your API key.")
+                Text("Open WakaBar and add your token.")
                     .font(.caption)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.secondary)

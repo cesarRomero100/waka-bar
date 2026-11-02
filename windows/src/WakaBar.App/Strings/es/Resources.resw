@@ -55,13 +55,13 @@
     <value>Racha: {0} días</value>
   </data>
   <data name="TooltipAddKey" xml:space="preserve">
-    <value>Agrega tu API key en Ajustes.</value>
+    <value>Agrega tu token en Ajustes.</value>
   </data>
   <data name="NoKeyTitle.Text" xml:space="preserve">
-    <value>Falta la API key</value>
+    <value>Falta el token</value>
   </data>
   <data name="NoKeyMessage.Text" xml:space="preserve">
-    <value>Agrega tu API key de WakaTime para ver tus estadísticas.</value>
+    <value>Agrega tu token de WakaTime para ver tus estadísticas.</value>
   </data>
   <data name="OpenSettingsButton.Content" xml:space="preserve">
     <value>Abrir ajustes…</value>
@@ -133,16 +133,16 @@
     <value>Meta diaria</value>
   </data>
   <data name="ApiKeyBox.Header" xml:space="preserve">
-    <value>API key</value>
+    <value>Token</value>
   </data>
   <data name="GetApiKeyLink.Content" xml:space="preserve">
-    <value>Obtén tu API key</value>
+    <value>Obtén tu token de WakaTime</value>
   </data>
   <data name="ServerBox.Header" xml:space="preserve">
     <value>URL del servidor</value>
   </data>
   <data name="ServerHint.Text" xml:space="preserve">
-    <value>Déjalo vacío para WakaTime. Para Wakapi usa https://&lt;host&gt;/api/compat/wakatime/v1</value>
+    <value>Déjalo vacío para WakaTime. Para Wakapi usa https://&lt;host&gt;/api/compat/wakatime/v1 y tu API key de Wakapi como token.</value>
   </data>
   <data name="SaveButton.Content" xml:space="preserve">
     <value>Guardar</value>
@@ -166,10 +166,13 @@
     <value>URL del servidor inválida. Debe empezar con https:// o http://.</value>
   </data>
   <data name="ErrorSaveKeyFormat" xml:space="preserve">
-    <value>No se pudo guardar la API key: {0}</value>
+    <value>No se pudo guardar el token: {0}</value>
   </data>
   <data name="ErrorInvalidKey" xml:space="preserve">
-    <value>API key inválida.</value>
+    <value>Token inválido.</value>
+  </data>
+  <data name="ErrorForbidden" xml:space="preserve">
+    <value>Acceso denegado. Las API keys de WakaTime ya no pueden leer estadísticas: usa tu token de wakatime.com/oauth.</value>
   </data>
   <data name="ErrorHttpFormat" xml:space="preserve">
     <value>El servidor respondió HTTP {0}.</value>
@@ -202,7 +205,7 @@
     <value>Sin anuncios ni rastreo: solo se comunica con tu servidor de WakaTime</value>
   </data>
   <data name="SupportKey.Text" xml:space="preserve">
-    <value>Tu API key se queda en el Administrador de credenciales de Windows</value>
+    <value>Tu token se queda en el Administrador de credenciales de Windows</value>
   </data>
   <data name="SupportAsk.Text" xml:space="preserve">
     <value>Si WakaBar te sirve, así puedes ayudar:</value>

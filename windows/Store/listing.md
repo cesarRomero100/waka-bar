@@ -24,9 +24,9 @@ Partner Center asks why the app uses it. Paste:
 
 ## Notes for certification
 
-> WakaBar shows coding stats from WakaTime and needs an API key. To test it: create a free account at
-> https://wakatime.com/signup, copy the key from https://wakatime.com/settings/api-key and paste it in the
-> Settings window that opens on first launch. A new account has no coding time yet, so the stats show
+> WakaBar shows coding stats from WakaTime and needs a WakaTime token. To test it: create a free account at
+> https://wakatime.com/signup, get your token at https://wakatime.com/oauth and paste it in the Settings
+> window that opens on first launch. A new account has no coding time yet, so the stats show
 > 0 min and the widget shows its empty state; that's expected. WakaBar lives in the system tray (open the ^
 > overflow next to the clock). The widget is in the Widgets Board: Win+W > Add widgets > WakaBar.
 
@@ -51,7 +51,7 @@ your top languages or projects. Set a daily goal and a ring around the icon fill
 green when you reach it. Keep a streak going by coding every day.
 
 Works with WakaTime and with self-hosted servers like Wakapi. WakaBar is free and open source, with no
-ads and no tracking: it only talks to your WakaTime server, and your API key stays in Windows Credential
+ads and no tracking: it only talks to your WakaTime server, and your token stays in Windows Credential
 Manager.
 
 You need a WakaTime account and the WakaTime plugin in your editor, so there's coding time to show.
@@ -97,7 +97,7 @@ del ícono se llena mientras programas, y se pone verde cuando la cumples. Mant�
 todos los días.
 
 Funciona con WakaTime y con servidores propios como Wakapi. WakaBar es gratis y de código abierto, sin
-anuncios ni rastreo: solo se conecta a tu servidor de WakaTime, y tu API key se queda en el Administrador
+anuncios ni rastreo: solo se conecta a tu servidor de WakaTime, y tu token se queda en el Administrador
 de credenciales de Windows.
 
 Necesitas una cuenta de WakaTime y el plugin de WakaTime en tu editor, para que haya tiempo que mostrar.

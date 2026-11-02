@@ -15,9 +15,9 @@ struct MenuContentView: View {
         VStack(alignment: .leading, spacing: 14) {
             if !model.hasAPIKey {
                 ContentUnavailableView {
-                    Label("No API key", systemImage: "key")
+                    Label("No token", systemImage: "key")
                 } description: {
-                    Text("Add your WakaTime API key to see your stats.")
+                    Text("Add your WakaTime token to see your stats.")
                 } actions: {
                     Button("Open Settings…", action: showSettings)
                 }

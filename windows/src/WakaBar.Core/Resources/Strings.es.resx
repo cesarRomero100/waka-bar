@@ -43,7 +43,7 @@
     <value>Cero líneas hasta ahora. El mejor momento para empezar a programar fue ayer; el segundo mejor es ahora. 💡</value>
   </data>
   <data name="WidgetNeedsKey" xml:space="preserve">
-    <value>Agrega tu API key de WakaTime en WakaBar para ver tus estadísticas.</value>
+    <value>Agrega tu token de WakaTime en WakaBar para ver tus estadísticas.</value>
   </data>
   <data name="WidgetOpenSettings" xml:space="preserve">
     <value>Haz clic para abrir Ajustes</value>

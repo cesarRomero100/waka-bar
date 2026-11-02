@@ -21,15 +21,15 @@
             <ComboBox x:Name="GoalBox" x:Uid="GoalBox" Header="Daily goal" MinWidth="180" SelectionChanged="OnGoalChanged" />
 
             <StackPanel Spacing="4">
-                <PasswordBox x:Name="ApiKeyBox" x:Uid="ApiKeyBox" Header="API key" PlaceholderText="waka_…" />
-                <HyperlinkButton x:Uid="GetApiKeyLink" Content="Get your API key" Padding="0" NavigateUri="https://wakatime.com/settings/api-key" />
+                <PasswordBox x:Name="ApiKeyBox" x:Uid="ApiKeyBox" Header="Token" PlaceholderText="waka_tok_…" />
+                <HyperlinkButton x:Uid="GetApiKeyLink" Content="Get your WakaTime token" Padding="0" NavigateUri="https://wakatime.com/oauth" />
             </StackPanel>
 
             <StackPanel Spacing="4">
                 <TextBox x:Name="ServerBox" x:Uid="ServerBox" Header="Server URL" PlaceholderText="https://api.wakatime.com/api/v1" />
                 <TextBlock
                     x:Uid="ServerHint"
-                    Text="Leave empty for WakaTime. For Wakapi use https://&lt;host&gt;/api/compat/wakatime/v1"
+                    Text="Leave empty for WakaTime. For Wakapi use https://&lt;host&gt;/api/compat/wakatime/v1 and your Wakapi API key as the token."
                     TextWrapping="Wrap"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
@@ -72,7 +72,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="🔒" />
-                        <TextBlock Grid.Column="1" x:Uid="SupportKey" Text="Your API key stays in Windows Credential Manager" TextWrapping="Wrap" />
+                        <TextBlock Grid.Column="1" x:Uid="SupportKey" Text="Your token stays in Windows Credential Manager" TextWrapping="Wrap" />
                     </Grid>
                 </StackPanel>
                 <TextBlock

@@ -178,6 +178,27 @@ struct WakaTimeClientHTTPTests {
         #expect(headers == [expected, expected])
     }
 
+    @Test func authenticatesWithABearerTokenOnWakaTime() async throws {
+        respond(status: 200)
+        let wakaTime = WakaTimeClient(
+            baseURL: URL(string: WakaTimeClient.defaultBaseURL)!,
+            apiKey: "waka_tok_test",
+            session: StubURLProtocol.session()
+        )
+        _ = try await wakaTime.fetchSnapshot()
+
+        let headers = StubURLProtocol.requests.all.map { $0.value(forHTTPHeaderField: "Authorization") }
+        #expect(headers == ["Bearer waka_tok_test", "Bearer waka_tok_test"])
+    }
+
+    @Test func reportsARefusedTokenWithoutFallingBack() async {
+        respond(status: 403)
+        await #expect(throws: WakaTimeClient.ClientError.forbidden) {
+            try await client.fetchSnapshot()
+        }
+        #expect(!requestedURLs.contains { $0.hasSuffix("range=last_7_days") })
+    }
+
     @Test func reportsAnInvalidAPIKeyWithoutFallingBack() async {
         respond(status: 401)
         await #expect(throws: WakaTimeClient.ClientError.unauthorized) {

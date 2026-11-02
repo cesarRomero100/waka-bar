@@ -33,22 +33,22 @@
         }
       }
     },
-    "API key" : {
+    "Access denied. WakaTime API keys can't read stats anymore: use your token from wakatime.com/oauth." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "API key"
+            "value" : "Acceso denegado. Las API keys de WakaTime ya no pueden leer estadísticas: usa tu token de wakatime.com/oauth."
           }
         }
       }
     },
-    "Add your WakaTime API key to see your stats." : {
+    "Add your WakaTime token to see your stats." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Agrega tu API key de WakaTime para ver tus estadísticas."
+            "value" : "Agrega tu token de WakaTime para ver tus estadísticas."
           }
         }
       }
@@ -93,12 +93,12 @@
         }
       }
     },
-    "Couldn't save the API key: %@" : {
+    "Couldn't save the token: %@" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No se pudo guardar la API key: %@"
+            "value" : "No se pudo guardar el token: %@"
           }
         }
       }
@@ -133,12 +133,12 @@
         }
       }
     },
-    "Get your API key" : {
+    "Get your WakaTime token" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obtén tu API key"
+            "value" : "Obtén tu token de WakaTime"
           }
         }
       }
@@ -173,22 +173,22 @@
         }
       }
     },
-    "Invalid API key." : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "API key inválida."
-          }
-        }
-      }
-    },
     "Invalid server URL. It must start with https:// or http://." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "URL del servidor inválida. Debe empezar con https:// o http://."
+          }
+        }
+      }
+    },
+    "Invalid token." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token inválido."
           }
         }
       }
@@ -223,22 +223,12 @@
         }
       }
     },
-    "Leave empty for WakaTime. For Wakapi use https://<host>/api/compat/wakatime/v1" : {
+    "Leave empty for WakaTime. For Wakapi use https://<host>/api/compat/wakatime/v1 and your Wakapi API key as the token." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Déjalo vacío para WakaTime. Para Wakapi usa https://<host>/api/compat/wakatime/v1"
-          }
-        }
-      }
-    },
-    "No API key" : {
-      "localizations" : {
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Falta la API key"
+            "value" : "Déjalo vacío para WakaTime. Para Wakapi usa https://<host>/api/compat/wakatime/v1 y tu API key de Wakapi como token."
           }
         }
       }
@@ -249,6 +239,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sin anuncios ni rastreo: solo se comunica con tu servidor de WakaTime"
+          }
+        }
+      }
+    },
+    "No token" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falta el token"
           }
         }
       }
@@ -293,12 +293,12 @@
         }
       }
     },
-    "Open WakaBar and add your API key." : {
+    "Open WakaBar and add your token." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre WakaBar y agrega tu API key."
+            "value" : "Abre WakaBar y agrega tu token."
           }
         }
       }
@@ -413,6 +413,16 @@
         }
       }
     },
+    "Token" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token"
+          }
+        }
+      }
+    },
     "Top project today" : {
       "localizations" : {
         "es" : {
@@ -443,12 +453,12 @@
         }
       }
     },
-    "Your API key stays in your Keychain" : {
+    "Your token stays in your Keychain" : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tu API key se queda en tu Llavero"
+            "value" : "Tu token se queda en tu Llavero"
           }
         }
       }

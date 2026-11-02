@@ -13,16 +13,16 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Spacing="14">
-                <!-- First run: no API key yet. -->
+                <!-- First run: no token yet. -->
                 <StackPanel x:Name="NoKeyPanel" Spacing="10" Padding="0,32,0,0" Visibility="Collapsed">
                     <TextBlock
                         x:Uid="NoKeyTitle"
-                        Text="No API key"
+                        Text="No token"
                         HorizontalAlignment="Center"
                         Style="{StaticResource SubtitleTextBlockStyle}" />
                     <TextBlock
                         x:Uid="NoKeyMessage"
-                        Text="Add your WakaTime API key to see your stats."
+                        Text="Add your WakaTime token to see your stats."
                         HorizontalAlignment="Center"
                         TextAlignment="Center"
                         TextWrapping="Wrap"
