@@ -2,6 +2,8 @@
 xcuserdata/
 DerivedData/
 build/
+bin/
+obj/
 .DS_Store
 
 # Personal signing settings
