@@ -49,6 +49,6 @@ struct KeychainError: LocalizedError {
 
     var errorDescription: String? {
         let reason = SecCopyErrorMessageString(status, nil) as String? ?? "OSStatus \(status)"
-        return String(localized: "Couldn't save the API key: \(reason)")
+        return String(localized: "Couldn't save the token: \(reason)")
     }
 }

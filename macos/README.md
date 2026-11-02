@@ -20,7 +20,7 @@ open WakaBar.xcodeproj
    own. A team is required because the app and the widget share data through an App Group; a free
    Personal Team works. Don't set signing in Xcode's Signing tab: `xcodegen` overwrites it.
 2. Run the `WakaBar` scheme. Open Settings from the menu bar item and paste your
-   [API key](https://wakatime.com/settings/api-key).
+   [WakaTime token](https://wakatime.com/oauth) (for Wakapi, your Wakapi API key).
 3. Add the widget: right-click the desktop → Edit Widgets → WakaBar.
 
 **Widget still shows the old version after a rebuild?** macOS keeps the previous widget extension
@@ -61,7 +61,7 @@ Tests/      unit tests (Swift Testing): API parsing, snapshot logic, formatting,
 The app polls the API every 5 minutes (`status_bar/today` + `summaries?range=last_30_days`, falling back
 to `last_7_days` if the server refuses 30 days),
 saves a `Snapshot` as JSON in the App Group container and reloads the widget timelines.
-The widget never sees your API key.
+The widget never sees your token.
 
 ## Contributing
 

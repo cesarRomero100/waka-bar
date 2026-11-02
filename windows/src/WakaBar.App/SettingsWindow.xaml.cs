@@ -10,7 +10,7 @@ using WinRT.Interop;
 
 namespace WakaBar.App;
 
-/// <summary>API key, server, daily goal and launch at startup. Mirrors macOS SettingsView.swift.</summary>
+/// <summary>Token, server, daily goal and launch at startup. Mirrors macOS SettingsView.swift.</summary>
 public sealed partial class SettingsWindow : Window
 {
     private const int WidthDip = 520;

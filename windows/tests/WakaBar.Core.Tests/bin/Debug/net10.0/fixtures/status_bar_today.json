@@ -1,0 +1,161 @@
+{
+  "cached_at": "2026-10-09T21:00:00Z",
+  "has_team_features": false,
+  "data": {
+    "grand_total": {
+      "decimal": "3.20",
+      "digital": "3:12",
+      "hours": 3,
+      "minutes": 12,
+      "text": "3 hrs 12 mins",
+      "total_seconds": 11520.0
+    },
+    "categories": [
+      {
+        "name": "Coding",
+        "total_seconds": 11520.0,
+        "percent": 100.0,
+        "digital": "3:12",
+        "decimal": "3.20",
+        "text": "3 hrs 12 mins",
+        "hours": 3,
+        "minutes": 12,
+        "seconds": 0
+      }
+    ],
+    "languages": [
+      {
+        "name": "Swift",
+        "total_seconds": 8400.0,
+        "percent": 72.92,
+        "digital": "2:20",
+        "decimal": "2.33",
+        "text": "2 hrs 20 mins",
+        "hours": 2,
+        "minutes": 20,
+        "seconds": 0
+      },
+      {
+        "name": "YAML",
+        "total_seconds": 1800.0,
+        "percent": 15.62,
+        "digital": "0:30",
+        "decimal": "0.50",
+        "text": "0 hrs 30 mins",
+        "hours": 0,
+        "minutes": 30,
+        "seconds": 0
+      },
+      {
+        "name": "Markdown",
+        "total_seconds": 1320.0,
+        "percent": 11.46,
+        "digital": "0:22",
+        "decimal": "0.37",
+        "text": "0 hrs 22 mins",
+        "hours": 0,
+        "minutes": 22,
+        "seconds": 0
+      }
+    ],
+    "projects": [
+      {
+        "name": "waka-bar",
+        "total_seconds": 7200.0,
+        "percent": 62.5,
+        "digital": "2:00",
+        "decimal": "2.00",
+        "text": "2 hrs 0 mins",
+        "hours": 2,
+        "minutes": 0,
+        "seconds": 0
+      },
+      {
+        "name": "marketplace",
+        "total_seconds": 3600.0,
+        "percent": 31.25,
+        "digital": "1:00",
+        "decimal": "1.00",
+        "text": "1 hrs 0 mins",
+        "hours": 1,
+        "minutes": 0,
+        "seconds": 0
+      },
+      {
+        "name": "dotfiles",
+        "total_seconds": 720.0,
+        "percent": 6.25,
+        "digital": "0:12",
+        "decimal": "0.20",
+        "text": "0 hrs 12 mins",
+        "hours": 0,
+        "minutes": 12,
+        "seconds": 0
+      }
+    ],
+    "editors": [
+      {
+        "name": "Xcode",
+        "total_seconds": 8064.0,
+        "percent": 70.0,
+        "digital": "2:14",
+        "decimal": "2.24",
+        "text": "2 hrs 14 mins",
+        "hours": 2,
+        "minutes": 14,
+        "seconds": 24
+      },
+      {
+        "name": "VS Code",
+        "total_seconds": 3456.0,
+        "percent": 30.0,
+        "digital": "0:57",
+        "decimal": "0.96",
+        "text": "0 hrs 57 mins",
+        "hours": 0,
+        "minutes": 57,
+        "seconds": 36
+      }
+    ],
+    "operating_systems": [
+      {
+        "name": "Mac",
+        "total_seconds": 11520.0,
+        "percent": 100.0,
+        "digital": "3:12",
+        "decimal": "3.20",
+        "text": "3 hrs 12 mins",
+        "hours": 3,
+        "minutes": 12,
+        "seconds": 0
+      }
+    ],
+    "machines": [
+      {
+        "name": "MacBook-Pro",
+        "machine_name_id": "f3a1c2d4",
+        "total_seconds": 11520.0
+      }
+    ],
+    "dependencies": [
+      {
+        "name": "SwiftUI",
+        "total_seconds": 5760.0,
+        "percent": 50.0,
+        "digital": "1:36",
+        "decimal": "1.60",
+        "text": "1 hrs 36 mins",
+        "hours": 1,
+        "minutes": 36,
+        "seconds": 0
+      }
+    ],
+    "range": {
+      "date": "2026-10-09",
+      "start": "2026-10-09T06:00:00Z",
+      "end": "2026-10-10T05:59:59Z",
+      "text": "Fri Oct 9",
+      "timezone": "America/Mexico_City"
+    }
+  }
+}

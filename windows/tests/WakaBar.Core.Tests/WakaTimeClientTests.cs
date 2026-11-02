@@ -48,6 +48,24 @@ public class WakaTimeClientTests
     }
 
     [Fact]
+    public async Task AuthenticatesWithABearerTokenOnWakaTime()
+    {
+        var (client, handler) = Client(HttpStatusCode.OK, baseUrl: WakaTimeClient.DefaultBaseUrl, apiKey: "waka_tok_test");
+        await client.FetchSnapshotAsync();
+        Assert.All(handler.Requests, request => Assert.Equal("Bearer waka_tok_test", request.Headers.Authorization?.ToString()));
+        Assert.Equal(2, handler.Requests.Count);
+    }
+
+    [Fact]
+    public async Task ReportsARefusedTokenWithoutFallingBack()
+    {
+        var (client, handler) = Client(HttpStatusCode.Forbidden);
+        var error = await Assert.ThrowsAsync<WakaTimeApiException>(() => client.FetchSnapshotAsync());
+        Assert.True(error.IsForbidden);
+        Assert.DoesNotContain(RequestedUrls(handler), url => url.EndsWith("range=last_7_days", StringComparison.Ordinal));
+    }
+
+    [Fact]
     public async Task ReportsAnInvalidApiKeyWithoutFallingBack()
     {
         var (client, handler) = Client(HttpStatusCode.Unauthorized);
@@ -68,7 +86,11 @@ public class WakaTimeClientTests
     /// A client whose server answers every request with <paramref name="status"/>,
     /// except <c>range=last_30_days</c>, answered with <paramref name="thirtyDays"/> when given.
     /// </summary>
-    private static (WakaTimeClient Client, FakeHandler Handler) Client(HttpStatusCode status, HttpStatusCode? thirtyDays = null)
+    private static (WakaTimeClient Client, FakeHandler Handler) Client(
+        HttpStatusCode status,
+        HttpStatusCode? thirtyDays = null,
+        string baseUrl = "https://example.com/api/v1",
+        string apiKey = "waka_test_key")
     {
         var handler = new FakeHandler(request =>
         {
@@ -88,8 +110,8 @@ public class WakaTimeClientTests
         });
         var client = new WakaTimeClient(
             new HttpClient(handler),
-            new Uri("https://example.com/api/v1"),
-            "waka_test_key",
+            new Uri(baseUrl),
+            apiKey,
             new FixedTimeProvider(ApiJson.Now));
         return (client, handler);
     }

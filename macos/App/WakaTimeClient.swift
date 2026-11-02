@@ -11,15 +11,25 @@ struct WakaTimeClient {
 
     enum ClientError: LocalizedError, Equatable {
         case unauthorized
+        /// 403. Since November 1, 2026 WakaTime refuses reads with an API key: only OAuth tokens can read stats.
+        case forbidden
         case http(Int)
 
         var errorDescription: String? {
             switch self {
-            case .unauthorized: String(localized: "Invalid API key.")
+            case .unauthorized: String(localized: "Invalid token.")
+            case .forbidden:
+                String(
+                    localized:
+                        "Access denied. WakaTime API keys can't read stats anymore: use your token from wakatime.com/oauth."
+                )
             case .http(let code): String(localized: "Server returned HTTP \(code).")
             }
         }
     }
+
+    /// Where to get a token for wakatime.com. Wakapi keeps using its API key.
+    static let tokenURL = URL(string: "https://wakatime.com/oauth")!
 
     /// The server URL from Settings, if it is an absolute http(s) URL with a host.
     /// Rejects `wakapi.example.com` (no scheme), which URLSession would fail on with a vague error.
@@ -38,7 +48,7 @@ struct WakaTimeClient {
     /// `http://localhost:3000/api/compat/wakatime/v1` → `http://localhost:3000/`.
     static func dashboardURL(forBaseURL baseURL: String) -> URL? {
         guard var components = URLComponents(string: baseURL), let host = components.host else { return nil }
-        if host == "wakatime.com" || host.hasSuffix(".wakatime.com") {
+        if isWakaTime(host: host) {
             return URL(string: "https://wakatime.com/dashboard")
         }
         let segments = components.path.split(separator: "/")
@@ -51,6 +61,19 @@ struct WakaTimeClient {
         return components.url
     }
 
+    static func isWakaTime(host: String) -> Bool {
+        host == "wakatime.com" || host.hasSuffix(".wakatime.com")
+    }
+
+    /// wakatime.com only lets plugins read with an API key, so apps send an OAuth token as a bearer token.
+    /// Other servers (Wakapi) still take the API key with Basic auth.
+    var authorization: String {
+        if let host = baseURL.host(), Self.isWakaTime(host: host) {
+            return "Bearer \(apiKey)"
+        }
+        return "Basic \(Data(apiKey.utf8).base64EncodedString())"
+    }
+
     func fetchSnapshot() async throws -> Snapshot {
         async let today = get("users/current/status_bar/today")
         async let history = fetchHistory()
@@ -58,7 +81,7 @@ struct WakaTimeClient {
     }
 
     /// 30 days so the streak can go past a week. Falls back to 7 days if the server refuses the
-    /// longer range (e.g. plan limits); an invalid key still fails right away.
+    /// longer range (e.g. plan limits); an invalid or refused token still fails right away.
     private func fetchHistory() async throws -> Data {
         do {
             return try await summaries(range: "last_30_days")
@@ -129,11 +152,12 @@ struct WakaTimeClient {
         // appending(queryItems: []) would still add an empty "?".
         if !query.isEmpty { url.append(queryItems: query) }
         var request = URLRequest(url: url)
-        request.setValue("Basic \(Data(apiKey.utf8).base64EncodedString())", forHTTPHeaderField: "Authorization")
+        request.setValue(authorization, forHTTPHeaderField: "Authorization")
 
         let (data, response) = try await session.data(for: request)
         let status = (response as? HTTPURLResponse)?.statusCode ?? 0
         guard status != 401 else { throw ClientError.unauthorized }
+        guard status != 403 else { throw ClientError.forbidden }
         guard (200..<300).contains(status) else { throw ClientError.http(status) }
         return data
     }

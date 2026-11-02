@@ -56,15 +56,17 @@ struct SettingsView: View {
                 }
             }
             Section {
-                SecureField("API key", text: $apiKey, prompt: Text(verbatim: "waka_…"))
-                Link("Get your API key", destination: URL(string: "https://wakatime.com/settings/api-key")!)
+                SecureField("Token", text: $apiKey, prompt: Text(verbatim: "waka_tok_…"))
+                Link("Get your WakaTime token", destination: WakaTimeClient.tokenURL)
                     .font(.caption)
             }
             Section {
                 TextField("Server URL", text: $baseURL, prompt: Text(WakaTimeClient.defaultBaseURL))
-                Text("Leave empty for WakaTime. For Wakapi use https://<host>/api/compat/wakatime/v1")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                Text(
+                    "Leave empty for WakaTime. For Wakapi use https://<host>/api/compat/wakatime/v1 and your Wakapi API key as the token."
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
             }
             if let error = model.errorMessage {
                 Label(error, systemImage: "exclamationmark.triangle")
@@ -100,7 +102,7 @@ struct SettingsView: View {
                 SupportPoint(
                     "No ads, no tracking: it only talks to your WakaTime server",
                     systemImage: "eye.slash.fill", color: .blue)
-                SupportPoint("Your API key stays in your Keychain", systemImage: "lock.fill", color: .green)
+                SupportPoint("Your token stays in your Keychain", systemImage: "lock.fill", color: .green)
             }
             .padding(.vertical, 2)
 

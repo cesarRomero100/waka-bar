@@ -63,13 +63,13 @@
     <comment>{0}: number of days</comment>
   </data>
   <data name="TooltipAddKey" xml:space="preserve">
-    <value>Add your API key in Settings.</value>
+    <value>Add your token in Settings.</value>
   </data>
   <data name="NoKeyTitle.Text" xml:space="preserve">
-    <value>No API key</value>
+    <value>No token</value>
   </data>
   <data name="NoKeyMessage.Text" xml:space="preserve">
-    <value>Add your WakaTime API key to see your stats.</value>
+    <value>Add your WakaTime token to see your stats.</value>
   </data>
   <data name="OpenSettingsButton.Content" xml:space="preserve">
     <value>Open Settings…</value>
@@ -147,16 +147,16 @@
     <value>Daily goal</value>
   </data>
   <data name="ApiKeyBox.Header" xml:space="preserve">
-    <value>API key</value>
+    <value>Token</value>
   </data>
   <data name="GetApiKeyLink.Content" xml:space="preserve">
-    <value>Get your API key</value>
+    <value>Get your WakaTime token</value>
   </data>
   <data name="ServerBox.Header" xml:space="preserve">
     <value>Server URL</value>
   </data>
   <data name="ServerHint.Text" xml:space="preserve">
-    <value>Leave empty for WakaTime. For Wakapi use https://&lt;host&gt;/api/compat/wakatime/v1</value>
+    <value>Leave empty for WakaTime. For Wakapi use https://&lt;host&gt;/api/compat/wakatime/v1 and your Wakapi API key as the token.</value>
   </data>
   <data name="SaveButton.Content" xml:space="preserve">
     <value>Save</value>
@@ -183,11 +183,14 @@
     <value>Invalid server URL. It must start with https:// or http://.</value>
   </data>
   <data name="ErrorSaveKeyFormat" xml:space="preserve">
-    <value>Couldn't save the API key: {0}</value>
+    <value>Couldn't save the token: {0}</value>
     <comment>{0}: system error</comment>
   </data>
   <data name="ErrorInvalidKey" xml:space="preserve">
-    <value>Invalid API key.</value>
+    <value>Invalid token.</value>
+  </data>
+  <data name="ErrorForbidden" xml:space="preserve">
+    <value>Access denied. WakaTime API keys can't read stats anymore: use your token from wakatime.com/oauth.</value>
   </data>
   <data name="ErrorHttpFormat" xml:space="preserve">
     <value>Server returned HTTP {0}.</value>
@@ -221,7 +224,7 @@
     <value>No ads, no tracking: it only talks to your WakaTime server</value>
   </data>
   <data name="SupportKey.Text" xml:space="preserve">
-    <value>Your API key stays in Windows Credential Manager</value>
+    <value>Your token stays in Windows Credential Manager</value>
   </data>
   <data name="SupportAsk.Text" xml:space="preserve">
     <value>If WakaBar helps you, here's how to help it:</value>

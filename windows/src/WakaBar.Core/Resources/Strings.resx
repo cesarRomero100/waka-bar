@@ -51,7 +51,7 @@
     <comment>Large widget, no activity this week</comment>
   </data>
   <data name="WidgetNeedsKey" xml:space="preserve">
-    <value>Add your WakaTime API key in WakaBar to see your stats.</value>
+    <value>Add your WakaTime token in WakaBar to see your stats.</value>
   </data>
   <data name="WidgetOpenSettings" xml:space="preserve">
     <value>Click to open Settings</value>

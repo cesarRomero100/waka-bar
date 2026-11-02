@@ -4,7 +4,7 @@ namespace WakaBar.Core;
 public sealed class WakaTimeApiException : Exception
 {
     public WakaTimeApiException(int statusCode)
-        : base(statusCode == 401 ? "Invalid API key." : $"Server returned HTTP {statusCode}.")
+        : base(statusCode == 401 ? "Invalid token." : $"Server returned HTTP {statusCode}.")
     {
         StatusCode = statusCode;
     }
@@ -12,4 +12,7 @@ public sealed class WakaTimeApiException : Exception
     public int StatusCode { get; }
 
     public bool IsUnauthorized => StatusCode == 401;
+
+    /// <summary>Since November 1, 2026 WakaTime refuses reads with an API key: only OAuth tokens can read stats.</summary>
+    public bool IsForbidden => StatusCode == 403;
 }

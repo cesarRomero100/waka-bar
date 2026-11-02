@@ -172,6 +172,7 @@ public sealed class StatsService : IDisposable
     private static string Describe(Exception error) => error switch
     {
         WakaTimeApiException { IsUnauthorized: true } => Strings.Get("ErrorInvalidKey"),
+        WakaTimeApiException { IsForbidden: true } => Strings.Get("ErrorForbidden"),
         WakaTimeApiException api => Strings.Format("ErrorHttpFormat", api.StatusCode),
         TaskCanceledException => Strings.Get("ErrorTimeout"),
         JsonException => Strings.Get("ErrorUnexpected"),

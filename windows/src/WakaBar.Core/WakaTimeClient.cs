@@ -14,6 +14,9 @@ public sealed class WakaTimeClient
 {
     public const string DefaultBaseUrl = "https://api.wakatime.com/api/v1";
 
+    /// <summary>Where to get a token for wakatime.com. Wakapi keeps using its API key.</summary>
+    public const string TokenUrl = "https://wakatime.com/oauth";
+
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web)
     {
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
@@ -60,7 +63,7 @@ public sealed class WakaTimeClient
             return null;
         }
 
-        if (uri.Host == "wakatime.com" || uri.Host.EndsWith(".wakatime.com", StringComparison.Ordinal))
+        if (IsWakaTime(uri.Host))
         {
             return new Uri("https://wakatime.com/dashboard");
         }
@@ -71,6 +74,17 @@ public sealed class WakaTimeClient
         var path = "/" + string.Concat(prefix.Select(segment => segment + "/"));
         return new UriBuilder(uri.Scheme, uri.Host, uri.IsDefaultPort ? -1 : uri.Port, path).Uri;
     }
+
+    public static bool IsWakaTime(string host) =>
+        host == "wakatime.com" || host.EndsWith(".wakatime.com", StringComparison.Ordinal);
+
+    /// <summary>
+    /// wakatime.com only lets plugins read with an API key, so apps send an OAuth token as a bearer token.
+    /// Other servers (Wakapi) still take the API key with Basic auth.
+    /// </summary>
+    public AuthenticationHeaderValue Authorization => IsWakaTime(baseUrl.Host)
+        ? new AuthenticationHeaderValue("Bearer", apiKey)
+        : new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey)));
 
     public async Task<Snapshot> FetchSnapshotAsync(CancellationToken cancellationToken = default)
     {
@@ -118,7 +132,7 @@ public sealed class WakaTimeClient
 
     /// <summary>
     /// 30 days so the streak can go past a week. Falls back to 7 days if the server refuses the
-    /// longer range (e.g. plan limits); an invalid key still fails right away.
+    /// longer range (e.g. plan limits); an invalid or refused token still fails right away.
     /// </summary>
     private async Task<string> FetchHistoryAsync(CancellationToken cancellationToken)
     {
@@ -126,7 +140,7 @@ public sealed class WakaTimeClient
         {
             return await GetAsync("users/current/summaries", "last_30_days", cancellationToken).ConfigureAwait(false);
         }
-        catch (WakaTimeApiException error) when (!error.IsUnauthorized)
+        catch (WakaTimeApiException error) when (!error.IsUnauthorized && !error.IsForbidden)
         {
             return await GetAsync("users/current/summaries", "last_7_days", cancellationToken).ConfigureAwait(false);
         }
@@ -141,8 +155,7 @@ public sealed class WakaTimeClient
         }
 
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
-        var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey));
-        request.Headers.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+        request.Headers.Authorization = Authorization;
 
         using var response = await http.SendAsync(request, cancellationToken).ConfigureAwait(false);
         if (!response.IsSuccessStatusCode)
