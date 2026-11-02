@@ -32,6 +32,21 @@ pkill -x WakaBarWidget
 
 If it still looks old, remove the widget from the desktop and add it again.
 
+**Widget missing from the gallery, or shown without an icon?** macOS registers every `WakaBar.app` it
+has seen (old DerivedData folders, other clones), and the gallery may pick a stale copy with the same
+bundle ID. List them, unregister the ones you don't use, and run the app from `/Applications`:
+
+```sh
+LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
+$LSREGISTER -dump | grep -E '^path:.*WakaBar\.app'
+$LSREGISTER -u /path/to/old/WakaBar.app
+ditto /path/to/your/build/WakaBar.app /Applications/WakaBar.app
+open /Applications/WakaBar.app
+killall chronod NotificationCenter
+```
+
+After each rebuild, copy the app to `/Applications` again.
+
 ## How it works
 
 ```
